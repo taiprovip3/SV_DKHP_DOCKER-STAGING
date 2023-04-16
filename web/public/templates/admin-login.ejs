@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ErukaLearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+    <div>
+        <% if(error == "wrong_password") { %>
+            <script>swal({title: "Invalid",text: "Username or password",icon: "warning", dangerMode: true});</script>
+        <% } else {
+                if(error == "right_password") { %>
+                    <script>swal({title: "Good job!",text: "Wait a moment..",icon: "success",});</script>
+                <% } } %>   
+    </div>
+    <div class="position-fixed top-50 start-50 translate-middle justify-content-center align-items-center text-center">
+        <h3>Administrator</h3>
+        <form action="<%= process.env.SELF_EJS_API_URL %>/admin-login" method="post" enctype="multipart/form-data">
+            <input type="text" name="username" id="username" placeholder="Tên đăng nhập..." class="m-1" required value="sa" autofocus>
+            <br>
+            <input type="password" placeholder="Mật khẩu.." class="m-1" name="password" id="password" value="123123az" required>
+            <div class="position-relative">
+                <div class="position-absolute top-0 start-0"><a href="./">Back</a></div>
+                <div class="m-1 position-absolute top-0 end-0"><button type="submit">Đăng nhập</button></div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

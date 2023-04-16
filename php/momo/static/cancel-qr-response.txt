@@ -1,0 +1,13 @@
+http://localhost/SV_DKHP_PHP/momo-callback.php?partnerCode=MOMOBKUN20180529
+&orderId=1675083755
+&requestId=1675083755
+&amount=1700000
+&orderInfo=Thanh+to%C3%A1n+qua+MoMo+QR+%28Qu%C3%A9t+m%C3%A3+app+mom%29
+&orderType=momo_wallet
+&transId=1675083762889
+&resultCode=1006
+&message=Giao+d%E1%BB%8Bch+b%E1%BB%8B+t%E1%BB%AB+ch%E1%BB%91i+b%E1%BB%9Fi+ng%C6%B0%E1%BB%9Di+d%C3%B9ng.
+&payType=
+&responseTime=1675083762948
+&extraData=SpOz3Hd8
+&signature=a5fa164fe259033ecca9ed3d040ba79dfefdcb6e2ccde177d1d5a0c3217b8539

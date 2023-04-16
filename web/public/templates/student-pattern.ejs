@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ErukaLearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row position-relative">
+
+            <div class="position-absolute top-0 start-0 text-start mt-2 fs-3 w-50">
+                <i class="fas fa-bars crs dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" onclick="audio.play();"></i>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                    <li class="lead"><a class="dropdown-item" href="/student"><i class="fab fa-fort-awesome-alt"></i> Trang chủ</a></li>
+                    <li class="lead"><a class="dropdown-item disabled"><i class="fas fa-journal-whills"></i> Học tập</a></li>
+                    <li class="lead">
+                        <div>
+                            <a class="crs text-decoration-none d-block" href="/student/timetable">&emsp;&emsp;<i class="fas fa-calendar-check"></i> Lịch học theo tuần</a>
+                            <a class="crs text-decoration-none d-block" href="/student/score">&emsp;&emsp;<i class="fas fa-chart-bar"></i> Kết quả học tập</a>
+                            <a class="crs text-decoration-none d-block" href="/student/dkhp">&emsp;&emsp;<i class="fab fa-xbox"></i> Đăng ký học phần</a>
+                            <a class="crs text-decoration-none d-block text-white bg-primary" href="javascript:void(0)">&emsp;&emsp;<i class="fab fa-windows"></i> Chương trình khung</a>
+                        </div>
+                    </li>
+                    <li class="lead"><a class="dropdown-item disabled"><i class="fas fa-journal-whills"></i> Học phí</a></li>
+                    <li class="lead">
+                        <div>
+                            <a class="crs text-decoration-none d-block" href="/student/debt">&emsp;&emsp;<i class="fas fa-sack-dollar"></i> Tra cứu công nợ</a>
+                            <a class="crs text-decoration-none d-block" href="/student/order-detail">&emsp;&emsp;<i class="fas fa-file-invoice-dollar"></i> Biên lai tổng hợp</a>
+                            <a class="crs text-decoration-none d-block" href="/student/payment">&emsp;&emsp;<i class="fab fa-cc-apple-pay"></i> Thanh toán học phí</a>
+                            <a class="crs text-decoration-none d-block" href="/student/wallet">&emsp;&emsp;<i class="fas fa-donate"></i> Nạp tiền vào ví</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="position-absolute top-0 end-0 text-end mt-2 fs-3 w-50">
+                <a href="./student"><i class="fas fa-door-open text-secondary crs" onclick="audio.play();"></i></a>
+            </div>
+
+            <div class="col-lg-12 py-2 px-5" style="background: lightgray;">
+                <div class="bg-white p-3">
+                    <p class="fs-3 fw-bold text-muted">Chương trình khung!</p>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm">
+                            <thead class="table-info text-center">
+                                <th>STT</th>
+                                <th>Tên môn học/học phần</th>
+                                <th>Mã học phần</th>
+                                <th>Học phần ràng buộc</th>
+                                <th>Số TC cần</th>
+                                <th>Số tiết LT</th>
+                                <th>Số tiết TH</th>
+                                <th>Thuộc nhóm tự chọn <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Cột này hiển thị nhóm học của môn tự chọn chiếu theo. Nhóm học thường chia làm 2-3 nhóm. Nhiều môn tự chọn sẽ được gom vào 1 nhóm. Mỗi nhóm bạn phải chọn ít nhất 1 môn để học cho đủ số TC mà học kỳ đó bắt buộc. NHẮC LẠI: tự chọn không có nghĩa là không chọn cũng được, mà là bắt buộc tự chọn 1 hoặc nhiều trong các môn trong một nhóm để học cho đủ tín chỉ!"></i></th>
+                                <th>Hoàn thành?</th>
+                            </thead>
+                            <tbody id="myTBody">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="small">
+                        <span class="text-warning d-block"><i class="fas fa-exclamation-circle text-danger"></i>Ghi chú:</span>
+                        <div class="d-flex">
+                            <div class="flex-fill">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-square-full border border-info" style="color: #CFF4FC;"></i>&nbsp;
+                                    <span class="text-secondary">Là ô đánh dấu môn/học phần đã hoàn thành và đạt và có điểm <i class="fas fa-check-square text-success"></i></span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-square-full border border-1" style="color: white;"></i>&nbsp;
+                                    <span class="text-secondary">Mặc địn là ô môn/học phần đang hoặc chưa hoàn thành <i class="fas fa-times text-danger"></i></span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-check-circle border text-success"></i>&nbsp;
+                                    <span class="text-secondary">Môn học đã hoàn thành</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-times-circle border border-1 text-danger"></i>&nbsp;
+                                    <span class="text-secondary">Môn học rớt hoặc chưa đạt</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+const audio = new Audio();
+audio.src = "../audio/click.mp3";
+var pathNodejs = window.location.protocol + '//' + window.location.host;
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+var SEMESTERS = [];
+var SELECTED_SEMESTER = 0;
+firstRender();
+
+async function firstRender() {
+    SEMESTERS = await getSemestersByMajorsId();
+    expandSemester(99999999);
+}
+async function getSemestersByMajorsId() {
+    return $.ajax({
+        type: "GET",
+        url: "<%= process.env.SELF_EJS_API_URL %>/student/pattern/getSemestersByMajorsId",
+        contentType: 'application/json',
+    }).then(data => data);
+}
+async function getSubjectsBySemesterIdAndMajorsId(maHocKy, maNganh) {
+    return $.ajax({
+        type: "POST",
+        url: "<%= process.env.SELF_EJS_API_URL %>/student/pattern/getSubjectsBySemesterIdAndMajorsId",
+        data: JSON.stringify({semesterId: maHocKy, majorsId: maNganh}),
+        contentType: 'application/json',
+    }).then(data => data);
+}
+async function getSubjectsPassed() {
+    return $.ajax({
+        type: "POST",
+        url: "<%= process.env.SELF_EJS_API_URL %>/student/pattern/getSubjectsPassed",
+        contentType: 'application/json',
+    }).then(data => data);
+}
+async function expandSemester(maHocKy) {
+    audio.play();
+    if(maHocKy === SELECTED_SEMESTER) {
+        expandSemester(99999999);
+    } else {
+        SELECTED_SEMESTER = maHocKy;
+        let maNganh = SEMESTERS[0].nganh.maNganh;
+        let subjects = await getSubjectsBySemesterIdAndMajorsId(maHocKy, maNganh);
+        //Lấy ra ds monHoc sv đã pass
+        let idSubjectsPassedInSemester = [];
+        const subjectsPassed = await getSubjectsPassed();
+        for(let i=0; i<subjectsPassed.length; i++) {
+            if(subjectsPassed[i].hocKy.maHocKy == maHocKy) {
+                idSubjectsPassedInSemester.push(subjectsPassed[i].maMonHoc);
+            }
+        }
+        console.log("idSubjectsPassedInSemester=",idSubjectsPassedInSemester);
+        //Tính toán số TC batbuoc
+        let soTC_RSubject = 0;
+        for(let i=0;i<subjects.length;i++) {
+            const sub = subjects[i]
+            if(sub.loaiMon == "TU_CHON") {
+                // soTC_OSubject += sub.soTinChi;
+            } else soTC_RSubject += sub.soTinChi;
+        }
+        //Tính toán số TC tuychon
+        let soTC_OSubject = 0;
+        for(let i=0; i<SEMESTERS.length;i++) {
+            if(SEMESTERS[i].maHocKy == maHocKy) {
+                soTC_OSubject = SEMESTERS[i].soTinChi - soTC_RSubject;
+                break;
+            }
+        }
+        //Render loop R/O Subject
+        let loopRSubject = "";
+        let loopOSubject = ""; 
+        for(let i=0; i<subjects.length; i++) {
+            const sub = subjects[i];
+            if(sub.loaiMon == "TU_CHON") {
+                let classShining = "text-center";
+                let classPass = "fas fa-times-circle text-danger";
+                if(idSubjectsPassedInSemester.includes(sub.maMonHoc)) {
+                    classShining = "text-center table-info";
+                    classPass = "fas fa-check-circle text-success"
+                }
+                loopOSubject +=
+                '<tr class="'+ classShining +'">'+
+                    '<td class="d-table-cell align-middle">'+ parseInt(i+1) +'</td>'+
+                    '<td class="d-table-cell align-middle">'+ sub.tenMonHoc +'</td>'+
+                    '<td class="d-table-cell align-middle">'+ sub.maMonHoc +'</td>'+
+                    '<td class="d-table-cell align-middle">'+ sub.maMonYeuCau +'</td>'+
+                    '<td class="d-table-cell align-middle fw-bold">'+ sub.soTinChi +'</td>'+
+                    '<td class="d-table-cell align-middle">'+ sub.soTietLT +'</td>'+
+                    '<td class="d-table-cell align-middle">'+ sub.soTietTH +'</td>'+
+                    '<td class="d-table-cell align-middle">'+ sub.nhomMon +'</td>'+
+                    '<td class="d-table-cell align-middle"><i class="'+ classPass +'"></i></td>'+
+                '</tr>';
+            } else {
+                let classShining = "text-center";
+                let classPass = "fas fa-times-circle text-danger";
+                if(idSubjectsPassedInSemester.includes(sub.maMonHoc)) {
+                    classShining = "text-center table-info";
+                    classPass = "fas fa-check-circle text-success"
+                }
+                loopRSubject += 
+                '<tr class="'+ classShining +'">'+
+                    '<td class="d-table-cell align-middle">'+ parseInt(i+1) +'</td>'+
+                    '<td class="d-table-cell align-middle">'+ sub.tenMonHoc +'</td>'+
+                    '<td class="d-table-cell align-middle">'+ sub.maMonHoc +'</td>'+
+                    '<td class="d-table-cell align-middle">'+ sub.maMonYeuCau +'</td>'+
+                    '<td class="d-table-cell align-middle fw-bold">'+ sub.soTinChi +'</td>'+
+                    '<td class="d-table-cell align-middle">'+ sub.soTietLT +'</td>'+
+                    '<td class="d-table-cell align-middle">'+ sub.soTietTH +'</td>'+
+                    '<td class="d-table-cell align-middle">0</td>'+
+                    '<td class="d-table-cell align-middle"><i class="'+ classPass +'"></i></td>'+
+                '</tr>';
+            }
+        }
+        //Kiểm tra có OSubjects ko
+        let isHaveOptionalSubjects = false;
+        for(let i=0; i<subjects.length; i++) {
+            if(subjects[i].loaiMon === "TU_CHON") {
+                isHaveOptionalSubjects = true;
+                break;
+            }
+        }
+        //Tiến hành render myTBody
+        let myElement = "";
+        let totalTC = 0;
+        let totalTC_Required = await getTotalTCRequired();
+        let totalTC_Optional = 0;
+        for(let i=0; i<SEMESTERS.length; i++) {
+            totalTC += SEMESTERS[i].soTinChi;
+            myElement +=
+                '<tr class="table-light crs" onclick="expandSemester('+ SEMESTERS[i].maHocKy +');">'+
+                    '<td colspan="4" class="text-center fw-bold">Học kỳ '+ parseInt(i+1) +'</td>'+
+                    '<td class="text-center fw-bold">'+ SEMESTERS[i].soTinChi +'</td>'+
+                    '<td colspan="5">&nbsp;</td>'+
+                '</tr>';
+            if(SEMESTERS[i].maHocKy == maHocKy) {
+                myElement +=
+                '<tr class="table-light">'+
+                    '<td colspan="4" class="fw-bold">Học phần bắt buộc</td>'+
+                    '<td class="text-center fw-bold">'+ soTC_RSubject +'</td>'+
+                    '<td colspan="5">&nbsp;</td>'+
+                '</tr>'+ loopRSubject;
+                if(isHaveOptionalSubjects) {
+                    myElement +=
+                    '<tr class="table-light">'+
+                        '<td colspan="4" class="fw-bold">Học phần tự chọn</td>'+
+                        '<td class="text-center fw-bold">'+ soTC_OSubject +'</td>'+
+                        '<td colspan="5">&nbsp;</td>'+
+                    '</tr>'+ loopOSubject;
+                }
+            }
+        }
+        totalTC_Optional = totalTC - totalTC_Required;
+        myElement +=
+            '<tr class="table-light">'+
+                '<td colspan="4" class="fw-bold">Tổng TC môn bắt buộc</td>'+
+                '<td class="text-center fw-bold">'+ totalTC_Required +'</td>'+
+                '<td colspan="5">&nbsp;</td>'+
+            '</tr>'+
+            '<tr class="table-light">'+
+                '<td colspan="4" class="fw-bold">Tổng TC môn tự chọn</td>'+
+                '<td class="text-center fw-bold">'+ totalTC_Optional +'</td>'+
+                '<td colspan="5">&nbsp;</td>'+
+            '</tr>'+
+            '<tr class="table-light">'+
+                '<td colspan="4" class="fw-bold">Tổng TC yêu cầu</td>'+
+                '<td class="text-center fw-bold">'+ totalTC +'</td>'+
+                '<td colspan="5">&nbsp;</td>'+
+            '</tr>';
+        $("#myTBody").html(myElement);
+    }
+}
+async function getTotalTCRequired() {
+    let totalTC = 0;
+    for(let i=0; i<SEMESTERS.length; i++) {
+        const maHocKy= SEMESTERS[i].maHocKy;
+        let maNganh = SEMESTERS[0].nganh.maNganh;
+        let subjects = await getSubjectsBySemesterIdAndMajorsId(maHocKy, maNganh);
+        let requiredTC = 0;
+        for(let j=0; j<subjects.length; j++) {
+            const subject = subjects[j];
+            if(subject.loaiMon == "BAT_BUOC" || subject.loaiMon == "SUPER_BAT_BUOC") {
+                requiredTC += subject.soTinChi;
+            }
+        }
+        totalTC += requiredTC;
+    }
+    return totalTC;
+}
+</script>
+</html>

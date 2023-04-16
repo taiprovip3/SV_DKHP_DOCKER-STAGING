@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ErukaLearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <style>
+        #DivTimeTable {
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row position-relative">
+            <div class="position-absolute top-0 start-0 text-start mt-2 fs-3 w-50">
+                <i class="fas fa-bars crs dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" onclick="audio.play();"></i>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                    <li class="lead"><a class="dropdown-item" href="/student"><i class="fab fa-fort-awesome-alt"></i> Trang chủ</a></li>
+                    <li class="lead"><a class="dropdown-item disabled"><i class="fas fa-journal-whills"></i> Học tập</a></li>
+                    <li class="lead">
+                        <div>
+                            <a class="crs text-decoration-none d-block text-white bg-primary" href="javascript:void(0)">&emsp;&emsp;<i class="fas fa-calendar-check"></i> Lịch học theo tuần</a>
+                            <a class="crs text-decoration-none d-block" href="/student/score">&emsp;&emsp;<i class="fas fa-chart-bar"></i> Kết quả học tập</a>
+                            <a class="crs text-decoration-none d-block" href="/student/dkhp">&emsp;&emsp;<i class="fab fa-xbox"></i> Đăng ký học phần</a>
+                            <a class="crs text-decoration-none d-block" href="/student/pattern">&emsp;&emsp;<i class="fab fa-windows"></i> Chương trình khung</a>
+                        </div>
+                    </li class="lead">
+                    <li class="lead"><a class="dropdown-item disabled"><i class="fas fa-journal-whills"></i> Học phí</a></li>
+                    <li class="lead">
+                        <div>
+                            <a class="crs text-decoration-none d-block" href="/student/debt">&emsp;&emsp;<i class="fas fa-sack-dollar"></i> Tra cứu công nợ</a>
+                            <a class="crs text-decoration-none d-block" href="/student/order-detail">&emsp;&emsp;<i class="fas fa-file-invoice-dollar"></i> Biên lai tổng hợp</a>
+                            <a class="crs text-decoration-none d-block" href="/student/payment">&emsp;&emsp;<i class="fab fa-cc-apple-pay"></i> Thanh toán học phí</a>
+                            <a class="crs text-decoration-none d-block" href="/student/wallet">&emsp;&emsp;<i class="fas fa-donate"></i> Nạp tiền vào ví</a>
+                        </div>
+                    </li class="lead">
+                </ul>
+            </div>
+            <div class="position-absolute top-0 end-0 text-end mt-2 fs-3 w-50">
+                <a href="./student"><i class="fas fa-door-open text-secondary crs" onclick="audio.play();"></i></a>
+            </div>
+            <div class="col-lg-12 py-2 px-5" style="background: #ededed;">
+                <div class="bg-white p-3">
+                    <p class="fs-3 fw-bold text-muted">Lịch học theo tuần!</p>
+                    <div id="ControlBar" class="d-flex justify-content-between">
+                        <div>
+                            <input type="radio" name="select_loai_lich" id="lich_all" value="lich_all" class="form-check-input" onchange="onSelectLoaiLich(this.value);" checked onclick="audio.play();" />
+                            <label for="lich_all">Tất cả</label>
+                            <input type="radio" name="select_loai_lich" id="lich_hoc" value="lich_hoc" class="form-check-input" onchange="onSelectLoaiLich(this.value);" onclick="audio.play();" />
+                            <label for="lich_hoc">Lịch học</label>
+                            <input type="radio" name="select_loai_lich" id="lich_thi" value="lich_thi" class="form-check-input" onchange="onSelectLoaiLich(this.value);" onclick="audio.play();" />
+                            <label for="lich_thi">Lịch thi</label>
+                        </div>
+                        <div class="mx-2"><input type="date" name="theDate" id="theDate" class="form-control" onclick="audio.play();" /></div>
+                        <div>
+                            <button type="button" class="btn btn-outline-dark btn-sm" onclick="onCurrentWeek();">Hiện tại <i class="fas fa-undo-alt"></i></button>
+                            <button type="button" class="btn btn-outline-dark btn-sm" onclick="onPreviousWeek();"><i class="fas fa-caret-left"></i> Tuần trước</button>
+                            <button type="button" class="btn btn-outline-dark btn-sm" onclick="onNextWeek();">Tuần kế <i class="fas fa-caret-right"></i></button>
+                        </div>
+                    </div>
+                    <div id="DivTimeTable" class="mt-3">
+                        <table class="table table-bordered table-sm">
+                            <thead id="DivTimeTableHead" class="text-center">
+                            </thead>
+                            <tbody id="DivTimeTableBody">
+                                <tr>
+                                    <td class="text-center d-table-cell align-middle" style="background: lightgrey; color: darkslategrey;">Sáng<br><i class="fas fa-cloud-sun small" data-bs-toggle="tooltip" title="Từ tiết 1-5"></i></td>
+                                    <td id="tdST2"></td>
+                                    <td id="tdST3"></td>
+                                    <td id="tdST4"></td>
+                                    <td id="tdST5"></td>
+                                    <td id="tdST6"></td>
+                                    <td id="tdST7"></td>
+                                    <td id="tdSCN"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center d-table-cell align-middle table-secondary" style="background: lightgrey;color: darkslategrey;">Chiều<br><i class="fas fa-cloud-moon small" data-bs-toggle="tooltip" title="Từ tiết 7-12"></i></td>
+                                    <td id="tdCT2"></td>
+                                    <td id="tdCT3"></td>
+                                    <td id="tdCT4"></td>
+                                    <td id="tdCT5"></td>
+                                    <td id="tdCT6"></td>
+                                    <td id="tdCT7"></td>
+                                    <td id="tdCCN"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center d-table-cell align-middle table-secondary" style="background: lightgrey; color: darkslategrey;">Tối<br><i class="fas fa-moon small" data-bs-toggle="tooltip" title="Từ tiết 13-15"></i></td>
+                                    <td id="tdTT2"></td>
+                                    <td id="tdTT3"></td>
+                                    <td id="tdTT4"></td>
+                                    <td id="tdTT5"></td>
+                                    <td id="tdTT6"></td>
+                                    <td id="tdTT7"></td>
+                                    <td id="tdTCN"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+const audio = new Audio();
+audio.src = "../audio/click.mp3";
+var pathNodejs = window.location.protocol + '//' + window.location.host;
+var selected_loai_lich = "lich_all";
+var thuAbb = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+var thusReal = ["Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7","Chủ nhật"];
+var thusIt = ["1","2","3","4","5","6","0"];
+var current_date = new Date();
+var datePrev1 = null;
+var datePrev2 = null;
+var datePrev3 = null;
+var datePrev4 = null;
+var datePrev5 = null;
+var datePrev6 = null;
+
+function onSelectLoaiLich(value) {
+    selected_loai_lich = value;
+    renderTrsBody();
+}
+function onCurrentWeek(e) {
+    const value = $("#theDate").val();
+    const dateFromInput = new Date(value);
+    const dateNow = new Date();
+    const dateFromInputYear = dateFromInput.getFullYear();
+    const dateFromInputMonth = dateFromInput.getMonth();
+    const dateFromInputDate = dateFromInput.getDate();
+    const dateNowYear = dateNow.getFullYear();
+    const dateNowMonth = dateNow.getMonth();
+    const dateNowDate = dateNow.getDate();
+    if(dateFromInputYear == dateNowYear && dateFromInputMonth == dateNowMonth && dateFromInputDate == dateNowDate) {
+        return;
+    }
+    setTheDate(dateNow);
+    renderTrsHead(dateFromInput);
+    renderTrsBody();
+}
+function onNextWeek() {
+    audio.play();
+    const date = $("#theDate").val();
+    let nextWeek = new Date(date);
+    nextWeek.setDate(nextWeek.getDate() + 7);
+    setTheDate(nextWeek);
+    renderTrsHead(nextWeek);
+    renderTrsBody();
+}
+function onPreviousWeek() {
+    audio.play();
+    const date = $("#theDate").val();
+    let previousWeek = new Date(date);
+    previousWeek.setDate(previousWeek.getDate() - 7);
+    setTheDate(previousWeek);
+    renderTrsHead(previousWeek);
+    renderTrsBody();
+}
+function onCurrentWeek() {
+    audio.play();
+    setTheDate(null);
+    renderTrsHead(null);
+    renderTrsBody();
+}
+
+function convertThuString(number) {
+    for(let i=0; i<thusIt.length; i++){
+        if(number == thusIt[i])
+            return thusReal[i];
+    }
+}
+function convertDateString(date) {
+    let myDate = date.getDate();
+    let myMonth = date.getMonth() + 1;
+    let myYear = date.getFullYear();
+    if (myMonth < 10) myMonth = "0" + myMonth;
+    if (myDate < 10) myDate = "0" + myDate;
+    return myDate + "/" + myMonth + "/" + myYear;
+}
+function renderTrsHead(date) {
+    if(!date)
+        date = new Date();
+    const thuNow = date.getDay();
+    // $("#is"+thuNow).html('<i class="fas fa-check-square text-success"></i>');
+    var element = '';
+    if(thuNow == 0) {
+        datePrev1 = new Date(date);
+        datePrev2 = new Date(date);
+        datePrev3 = new Date(date);
+        datePrev4 = new Date(date);
+        datePrev5 = new Date(date);
+        datePrev6 = new Date(date);
+        datePrev1.setDate(datePrev1.getDate() - 1);
+        datePrev2.setDate(datePrev2.getDate() - 2);
+        datePrev3.setDate(datePrev3.getDate() - 3);
+        datePrev4.setDate(datePrev4.getDate() - 4);
+        datePrev5.setDate(datePrev5.getDate() - 5);
+        datePrev6.setDate(datePrev6.getDate() - 6);
+    element =
+    '<tr style="background: lightgrey;">'+
+        '<td class="fw-bold d-table-cell align-middle">Ca học</td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev6.getDay()) +'</div><div>'+ convertDateString(datePrev6) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev5.getDay()) +'</div><div>'+ convertDateString(datePrev5) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev4.getDay()) +'</div><div>'+ convertDateString(datePrev4) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev3.getDay()) +'</div><div>'+ convertDateString(datePrev3) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev2.getDay()) +'</div><div>'+ convertDateString(datePrev2) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev1.getDay()) +'</div><div>'+ convertDateString(datePrev1) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(date.getDay()) +' <i class="fas fa-check-square text-success"></i></div><div>'+ convertDateString(date) +'</div></td>'+
+    '</tr>';
+    }
+    if(thuNow == 1) {
+        datePrev1 = new Date(date);
+        datePrev2 = new Date(date);
+        datePrev3 = new Date(date);
+        datePrev4 = new Date(date);
+        datePrev5 = new Date(date);
+        datePrev6 = new Date(date);
+        datePrev1.setDate(datePrev1.getDate() + 1);
+        datePrev2.setDate(datePrev2.getDate() + 2);
+        datePrev3.setDate(datePrev3.getDate() + 3);
+        datePrev4.setDate(datePrev4.getDate() + 4);
+        datePrev5.setDate(datePrev5.getDate() + 5);
+        datePrev6.setDate(datePrev6.getDate() + 6);
+    element =
+    '<tr style="background: lightgrey;">'+
+        '<td class="fw-bold d-table-cell align-middle">Ca học</td>'+
+        '<td><div class="fw-bold">'+ convertThuString(date.getDay()) +' <i class="fas fa-check-square text-success"></i></div><div>'+ convertDateString(date) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev1.getDay()) +'</div><div>'+ convertDateString(datePrev1) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev2.getDay()) +'</div><div>'+ convertDateString(datePrev2) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev3.getDay()) +'</div><div>'+ convertDateString(datePrev3) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev4.getDay()) +'</div><div>'+ convertDateString(datePrev4) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev5.getDay()) +'</div><div>'+ convertDateString(datePrev5) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev6.getDay()) +'</div><div>'+ convertDateString(datePrev6) +'</div></td>'+
+    '</tr>';
+    }
+    if(thuNow == 2) {
+        datePrev1 = new Date(date);
+        datePrev2 = new Date(date);
+        datePrev3 = new Date(date);
+        datePrev4 = new Date(date);
+        datePrev5 = new Date(date);
+        datePrev6 = new Date(date);
+        datePrev1.setDate(datePrev1.getDate() - 1);
+        datePrev2.setDate(datePrev2.getDate() + 1);
+        datePrev3.setDate(datePrev3.getDate() + 2);
+        datePrev4.setDate(datePrev4.getDate() + 3);
+        datePrev5.setDate(datePrev5.getDate() + 4);
+        datePrev6.setDate(datePrev6.getDate() + 5);
+    element =
+    '<tr style="background: lightgrey;">'+
+        '<td class="fw-bold d-table-cell align-middle">Ca học</td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev1.getDay()) +'</div><div>'+ convertDateString(datePrev1) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(date.getDay()) +' <i class="fas fa-check-square text-success"></i></div><div>'+ convertDateString(date) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev2.getDay()) +'</div><div>'+ convertDateString(datePrev2) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev3.getDay()) +'</div><div>'+ convertDateString(datePrev3) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev4.getDay()) +'</div><div>'+ convertDateString(datePrev4) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev5.getDay()) +'</div><div>'+ convertDateString(datePrev5) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev6.getDay()) +'</div><div>'+ convertDateString(datePrev6) +'</div></td>'+
+    '</tr>';
+    }
+    if(thuNow == 3) {
+        datePrev1 = new Date(date);
+        datePrev2 = new Date(date);
+        datePrev3 = new Date(date);
+        datePrev4 = new Date(date);
+        datePrev5 = new Date(date);
+        datePrev6 = new Date(date);
+        datePrev1.setDate(datePrev1.getDate() - 2);
+        datePrev2.setDate(datePrev2.getDate() - 1);
+        datePrev3.setDate(datePrev3.getDate() + 1);
+        datePrev4.setDate(datePrev4.getDate() + 2);
+        datePrev5.setDate(datePrev5.getDate() + 3);
+        datePrev6.setDate(datePrev6.getDate() + 4);
+    element =
+    '<tr style="background: lightgrey;">'+
+        '<td class="fw-bold d-table-cell align-middle">Ca học</td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev1.getDay()) +'</div><div>'+ convertDateString(datePrev1) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev2.getDay()) +'</div><div>'+ convertDateString(datePrev2) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(date.getDay()) +' <i class="fas fa-check-square text-success"></i></div><div>'+ convertDateString(date) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev3.getDay()) +'</div><div>'+ convertDateString(datePrev3) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev4.getDay()) +'</div><div>'+ convertDateString(datePrev4) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev5.getDay()) +'</div><div>'+ convertDateString(datePrev5) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev6.getDay()) +'</div><div>'+ convertDateString(datePrev6) +'</div></td>'+
+    '</tr>';
+    }
+    if(thuNow == 4) {
+        datePrev1 = new Date(date);
+        datePrev2 = new Date(date);
+        datePrev3 = new Date(date);
+        datePrev4 = new Date(date);
+        datePrev5 = new Date(date);
+        datePrev6 = new Date(date);
+        datePrev1.setDate(datePrev1.getDate() - 3);
+        datePrev2.setDate(datePrev2.getDate() - 2);
+        datePrev3.setDate(datePrev3.getDate() - 1);
+        datePrev4.setDate(datePrev4.getDate() + 1);
+        datePrev5.setDate(datePrev5.getDate() + 2);
+        datePrev6.setDate(datePrev6.getDate() + 3);
+    element =
+    '<tr style="background: lightgrey;">'+
+        '<td class="fw-bold d-table-cell align-middle">Ca học</td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev1.getDay()) +'</div><div>'+ convertDateString(datePrev1) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev2.getDay()) +'</div><div>'+ convertDateString(datePrev2) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev3.getDay()) +'</div><div>'+ convertDateString(datePrev3) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(date.getDay()) +' <i class="fas fa-check-square text-success"></i></div><div>'+ convertDateString(date) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev4.getDay()) +'</div><div>'+ convertDateString(datePrev4) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev5.getDay()) +'</div><div>'+ convertDateString(datePrev5) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev6.getDay()) +'</div><div>'+ convertDateString(datePrev6) +'</div></td>'+
+    '</tr>';
+    }
+    if(thuNow == 5) {
+        datePrev1 = new Date(date);
+        datePrev2 = new Date(date);
+        datePrev3 = new Date(date);
+        datePrev4 = new Date(date);
+        datePrev5 = new Date(date);
+        datePrev6 = new Date(date);
+        datePrev1.setDate(datePrev1.getDate() - 4);
+        datePrev2.setDate(datePrev2.getDate() - 3);
+        datePrev3.setDate(datePrev3.getDate() - 2);
+        datePrev4.setDate(datePrev4.getDate() - 1);
+        datePrev5.setDate(datePrev5.getDate() + 1);
+        datePrev6.setDate(datePrev6.getDate() + 2);
+    element =
+    '<tr style="background: lightgrey;">'+
+        '<td class="fw-bold d-table-cell align-middle">Ca học</td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev1.getDay()) +'</div><div>'+ convertDateString(datePrev1) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev2.getDay()) +'</div><div>'+ convertDateString(datePrev2) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev3.getDay()) +'</div><div>'+ convertDateString(datePrev3) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev4.getDay()) +'</div><div>'+ convertDateString(datePrev4) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(date.getDay()) +' <i class="fas fa-check-square text-success"></i></div><div>'+ convertDateString(date) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev5.getDay()) +'</div><div>'+ convertDateString(datePrev5) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev6.getDay()) +'</div><div>'+ convertDateString(datePrev6) +'</div></td>'+
+    '</tr>';
+    }
+    if(thuNow == 6) {
+        datePrev1 = new Date(date);
+        datePrev2 = new Date(date);
+        datePrev3 = new Date(date);
+        datePrev4 = new Date(date);
+        datePrev5 = new Date(date);
+        datePrev6 = new Date(date);
+        datePrev1.setDate(datePrev1.getDate() - 5);
+        datePrev2.setDate(datePrev2.getDate() - 4);
+        datePrev3.setDate(datePrev3.getDate() - 3);
+        datePrev4.setDate(datePrev4.getDate() - 2);
+        datePrev5.setDate(datePrev5.getDate() - 1);
+        datePrev6.setDate(datePrev6.getDate() + 1);
+    element =
+    '<tr style="background: lightgrey;">'+
+        '<td class="fw-bold d-table-cell align-middle">Ca học</td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev1.getDay()) +'</div><div>'+ convertDateString(datePrev1) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev2.getDay()) +'</div><div>'+ convertDateString(datePrev2) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev3.getDay()) +'</div><div>'+ convertDateString(datePrev3) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev4.getDay()) +'</div><div>'+ convertDateString(datePrev4) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev5.getDay()) +'</div><div>'+ convertDateString(datePrev5) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(date.getDay()) +' <i class="fas fa-check-square text-success"></i></div><div>'+ convertDateString(date) +'</div></td>'+
+        '<td><div class="fw-bold">'+ convertThuString(datePrev6.getDay()) +'</div><div>'+ convertDateString(datePrev6) +'</div></td>'+
+    '</tr>';
+    }
+    $("#DivTimeTableHead").html(element);
+}
+async function getTimeTablesBy7Days() {//Hàm trả về list tkb Đơn gọi từ java
+    let currentDateMonth = current_date.getMonth()+1;
+    if(currentDateMonth < 10) currentDateMonth = "0"+currentDateMonth;
+    let currentDateDate = current_date.getDate();
+    if(currentDateDate < 10) currentDateDate = "0"+currentDateDate;
+    const cDate = current_date.getFullYear() + "-" + currentDateMonth + '-' + currentDateDate;
+
+    let d1Month = datePrev1.getMonth()+1;
+    if(d1Month < 10) d1Month = "0"+d1Month;
+    let d1Date = datePrev1.getDate();
+    if(d1Date < 10) d1Date = "0"+d1Date;
+    const d1 = datePrev1.getFullYear() + "-" + d1Month + '-' + d1Date;
+
+    let d2Month = datePrev2.getMonth()+1;
+    if(d2Month < 10) d2Month = "0"+d2Month;
+    let d2Date = datePrev2.getDate();
+    if(d2Date < 10) d2Date = "0"+d2Date;
+    const d2 = datePrev2.getFullYear() + "-" + d2Month + '-' + d2Date;
+
+    let d3Month = datePrev3.getMonth()+1;
+    if(d3Month < 10) d3Month = "0"+d3Month;
+    let d3Date = datePrev3.getDate();
+    if(d3Date < 10) d3Date = "0"+d3Date;
+    const d3 = datePrev3.getFullYear() + "-" + d3Month + '-' + d3Date;
+    
+    let d4Month = datePrev4.getMonth()+1;
+    if(d4Month < 10) d4Month = "0"+d4Month;
+    let d4Date = datePrev4.getDate();
+    if(d4Date < 10) d4Date = "0"+d4Date;
+    const d4 = datePrev4.getFullYear() + "-" + d4Month + '-' + d4Date;
+
+    let d5Month = datePrev5.getMonth()+1;
+    if(d5Month < 10) d5Month = "0"+d5Month;
+    let d5Date = datePrev5.getDate();
+    if(d5Date < 10) d5Date = "0"+d5Date;
+    const d5 = datePrev5.getFullYear() + "-" + d5Month + '-' + d5Date;
+
+    let d6Month = datePrev6.getMonth()+1;
+    if(d6Month < 10) d6Month = "0"+d6Month;
+    let d6Date = datePrev6.getDate();
+    if(d6Date < 10) d6Date = "0"+d6Date;
+    const d6 = datePrev6.getFullYear() + "-" + d6Month + '-' + d6Date;
+    const TKBs = await $.ajax({
+        type: "POST",
+        url: "<%= process.env.SELF_EJS_API_URL %>/student/timetable/getTimeTablesBy7Days",
+        data: JSON.stringify({currentDate: cDate, datePrev1: d1, datePrev2: d2, datePrev3: d3, datePrev4: d4, datePrev5: d5, datePrev6: d6, filterLoaiLich: selected_loai_lich}),
+        contentType: 'application/json',
+    }).then(TKBs =>TKBs);
+    const tkbConIds = await $.ajax({
+        type: "POST",
+        url: "<%= process.env.SELF_EJS_API_URL %>/student/timetable/getIdsThoiKhoaBieuCon",
+        data: JSON.stringify({currentDate: cDate, datePrev1: d1, datePrev2: d2, datePrev3: d3, datePrev4: d4, datePrev5: d5, datePrev6: d6, filterLoaiLich: selected_loai_lich}),
+        contentType: 'application/json',
+    }).then(tkbConIds =>tkbConIds);
+    return {TKBs: TKBs, tkbConIds: tkbConIds};
+}
+function resetOldTd() {
+    for(let i=0;i<thuAbb.length;i++) {
+        $("#tdS"+thuAbb[i]).html("");
+        $("#tdC"+thuAbb[i]).html("");
+        $("#tdT"+thuAbb[i]).html("");
+    }
+}
+async function renderTrsBody() {
+    resetOldTd();
+    //Danh sach TKBs axios ...  
+    //Giải thuật
+    /*
+    1. Lấy danh sách TKBs trong phạm vi ngày = hàm getTimeTablesBy7Days trả về list object ThoiKhoaBieu
+    2. Mỗi tkb trong TKBs có chứa list thoiKhoaBieuCons: []
+    3. Tuy nhiên tkbCon này là all của tkb đơn.
+    4. Cần lấy ra 1 list id tkbCon (mã tkbCon mà sv đăng ký) tương tự trong phạm vi ngày này (Gọi api Do java chỉ trả về đối tượng nên buộc phải tách ra 2 thứ riêng, ko thể lấy chung 1 lần dc)
+    5. Filter ra những tkbCon mà sv đã đăng ký
+    */
+    const dataObject = await getTimeTablesBy7Days();
+    const TKBs = dataObject.TKBs;
+    const tkbConIds = dataObject.tkbConIds;
+    const belongOfMorning = ["T1", "T2", "T3", "T4", "T5", "T6"];
+    const belongOfAfternoon = ["T7", "T8", "T9", "T10", "T11", "T12"];
+    const belongOfTonight = ["T13", "T14", "T15", "T16"];
+    let multiesTKBs = [];
+    for(let i=0;i<TKBs.length;i++) {
+        const tkb = TKBs[i];
+        multiesTKBs.push(tkb);
+        if(tkb.thoiKhoaBieuCons.length > 0) {
+            for(let j=0;j<tkb.thoiKhoaBieuCons.length;j++) {
+                
+                const tkbCon = tkb.thoiKhoaBieuCons[j];
+                if(tkbConIds.includes(tkbCon.maThoiKhoaBieuCon))
+                    multiesTKBs.push({...tkbCon, lopHocPhan:tkb.lopHocPhan});
+            }
+        }
+    }
+    for(let i=0; i<multiesTKBs.length;i++) {
+        const tkb = multiesTKBs[i];
+        const element = 
+            '<div class="rounded-3 border m-2 p-2" style="background: #e1e4e6;">'+
+                '<div class="text-center">'+
+                    '<span class="fw-bold">'+ tkb.lopHocPhan.monHoc.tenMonHoc +'</span>'+
+                    '<br>'+
+                    '<span>'+ tkb.lopHocPhan.tenLopHocPhan +' -</span>'+
+                    '<br>'+
+                    '<span>('+ tkb.lopHocPhan.maLopHocPhan +')</span>'+
+                '</div>'+
+                '<ul>'+
+                    '<li><span>Tiết: '+ tkb.tuTietHoc.substr(1,2) +' - '+ tkb.denTietHoc.substr(1,2) +'</span></li>'+
+                    '<li><span>Phòng: '+ tkb.phongHoc +'</span></li>'+
+                    '<li><span>GV: '+ tkb.lopHocPhan.giaoVien.tenGiaoVien +'</span></li>'+
+                    '<li><span>Ghi chú: '+ (tkb.ghiChu ? tkb.ghiChu : "Không") +'</span></li>'+
+                '</ul>'+
+            '</div>';
+        const thuHoc = tkb.thuHoc;
+        if(belongOfMorning.includes(tkb.tuTietHoc)) {
+            $("#tdS"+thuHoc).append(element);
+            if(tkb.thi)
+                $("#tdS"+thuHoc + " > div").css({"background-color": "#fad905", "border": "1px double orange"});
+        }
+        if(belongOfAfternoon.includes(tkb.tuTietHoc)) {
+            $("#tdC"+thuHoc).append(element);
+            if(tkb.thi)
+                $("#tdC"+thuHoc + " > div").css({"background-color": "#fad905", "border": "1px double orange"});
+        }
+        if(belongOfTonight.includes(tkb.tuTietHoc)) {
+            $("#tdT"+thuHoc).append(element);
+            if(tkb.thi)
+                $("#tdT"+thuHoc + " > div").css({"background-color": "#fad905", "border": "1px double orange"});
+        }
+    }
+}
+function setTheDate(date) {
+    if(!date)
+        var date = new Date();
+    current_date = date;
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    var today = year + "-" + month + "-" + day;       
+    $("#theDate").val(today);
+}
+$(document).ready(function() {
+    setTheDate(new Date());
+    renderTrsHead();
+    renderTrsBody();
+    //On `cuốn_lịch` change
+    $("#theDate").change(function() {
+        const value = new Date($(this).val());
+        setTheDate(value)
+        renderTrsHead(value);
+        renderTrsBody();
+    });
+});
+</script>
+</html>

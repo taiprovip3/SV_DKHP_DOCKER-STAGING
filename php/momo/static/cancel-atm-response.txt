@@ -1,0 +1,13 @@
+﻿?partnerCode=MOMOBKUN20180529
+&orderId=1674980838
+&requestId=1674980838
+&amount=1700000
+&orderInfo=Thanh+toán+qua+MoMo+QR+%28Quét+mã+app+momo%29
+&orderType=momo_wallet
+&transId=1674981230262
+&resultCode=1006
+&message=Giao+dịch+bị+từ+chối+bởi+người+dùng.
+&payType=
+&responseTime=1674981230306
+&extraData=
+&signature=d68c020bca0f69a99627709751baa00e0bbe8b2e3d827b4184d3da51dbff9c96

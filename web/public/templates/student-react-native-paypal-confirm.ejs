@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #myDiv {
+            border: 1px solid black;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px;
+            border-radius: 15px;
+            width: 75%;
+        }
+    </style>
+</head>
+<body>
+    <% 
+        function formatCurrency(number) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+        }
+    %>
+    <div id="myDiv">
+        <h1>Xác nhận thanh toán</h1>
+        <ul>
+            <li>Công nợ - <span><%= debtData.maCongNo %></span></li>
+            <li>Môn học - <span><%= debtData.tenMonHoc %></span></li>
+            <li>Mã LHP - <span><%= debtData.maLopHocPhan %></span></li>
+            <li>Số tiền - <span><%= formatCurrency(debtData.soTien) %></span></li>
+            <li>Quy đổi thanh toán: <span><%= (debtData.soTien/23450).toFixed(2) %></span>$</li>
+            <li>Phương thức thanh toán - <span><%= debtData.loaiThanhToan %></span></li>
+        </ul>
+        <form action="<%= process.env.SELF_EJS_API_URL %>/paypal/payment" method="post">
+            <input type="hidden" name="maThanhToanGiaoDich" value="<%= debtData.maThanhToanGiaoDich %>" />
+            <input type="hidden" name="maCongNo" value="<%= debtData.maCongNo %>" />
+            <input type="hidden" name="maSinhVien" value="<%= debtData.maSinhVien %>" />
+            <input type="hidden" name="maLopHocPhan" value="<%= debtData.maLopHocPhan %>" />
+            <input type="submit" value="Submit" style="width: 100%; padding: 15px;" />
+        </form>
+    </div>
+</body>
+</html>

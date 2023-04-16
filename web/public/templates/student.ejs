@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ErukaLearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/student.css" type="text/css">
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .dropdown-toggle::after {
+            content: none;
+        }
+    </style>
+</head>
+<body>
+    <%
+        function formatDate(date){
+            let mydate = new Date(date);
+            let d = mydate.getDate();
+            let m = mydate.getMonth() + 1;
+            let y = mydate.getFullYear();
+            return (d <= 9 ? '0' + d : d) + "/" + (m<=9 ? '0' + m : m) + "/" + y;
+        }
+    %>
+    <div>
+        <% if(signal) {
+            if(signal == "SUCCESS_LOGON") { %>
+                <script>
+                    var session = document.cookie;
+                    if(!session) {
+                        toastr.success("Đã lưu phiên đăng nhập cho lần kế", "Login Successfully", {positionClass: "toast-bottom-right"});
+                        document.cookie = "session=<%= STUDENT_DATA.hoTen %>";
+                    }
+                </script>
+            <% } else {
+                if(signal == "200") { %>
+                    <script>swal({title: "Good job!",text: "Thao tác thành công",icon: "success",});</script>
+                <% }
+                if(signal == "OUT_SESSION") { %>
+                    <script>swal({title: "Phiên đăng nhập",text: "đã hết hạn",icon: "warning", dangerMode: true});</script>
+                <% }
+            }
+        } %>
+    </div>
+<div class="modal" id="GioiThieuModal">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <p class="modal-title">Trang sinh viên | ErukaLearn</p>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <span class="d-block">- Chương trình đào tạo sinh viên của trường đại học IUH xây dựng hệ thống website mở dành cho 3 đối tượng như sau và 3 website tương dương:</span>
+            <ul>
+                <li>- Nhân viên (Trang nv.el.com)</li>
+                <li>- Giảng viên (Trang gv.el.com)</li>
+                <li>- Sinh viên (Trang <span class="text-decoration-underline">sv.el.com</span>)</li>
+            </ul>
+            <span class="d-block">
+                Trang sinh viên nhằm giúp đỡ sinh viên trong việc hoàn thành tốt hơn chương trình đào tạo tại trường đại học IUH với các tính năng như: xem lịch học, kết quả học tập, chương trình khung, tra cứu công nợ, tổng hợp biên lai, cập nhật tin tức, thông báo mới nhất từ nhà trường và đặc biệt là tiện ích giúp <span class="fw-bold">`Đăng ký học phần`</span>...vv
+            </span>
+            <span class="d-block">Dưới đây là một vài thuật ngữ/chi tiết nếu bạn là tân sinh viên cần biết đến:</span>
+            <span class="fw-bold text-secondary d-block">1. Học phần</span>
+            <span>Hay còn gọi là môn học. Mỗi môn học được quy định trong chương trình khung tương ứng với khoa, ngành mà sinh viên đã chọn theo học ở trường. Mỗi môn học được đăng ký trong tính năng `Đăng ký học phần` được gọi là một học phần. Mỗi học phần có mã riêng, ví dụ: học phần `Nhập môn tin học` - 10000001</span>
+            <span class="fw-bold text-secondary d-block">2. Tín chỉ</span>
+            <span>Mỗi học phần được đăng ký học bởi sinh viên sẽ có số tín chỉ quy định riêng. Hiểu đơn giản là nếu bạn muốn tăng thanh tiến độ học tập (progress bar) thì bạn phải học & thi môn học phần đó để nhận được điểm tín chỉ. Ví dụ: `Nhập môn tin học` có số tín chỉ quy định là 3 TC. 1 tín chỉ (TC) thì bằng 15 tiết học (Đối với môn học có LT & TH thì tín chỉ tính riêng).</span>
+            <span class="fw-bold text-secondary d-block">3. Tín chỉ</span>
+            <span>Mỗi học phần được đăng ký học bởi sinh viên sẽ có số tín chỉ quy định riêng. Hiểu đơn giản là nếu bạn muốn tăng thanh tiến độ học tập (progress bar) thì bạn phải học & thi môn học phần đó để nhận được điểm tín chỉ. Ví dụ: `Nhập môn tin học` có số tín chỉ quy định là 3 TC. 1 tín chỉ (TC) thì bằng 15 tiết học (Đối với môn học có LT & TH thì tín chỉ tính riêng).</span>
+            <span class="fw-bold text-secondary d-block">4. Tiến độ học tập</span>
+            <span>Progress bar. Là thanh tiến độ ghi nhận số tín chỉ và hiển thị % quãng đường học bạn đã hoàn thành. Sau khi học & thi. Khi một giáo viên của lớp học phần bạn học đánh dấu hoàn tất điểm của từng sinh viên lớp đó thì thanh tiến độ học tập của bạn sẽ được tăng lên (trường hợp bạn pass được chỉ tiêu điểm tổng kết).</span>
+            <span class="fw-bold text-secondary d-block">5. Chương trình khung</span>
+            <span>Mỗi sinh viên thuộc 1 ngành thuộc 1 khoa. Mỗi ngành sẽ có một bộ `Chương trình khung` riêng. Chương trình khung chứa nhiều học kỳ, mỗi học kỳ trong chương trình khung chứa nhiều môn học cần học trong học kỳ đó. Các môn học trong học kỳ có thể có nhiều tín chất nữa xem bên dưới. Tóm lại mỗi sinh viên sẽ có bộ chương trình khung gồm các môn học trong từng học kỳ bắt buộc sinh viên phải đăng ký, học, đóng tiền.</span>
+            <span class="fw-bold text-secondary d-block">6. Đăng ký học phần</span>
+            <span>Là chức năng giúp bạn đăng ký môn học theo lịch, thời gian, lớp học, giảng viên ưa thích theo ý bạn. 1 năm học được chia làm 3 học kỳ. Ví dụ năm 2022, sẽ có 3 học kỳ, HK1 là nữa năm, HK2 là nữa năm, HK3 là học hè. Qua năm 2023 cứ tiếp tục. Mỗi học kỳ sẽ được đội ngũ phòng đào tạo chuyên khoa mở ra trên trang sinh viên đợt đăng ký học phần online thông qua trang này. Thông báo đợt đăng ký mới đến ở trên trang chủ trường học, trang khoa hoặc thông báo đến tin nhắn trang sinh viên. Sinh viên phải lập tức vào tính năng đăng ký học phần và lựa chọn lớp học phần có lịch học ưng ý dựa theo chương trình khung năm học hoặc niên giám quy định các môn dành cho sinh viên khoa đó phải học trong học kỳ đó.</span>
+            <span class="fw-bold text-secondary d-block">7. Đăng ký học phần học nhảy</span>
+            <span>Đăng ký học phần cho phép bạn học vượt (học nhảy) các môn trước học kỳ với điều kiện cho phép đó là môn tự chọn và không có ràng buộc học phần khác. Nên bạn sẽ thường thấy tình trạng lớp học có nhiều anh/chị hoặc các em khác khoá học.</span>
+            <span class="fw-bold text-secondary d-block">8. Học phần ràng buộc</span>
+            <span>Các môn học trong đăng ký học phần được chia làm 2 loại theo chương trình khung của từng sinh viên. Học phần bắt buộc và học phần tự chọn. Học phần bắt buộc là học phần cần thiệt để đào tạo một sinh viên theo đúng tiêu chuẩn của ngành sinh viên chọn và học phần đó bắt buộc sinh viên phải đăng ký trong đăng ký học phần dù học đúng hay trễ hay muộn. Học phần tự chọn cũng là học phần bắt buộc nhưng khác ở điểm có nhiều sự lựa chọn. Ví dụ ở HK1 có 4 môn bắt buộc, và 5 môn tự chọn bắt buộc 1. Nghĩa là trong 5 môn tự chọn có thể lựa chọn 1 trong 5 nhưng bắt buộc phải chọn chứ không thể không chọn. Một vài môn học có yêu cầu học môn trước nhằm mục đích giúp bạn đi đúng tiến độ tránh học nhảy để lũng cũng kiến thức gọi là học phần `tiên quyết`. `Song hành` nghĩa là 2 môn này bắt buộc phải đăng ký học song song trong 1 học kỳ.</span>
+            <span class="fw-bold text-secondary d-block">9. Trễ tiến độ học</span>
+            <span>Rất nhiều tân sinh viên ngơ ngác chưa hiểu các thuật ngữ học phần & đăng ký học phần. Dẫn đến việc học hết năm 1 và bị trễ một vài môn do chưa hiểu đăng ký học phần. Giả dụ trong HK1 2022 mới nhập học bạn phải đăng ký học phần môn `Nhập môn tin học` đã quy định trong chương trình khung mà sinh viên không chịu đăng ký dẫn đến việc bị trễ môn, mà môn học đó lại khó mở lớp thì sẽ rất tệ khiến việc học sẽ ở lại nhiều năm để đợi mở lớp học dồn về sau bị trùng lịch ở môn học ở học kỳ sau dẫn đến việc tốt nghiệp của bạn bị delay!</span>
+            <span class="fw-bold text-secondary d-block">10. Mở lớp học phần</span>
+            <span>Lớp học phần không mở tự động mà được tạo bằng tay do nhân viên nhà trường vì vậy LHP có thể được tạo thêm nếu có giấy tờ ghi đủ danh sách sinh viên muốn học học phần này trong học kỳ này. Việc tìm bạn, tạo form, tạo giấy xin mở lớp là việc của sinh viên. Khoa sẽ nhận danh sách và cảm thấy hợp lệ sẽ mở thêm LHP lên trang sinh viên.</span>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal" id="DetailsNotificationModal">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <span class="d-block" id="DetailsNotificationSpanContent">Gửi tới các em sinh viên hệ CLC / Đại trà. Cũng đã sắp đến tết cận kề, nhà nhà đã mang không khí nôn nao của lễ hội tết truyền thống. Nhằm mục đích hỗ trợ cho việc các sinh viên có thể bắt xe trở về quê ăn tết thuận tiện với gia đình tốt nhất. Nhà trường quyết định sẽ tổ chức các buổi học cận kề ngày nghĩ tết thành lịch học online (có thể). Một vài trường hợp môn học bắt buộc học offline như thực hành sẽ vẫn tiếp tục.</span>
+                <div class="d-flex">
+                    <div class="flex-fill"><span class="text-secondary small" id="DetailsNotificationSpanDaysAgo">(01 ngày trước)</span></div>
+                    <div class="text-center text-primary crs" data-bs-dismiss="modal" onclick="audio.play();">
+                        <i class="fas fa-times"></i>
+                        <span>Close</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+<div class="container-fluid bg-light">
+    <div class="row small" style="height: 50vh; overflow: auto;">
+        <div class="col-lg-6 p-3">
+            <div class="d-flex justify-content-center align-items-center border h-100 bg-white">
+                <div class="card">
+                    <div class="card-header">Thông tin sinh viên</div>
+                    <div class="card-body text-center">
+                        <img src="<%= (STUDENT_DATA.avatar == null || STUDENT_DATA.avatar == ' ') ? 'https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv-iuh-avatar-pattern_oyubmc.jpg' : STUDENT_DATA.avatar %>" alt="avatar" width="100px" height="100px" class="rounded-circle">
+                        <div class="d-flex justify-content-between">
+                            <div class="text-start p-2">
+                                <span>Họ tên: <span class="fw-bold"><%= STUDENT_DATA.hoTen %></span></span><br>
+                                <span>MSSV: <span class="fw-bold"><%= STUDENT_DATA.maSinhVien %></span></span><br>
+                                <span>Giới tính: <span class="fw-bold"><%= STUDENT_DATA.gioiTinh %></span></span><br>
+                                <span>Ngày sinh: <span class="fw-bold"><%= formatDate(STUDENT_DATA.ngaySinh) %></span></span><br>
+                                <span>Nơi sinh: <span class="fw-bold"><%= STUDENT_DATA.noiSinh %></span></span>
+                            </div>
+                            <div class="text-start p-2">
+                                <span>Lớp: <span class="fw-bold"><%= STUDENT_DATA.lopHocDanhNghia.tenLop %></span></span><br>
+                                <span>Khóa học: <span class="fw-bold"><%= STUDENT_DATA.lopHocDanhNghia.khoaHoc.namBatDau %>-<%= STUDENT_DATA.lopHocDanhNghia.khoaHoc.namKetThuc %></span></span><br>
+                                <span>Bậc đào tạo: <span class="fw-bold"><%= STUDENT_DATA.bacDaoTao %></span></span><br>
+                                <span>Loại hình đào tạo: <span class="fw-bold"><%= STUDENT_DATA.loaiHinhDaoTao %></span></span><br>
+                                <span>Ngành: <span class="fw-bold"><%= STUDENT_DATA.lopHocDanhNghia.nganh.tenNganh %></span></span>
+                            </div>
+                        </div>    
+                    </div> 
+                    <div class="card-footer text-primary text-center text-decoration-underline"><a href="./student/details" class="crs">Xem chi tiết</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 p-3">
+            <div class="d-flex justify-content-center align-items-center border h-100 bg-white position-relative">
+                <div class="d-flex justify-content-evenly align-items-center w-100">
+                    <div class="text-center">
+                        <div class="progress-container">
+                            <div class="progress-parent">
+                                <div class="progress-child">
+                                    <div class="perfect-circle">
+                                        <span class="progress-value">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div><span class="fw-light"><%= currentTinChi %></span> / <span class="fw-bold text-decoration-underline"><%= requireTinChi %></span></div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Tiến độ học tập</div>
+                        <div class="card-body text-center">
+                            <div class="progress" style="height:30px">
+                                <div class="progress-bar" style="width: <%= ((currentTinChi*100)/requireTinChi).toFixed(2) %>%; height:30px;" ></div>
+                            </div>
+                            <span><%= currentTinChi %>/<span class="text-success fw-bold"><%= requireTinChi %></span> tín chỉ</span><br>
+                            <span>(Đã hoàn thành <span class="fw-bold"><%= ((currentTinChi*100)/requireTinChi).toFixed(1)%>%</span>)</span><br>
+                            <i class="fas fa-question-circle text-primary crs" data-bs-toggle="tooltip" title="1 Tín chỉ = 15 tiết học"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="position-absolute end-0 top-0 d-flex">
+                    <div class="me-3 position-relative" onclick="audio.play();">
+                        <i class="far fa-bell pt-1 dropdown-toggle crs" data-bs-toggle="dropdown" style="font-size: x-large;"></i>
+                        <ul class="dropdown-menu mw-100 text-truncate">
+                            <% for(let i=0; i<LIST_NOTIFICATION.length; i++) { %>
+                                <li onclick="audio.play();">
+                                    <a class="dropdown-item" href="javascript:void(0);" id="<%= LIST_NOTIFICATION[i].maThongBao %>" onclick="ShowDetailsNotification(this.id);"><%= LIST_NOTIFICATION[i].tieuDe %></a>
+                                </li>
+                            <% } %>
+                            <li><hr class="dropdown-divider"></li>
+                            <li class="bg-light"><a class="dropdown-item text-danger" href="/student/clear-notifications">Xoá tất cả</a></li>
+                        </ul>
+                        <div class="position-absolute fw-bold end-0 small"><%= LIST_NOTIFICATION.length %></div>
+                    </div>
+                    <div class="border px-2" onclick="audio.play();">
+                        <i class="fas fa-caret-down dropdown-toggle crs" data-bs-toggle="dropdown" style="font-size: x-large;"></i>
+                        <ul class="dropdown-menu">
+                            <li id="BtnChangeTheme" onclick="audio.play();"><a class="dropdown-item" href="javascript:void(0);">Giao diện</a></li>
+                            <li onclick="audio.play();"><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#GioiThieuModal">Giới thiệu</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li class="bg-light"><a class="dropdown-item text-danger" href="/student-logout" onclick="delete_cookie('session');">Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row small" style="height: 50vh; overflow: auto;">
+        <div class="col-lg-6 p-3">
+            <div class="d-flex justify-content-sm-evenly align-items-center border h-100 bg-white" id="box3">
+                <div class="card" style="max-height: 40vh; overflow: auto;">
+                    <div class="card-header">Học phần đang học</div>
+                    <div class="card-body text-center">
+                        <select name="select_course" id="select_course" class="form-control my-1" onclick="audio.play();">
+                            <% for(let i=0; i<LIST_COURSE.length; i++) { %>
+                                <option value="<%= LIST_COURSE[i].maKhoaHoc %>" onclick="audio.play();"><%= LIST_COURSE[i].alias %> (<%= LIST_COURSE[i].namBatDau %>-<%= LIST_COURSE[i].namKetThuc %>)</option>
+                            <% } %>
+                        </select>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Mã học phần/Học phần</th>
+                                    <th>Số tín chỉ</th>
+                                </tr>    
+                            </thead>
+                            <tbody id="tBodySubjectCourseSelected">
+                                <% for(let i=0; i<LIST_FIRST_UNIT_SUBJECT.length; i++) { %>
+                                    <tr>
+                                        <td>
+                                            <span><%= LIST_FIRST_UNIT_SUBJECT[i].maMonHoc %></span><br>
+                                            <span><%= LIST_FIRST_UNIT_SUBJECT[i].tenMonHoc %></span>    
+                                        </td>
+                                        <td class="d-table-cell align-middle"><%= LIST_FIRST_UNIT_SUBJECT[i].soTinChi %></td>
+                                    </tr>
+                                <% } %>
+                            </tbody>    
+                        </table>
+                    </div> 
+                </div>
+                <div class="border">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 p-3">
+            <div class="d-flex flex-wrap justify-content-center align-items-center border h-100 bg-white">
+                <a href="./student/timetable" class="text-decoration-none text-dark">
+                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
+                    <div><i class="fas fa-calendar-alt fa-2x text-primary"></i></div>
+                    <div class="fw-light">Lịch học</div>
+                    <div class="fw-light">theo tuần</div>
+                </div>
+                </a>
+                <a href="./student/score" class="text-decoration-none text-dark">
+                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
+                    <div><i class="fas fa-chart-bar fa-2x text-primary"></i></div>
+                    <div class="fw-light">Kết quả</div>
+                    <div class="fw-light">học tập</div>
+                </div>
+                </a>
+                <a href="./student/dkhp" class="text-decoration-none text-dark">
+                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
+                    <div><i class="fab fa-uncharted fa-2x text-primary"></i></div>
+                    <div class="fw-light">Đăng ký</div>
+                    <div class="fw-light">học phần</div>
+                </div>
+                </a>
+                <a href="./student/pattern" class="text-decoration-none text-dark">
+                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
+                    <div><i class="fab fa-windows fa-2x text-primary"></i></div>
+                    <div class="fw-light">Chương trình</div>
+                    <div class="fw-light">khung</div>
+                </div>
+                </a>
+                <a href="./student/debt" class="text-decoration-none text-dark">
+                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
+                    <div><i class="fas fa-sack-dollar fa-2x text-primary"></i></div>
+                    <div class="fw-light">Tra cứu</div>
+                    <div class="fw-light">công nợ</div>
+                </div>
+                </a>
+                <a href="./student/order-detail" class="text-decoration-none text-dark">
+                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
+                    <div><i class="fas fa-file-invoice-dollar fa-2x text-primary"></i></div>
+                    <div class="fw-light">Biên lai</div>
+                    <div class="fw-light">tổng hợp</div>
+                </div>
+                </a>
+                <a href="./student/payment" class="text-decoration-none text-dark">
+                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
+                    <div><i class="fab fa-cc-amazon-pay fa-2x text-primary"></i></div>
+                    <div class="fw-light">Thanh toán</div>
+                    <div class="fw-light">học phí</div>
+                </div>
+                </a>
+                <a href="./student/wallet" class="text-decoration-none text-dark">
+                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs" onclick="audio.play();">
+                    <div><i class="fas fa-hand-holding-usd fa-2x text-primary"></i></div>
+                    <div class="fw-light">Số dư ví</div>
+                    <div class="fw-bold" style="color: #FF5A00;"><%= new Intl.NumberFormat().format(STUDENT_DATA.soDu) %>đ</div>
+                </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+const audio = new Audio();
+audio.src = "../audio/click.mp3";
+var pathNodejs = window.location.protocol + '//' + window.location.host;
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl){
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+
+/*
+    Giải thuật renderCircle:
+
+*/
+let parentCircle = document.querySelector(".progress-parent");
+let childCircle = document.querySelector(".progress-child");
+let spanValue = document.querySelector(".progress-value");
+
+let startValue = 0;
+let endValue = 100;
+let speed = 10;
+
+let circleName = "parentCircle";
+let myprogress = setInterval(() => {
+    startValue++;
+    if(circleName == "parentCircle") {
+        parentCircle.style.background = `conic-gradient(rgb(70, 121, 231) ${startValue*3.6}deg, #ededed 0deg)`;
+    }
+    else {//nếu circleName là childCircle
+        if(startValue >= endValue) {//Nếu startValue +1 lên > 3.16% render bg phát cuối r dừng luôn
+            spanValue.textContent = `${endValue.toFixed(1)}%`;
+            childCircle.style.background = `conic-gradient(#20fa4c ${endValue*3.6}deg, #ededed 0deg)`;
+            clearInterval(myprogress);
+            return;
+        } else {
+            spanValue.textContent = `${startValue}%`;
+            childCircle.style.background = `conic-gradient(#20fa4c ${startValue*3.6}deg, #ededed 0deg)`;
+        }
+    }
+    if(startValue == endValue) {
+        startValue = 0;
+        endValue = <%= currentTinChi * 100/requireTinChi %>;
+        circleName = "childCircle";
+    }
+}, speed);
+$(document).ready(function(){
+    renderChartScore();
+    var LIST_COURSE = '<%= LIST_COURSE.length %>';
+    var theme = 'light';
+    if(LIST_COURSE == 0 || LIST_COURSE == '0') {
+        const embedEmpty = '<tr><td>Bạn chưa có học phần nào cả.<br>Hãy chuyển đến trang</td><td><a href="./student/dkhp">Đăng ký<br>Học phần!</a></td></tr>'
+        $("#tBodySubjectCourseSelected").html(embedEmpty);
+    }
+    $("#select_course").change(function(){
+        const maSinhVien= "<%= STUDENT_DATA.maSinhVien %>";
+        const maKhoaHoc= $(this).val();
+        const data = { maSinhVien, maKhoaHoc };
+        $.ajax({
+            type: "POST",
+            url: "<%= process.env.SELF_EJS_API_URL %>/student/getSubjectByStudentIdAndCourseId",
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(data) {
+                var myLoop = "";
+                for (let i = 0; i < data.length; i++) {
+                    myLoop += "<tr><td><span>"+data[i].maMonHoc+"</span><br><span>"+data[i].tenMonHoc+"</span></td><td>"+data[i].soTinChi+"</td></tr>";
+                }
+                $("#tBodySubjectCourseSelected").html(myLoop);
+                renderChartScore();
+            },
+            error: function(error) {
+                console.error(error);
+            }
+        });
+    });
+    $("#BtnChangeTheme").click(function() {
+        let themeWill = theme == 'light' ? 'Tối' : 'Sáng';
+        swal({
+        title: "Đổi sang giao diện "+themeWill,
+        text: "Toggle hiện tại chỉ có 2 theme màu Sáng / Tối",
+        buttons: true,
+        })
+        .then((willDelete) => {
+        if (willDelete) {
+            if(theme == 'light') {
+                $(".container-fluid").addClass("bg-dark");
+                $(".container-fluid").removeClass("bg-light");
+                theme = "dark";
+            } else {
+                $(".container-fluid").addClass("bg-light");
+                $(".container-fluid").removeClass("bg-dark");
+                theme = "light";
+            }
+        }
+        });
+    });
+});
+function ShowDetailsNotification(notificationId) {
+    $.ajax({
+        type: "POST",
+        url: "<%= process.env.SELF_EJS_API_URL %>/student/getNotificationById",
+        data: JSON.stringify({maThongBao: notificationId}),
+        contentType: 'application/json',
+        success: function(data) {
+            const d = new Date(data.ngayXuatBan);
+            const d2 = new Date();
+            const diff = Math.abs(d2 - d);
+            const one_day=1000*60*60*24;
+            let result = Math.round(diff/one_day);
+            if(result < 10)
+                result = "0" + result;
+            $("#DetailsNotificationSpanContent").text(data.noiDung);
+            $("#DetailsNotificationSpanDaysAgo").text("(" + result + " ngày trước)");
+            $("#DetailsNotificationModal").modal('toggle');     
+        }
+    });
+}
+function delete_cookie(name) {
+  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+async function getScoreByStudentIdAndSubjectId(subjectId) {
+    return $.ajax({
+        type: "POST",
+        url: "<%= process.env.SELF_EJS_API_URL %>/student/score/getScoreByStudentIdAndSubjectId",
+        data: JSON.stringify({subjectId}),
+        contentType: 'application/json',
+    }).then(data => data);
+}
+function diemTongKetCal(obj) {
+    let diemTongKet = 0;
+    console.log("obj==",obj);
+    if(obj.lopHocPhan.monHoc.soTietTH == 0) { //Nếu môn chỉ có LT
+        lt = ((obj.diemLT1 + obj.diemLT2 + obj.diemLT3)/3)*0.2;
+        gk = obj.diemGK*0.3;
+        ck = obj.diemCK*0.5;
+        diemTongKet = parseFloat(lt + gk +ck);
+    } else {
+        lt = ((obj.diemLT1 + obj.diemLT2 + obj.diemLT3)/3)*0.2;
+        gk = obj.diemGK*0.3;
+        ck = obj.diemCK*0.5;
+        let diemTongKetLT = parseFloat(lt + gk +ck);
+        soTC_LT = obj.lopHocPhan.monHoc.soTietLT / 15;
+        TBC_TH = (obj.diemTH1 + obj.diemTH2 + obj.diemTH3)/3;
+        soTC_TH = obj.lopHocPhan.monHoc.soTietTH / 15;
+        diemTongKet = ( (diemTongKetLT*soTC_LT) + (TBC_TH*soTC_TH) ) / (soTC_LT + soTC_TH);
+    }
+    return diemTongKet;
+}
+</script>
+<script>
+    async function renderChartScore() {
+        //Giải thuật:
+        // 1. Lấy list các môn học theo học phần đang học
+        // 2. Chạy forEach mỗi môn coi môn nào có điểm thì đưa vào data vào mảng tí render chart
+        // 3. Nếu array != rỗng thì render chart và ngược lại
+        let arrays_id_subject = [];
+        let arrays_name_subject = [];
+        <% for (let i=0;i<LIST_FIRST_UNIT_SUBJECT.length;i++) { %>
+            arrays_id_subject.push('<%= LIST_FIRST_UNIT_SUBJECT[i].maMonHoc %>');
+            arrays_name_subject.push('<%= LIST_FIRST_UNIT_SUBJECT[i].tenMonHoc %>');
+        <% } %>
+        let arrays_diem_subject = [];
+        let arrays_colors = [];
+        for(let i=0;i<arrays_id_subject.length;i++) {
+            const subjectId = arrays_id_subject[i];
+            const diem = await getScoreByStudentIdAndSubjectId(subjectId);
+            let diemTongKet = 0;
+            if(diem) {
+                diemTongKet = diem.diemTongKet;
+            }
+            arrays_diem_subject.push(diemTongKet.toFixed(1));
+            if(diemTongKet > 7.5) {
+            arrays_colors.push("#15eb6b");
+            } else {
+                if(diemTongKet >= 5) {
+                    arrays_colors.push("#3ff263")
+                }
+                if(diemTongKet < 5) {
+                    arrays_colors.push("#95f5a8");
+                }
+            }
+        }//sau hàm này thì đã có mảng điểm, có render char hay ko?
+        if(arrays_diem_subject.length > 0) {
+            const ctx = document.getElementById('myChart');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: arrays_name_subject,
+                    datasets: [{
+                        label: '# điểm tổng kết môn',
+                        data: arrays_diem_subject,
+                        borderWidth: 1,
+                        backgroundColor: arrays_colors, //"#15eb6b", "#3ff263", "#95f5a8"
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        }
+                    }
+                }
+            });
+        } else {//Nếu ko có chart thì render lại box3
+            console.log("Student has now scores in choosed maKhoaHoc select");
+            const element = 
+            '<div class="card" style="max-height: 40vh; overflow: auto;">'+
+                '<div class="card-header">Học phần đang học</div>'+
+                '<div class="card-body text-center">'+
+                    '<select name="select_course" id="select_course" class="form-control my-1" onclick="audio.play();">'+
+                        '<% for(let i=0; i<LIST_COURSE.length; i++) { %>'+
+                            '<option value="<%= LIST_COURSE[i].maKhoaHoc %>" onclick="audio.play();"><%= LIST_COURSE[i].alias %> (<%= LIST_COURSE[i].namBatDau %>-<%= LIST_COURSE[i].namKetThuc %>)</option>'+
+                        '<% } %>'+
+                    '</select>'+
+                    '<table class="table table-bordered">'+
+                        '<thead>'+
+                            '<tr>'+
+                                '<th>Mã học phần/Học phần</th>'+
+                                '<th>Số tín chỉ</th>'+
+                            '</tr> '+
+                        '</thead>'+
+                        '<tbody id="tBodySubjectCourseSelected">'+
+                            '<% for(let i=0; i<LIST_FIRST_UNIT_SUBJECT.length; i++) { %>'+
+                                '<tr>'+
+                                    '<td>'+
+                                        '<span><%= LIST_FIRST_UNIT_SUBJECT[i].maMonHoc %></span><br>'+
+                                        '<span><%= LIST_FIRST_UNIT_SUBJECT[i].tenMonHoc %></span>'+
+                                    '</td>'+
+                                    '<td class="d-table-cell align-middle"><%= LIST_FIRST_UNIT_SUBJECT[i].soTinChi %></td>'+
+                                '</tr>'+
+                            '<% } %>'+
+                        '</tbody>'+
+                    '</table>'+
+                '</div>'+
+            '</div>';
+            $("#box3").html(element);
+        }
+    }
+</script>
+</html>

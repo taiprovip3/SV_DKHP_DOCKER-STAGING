@@ -1,0 +1,17 @@
+﻿http://localhost/SV_DKHP_PHP/momo-callback.php
+?partnerCode=MOMOBKUN20180529
+&orderId=1675062576
+&requestId=1675062576
+&amount=1700000
+&orderInfo=Thanh+to%C3%A1n+qua+MoMo+QR+%28Qu%C3%A9t+m%C3%A3+app+momo%29
+&orderType=momo_wallet
+&transId=2839639443
+&resultCode=0
+&message=Giao+d%E1%BB%8Bch+th%C3%A0nh+c%C3%B4ng.
+&payType=qr
+&responseTime=1675062618346
+&extraData=8
+&signature=41db09dd4461eca0ce0d2bfcc9bf159c9c08be907f6c6f9fc3581d912684608e
+
+
+http://localhost:4000/student/payment/callback?partnerCode=MOMOBKUN20180529&orderId=1675062576&requestId=1675062576&amount=1700000&orderInfo=Thanh+to%C3%A1n+qua+MoMo+QR+%28Qu%C3%A9t+m%C3%A3+app+momo%29&orderType=momo_wallet&transId=2839639443&resultCode=0&message=Giao+d%E1%BB%8Bch+th%C3%A0nh+c%C3%B4ng.&payType=qr&responseTime=1675062618346&extraData=00CjIBAQ&signature=41db09dd4461eca0ce0d2bfcc9bf159c9c08be907f6c6f9fc3581d912684608e

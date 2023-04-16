@@ -1,0 +1,23 @@
+.styleline{
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-image: url("https://hsb.edu.vn/wp-content/uploads/2014/07/university-background-04.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.navigation-item{
+    background: #05091a;
+    border-bottom: 1px dotted lightslategrey;
+    color: white;
+}
+.navigation-item:hover{
+    cursor: pointer;
+    background: white;
+    color: black;
+    text-decoration-line: underline;
+}
+.navigation-item-active{
+    border-bottom: 1px dotted lightslategrey;
+    color: lightslategray;
+}

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ErukaLearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+    <script src="https://www.paypal.com/sdk/js?client-id=AWr1ugFyX8drd_9M8C2nCzIevgvclI5sdU5izC9lamGeKwW9FC0exjrfxgNzvqtsP5R16QMMTNjJ03kc&currency=USD&commit=false"></script>
+</head>
+<body>
+    <%
+        function formatNumber(number) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+        }
+    %>
+    <div class="container-fluid">
+        <div class="row position-relative">
+
+            <div class="position-absolute top-0 start-0 text-start mt-2 fs-3 w-50">
+                <i class="fas fa-bars crs dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" onclick="audio.play();"></i>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                    <li class="lead"><a class="dropdown-item" href="/student"><i class="fab fa-fort-awesome-alt"></i> Trang chủ</a></li>
+                    <li class="lead"><a class="dropdown-item disabled"><i class="fas fa-journal-whills"></i> Học tập</a></li>
+                    <li class="lead">
+                        <div>
+                            <a class="crs text-decoration-none d-block" href="/student/timetable">&emsp;&emsp;<i class="fas fa-calendar-check"></i> Lịch học theo tuần</a>
+                            <a class="crs text-decoration-none d-block" href="/student/score">&emsp;&emsp;<i class="fas fa-chart-bar"></i> Kết quả học tập</a>
+                            <a class="crs text-decoration-none d-block" href="/student/dkhp">&emsp;&emsp;<i class="fab fa-xbox"></i> Đăng ký học phần</a>
+                            <a class="crs text-decoration-none d-block" href="/student/pattern">&emsp;&emsp;<i class="fab fa-windows"></i> Chương trình khung</a>
+                        </div>
+                    </li>
+                    <li class="lead"><a class="dropdown-item disabled"><i class="fas fa-journal-whills"></i> Học phí</a></li>
+                    <li class="lead">
+                        <div>
+                            <a class="crs text-decoration-none d-block" href="/student/debt">&emsp;&emsp;<i class="fas fa-sack-dollar"></i> Tra cứu công nợ</a>
+                            <a class="crs text-decoration-none d-block" href="/student/order-detail">&emsp;&emsp;<i class="fas fa-file-invoice-dollar"></i> Biên lai tổng hợp</a>
+                            <a class="crs text-decoration-none d-block" href="/student/payment">&emsp;&emsp;<i class="fab fa-cc-apple-pay"></i> Thanh toán học phí</a>
+                            <a class="crs text-decoration-none d-block text-white bg-primary" href="javascript:void(0)">&emsp;&emsp;<i class="fas fa-donate"></i> Nạp tiền vào ví</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="position-absolute top-0 end-0 text-end mt-2 fs-3 w-50">
+                <a href="./student"><i class="fas fa-door-open text-secondary crs" onclick="audio.play();"></i></a>
+            </div>
+            
+            <div class="col-lg-12 py-2 px-5" style="background: #ededed;">
+                <div class="bg-white p-3">
+                    <p class="fs-3 text-secondary fw-bold">Nạp tiền vào ví</p>
+                    <hr>
+                    <div class="text-center d-flex justify-content-center">
+                        <div class="px-5 py-3 rounded-circle" style="background-color: #edf1f2;">
+                            <i class="fas fa-hand-holding-usd fa-2x d-block text-success"></i>
+                            <span class="d-block">Số dư ví:</span>
+                            <span class="text-warning fw-bold"><%= formatNumber(STUDENT_DATA.soDu) %></span>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+
+                        <div id="left">
+                            <div>
+                                <p>Các phương thức thanh toán, loại giao dịch chấp nhận hiện tại <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Thanh toán trực tuyến là bạn có thể đóng tiền học phí mà không cần phải gặp mặt các nhân viên phòng tài chính kế toán, tránh mất thời gian đi lại, chậm trễ. Thực hiện đúng theo chỉ dẫn đóng tiền đảm bảo tin cậy 100%. Hỗ trợ sinh viên nếu xảy ra chậm trễ trong việc nhận tiền thanh toán."></i></p>
+                                <div class="d-flex small">
+                                    <div class="text-center mx-1 px-2 py-1 crs border" onclick="onchangeMethodPayment('MOMO');" id="MOMO_DIV">
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxX_8dNwRvpgw6AjfpNrRF3ehsWpjEjmP2kV9T9HtgrA&s" alt="momo" width="32px" height="32px">
+                                        <span class="d-block">Momo</span>
+                                    </div>
+                                    <div class="text-center mx-1 px-2 py-1 crs border" onclick="onchangeMethodPayment('VNPAY');" id="VNPAY_DIV">
+                                        <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Icon-VNPAY-QR.png" alt="vnpay" width="32px" height="32px">
+                                        <span class="d-block">VNPay</span>
+                                    </div>
+                                    <div class="text-center mx-1 px-2 py-1 crs border" onclick="onchangeMethodPayment('PAYPAL');" id="PAYPAL_DIV">
+                                        <img src="https://img.freepik.com/free-icon/paypal_318-566100.jpg?w=2000" alt="paypal" width="32px" height="32px">
+                                        <span class="d-block">Paypal</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <p>Tổng số tiền thanh toán: <span class="fw-bold text-decoration-underline fs-3" id="total_payment">0</span></p>
+                                <p>Phương thức thanh toán: <span class="fw-bold fs-3" id="method_recharge">Chưa chọn</span></p>
+                                <div class="d-none mb-2" id="MOMO_OPTION">
+                                    <input type="radio" name="SELECT_MOMO" id="MOMO_ATM" value="MOMO_ATM" class="form-check-input" checked onclick="audio.play();" />
+                                    <label for="MOMO_ATM" class="form-check-label">Momo ATM</label>
+                                    &emsp;
+                                    <input type="radio" name="SELECT_MOMO" id="MOMO_QR" value="MOMO_QR" class="form-check-input" onclick="audio.play();" />
+                                    <label for="MOMO_QR" class="form-check-label">Quét mã QR momo</label>
+                                </div>
+                                <button class="btn btn-lg text-white fw-bold" style="background: #FF5A00;" onclick="validation();">Thanh toán</button>
+                            </div>
+                        </div>
+                        <div id="right" class="flex-fill p-5">
+                            <div class="border-start ps-3">
+                                <p>Vui lòng chọn hạn mức nạp:</p>
+                                <div>
+                                    <input type="radio" name="wannaWallet" id="wanna50000" value="50000">
+                                    <label for="wanna50000">50.000đ</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="wannaWallet" id="wanna100000" value="100000">
+                                    <label for="wanna100000">100.000đ</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="wannaWallet" id="wanna200000" value="200000">
+                                    <label for="wanna200000">200.000đ</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="wannaWallet" id="wanna500000" value="500000">
+                                    <label for="wanna500000">500.000đ</label>
+                                </div>
+                                <div class="d-flex align-items-start">
+                                    <input type="radio" name="wannaWallet" id="wannaOptional" value="0" checked>
+                                    &ensp;
+                                    <input type="number" name="balance" id="balanced" placeholder="Số tiền muốn nạp tuỳ ý..." class="form-control form-control-lg" value="0">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- The Modal -->
+    <div class="modal" id="paypalModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Xác nhận thanh toán</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Paypal hiện tại chỉ chấp nhận thanh toán tiền tệ đơn vị USD. Sẽ có sự chênh lệnh mệnh giá với các phương thức thanh toán khác là đồng VNĐ. Chúng tôi sẽ chuyển bạn đến trang thanh toán của Paypal.
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> -->
+                <div id="paypal-button-container"></div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+<script>
+    const audio = new Audio();
+    audio.src = "../audio/click.mp3";
+    var pathNodejs = window.location.protocol + '//' + window.location.host;
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl){
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    function formatNumber(number) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+    }
+    var global_method_recharge = "";
+    var global_total_recharge = 0;
+    var global_ma_giao_dich = "";
+    function onchangeMethodPayment(method_type){
+        audio.play();
+        global_method_recharge = method_type;
+        $("#method_recharge").text(method_type);
+        if(method_type === "MOMO") {
+        $("#MOMO_DIV").css({"background": "blue", "color": "white", "font-weight": "bold"});
+        $("#VNPAY_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#PAYPAL_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#WALLET_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#MOMO_OPTION").removeClass('d-none');
+        return;
+    }
+    if(method_type === "WALLET") {
+        $("#WALLET_DIV").css({"background": "blue", "color": "white", "font-weight": "bold"});
+        $("#VNPAY_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#PAYPAL_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#MOMO_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#MOMO_OPTION").addClass('d-none');
+        return;
+    }
+    if(method_type === "VNPAY") {
+        $("#VNPAY_DIV").css({"background": "blue", "color": "white", "font-weight": "bold"});
+        $("#MOMO_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#PAYPAL_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#WALLET_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#MOMO_OPTION").addClass('d-none');
+        return;
+    }
+    if(method_type === "PAYPAL") {
+        $("#PAYPAL_DIV").css({"background": "blue", "color": "white", "font-weight": "bold"});
+        $("#VNPAY_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#MOMO_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#WALLET_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#MOMO_OPTION").addClass('d-none');
+        return;
+    }
+    }
+    function validation() {
+        if(global_method_recharge != "") {
+            // alert(global_method_recharge + ", " + global_total_recharge);
+            global_total_recharge = $("input[name='wannaWallet']:checked").val();
+            const vid = $("input[name='wannaWallet']:checked").attr('id');
+            if(vid === "wannaOptional")
+                global_total_recharge = $("#balanced").val();
+            if(global_total_recharge > 0) {
+                swal({
+                    title: "Xác nhận lại",
+                    text: "Bạn có chắc chắn muốn thanh toán nạp vào ví với số tiền là: "+formatNumber(global_total_recharge)+" và bằng phương thức thanh toán " + global_method_recharge + " chứ?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((value) => {
+                    if(value) {
+                        audio.play();
+                        // window.location.href = "<%= process.env.SELF_EJS_API_URL %>/student";
+                        recharge();
+                    }
+                });
+            } else toastr.error("Vui lòng nhập/chọn số tiền muốn nạp vào ví", "Chưa chọn hạn mức");
+        } else {
+            toastr.error("Bạn chưa chọn phương thức thanh toán.", "Chưa chọn giao dịch");
+        }
+    }
+    function recharge() {
+        if(global_method_recharge === "MOMO") {
+            const momo_method = $("input[name='SELECT_MOMO']:checked").val();
+            var mapForm = document.createElement("form");
+            mapForm.className = "d-none";
+            mapForm.target = "Map";
+            mapForm.method = "POST"; // or "post" if appropriate
+            mapForm.action = "http://localhost:80/momo-recharge/momo.php";
+            var mapInput = document.createElement("input"); //input momo_method
+            mapInput.type = "text";
+            mapInput.name = "momo_method";
+            mapInput.value = global_method_recharge;
+            mapForm.appendChild(mapInput);
+            var mapInput = document.createElement("input"); //input total_payment
+            mapInput.type = "text";
+            mapInput.name = "total_payment";
+            mapInput.value = global_total_recharge;
+            mapForm.appendChild(mapInput);
+            var mapInput = document.createElement("input"); //input maSinhVien
+            mapInput.type = "text";
+            mapInput.name = "maSinhVien";
+            mapInput.value = <%= STUDENT_DATA.maSinhVien %>;
+            mapForm.appendChild(mapInput);
+            document.body.appendChild(mapForm);
+            const parentWidth = window.screen.availWidth;   //setting windows
+            const parentHeight = window.screen.availHeight;
+            const childWidth = parentWidth - (parentWidth * 0.2);
+            const childHeight = parentHeight - (parentHeight * 0.2);
+            map = window.open("", "Map", "status=0,title=0,height="+childHeight+",width="+childWidth+",scrollbars=1");
+            if(map) mapForm.submit();
+            else alert('You must allow popups for this map to work.');
+        } else {
+            if(global_method_recharge === "VNPAY") {
+                var mapForm = document.createElement("form");
+                mapForm.className = "d-none";
+                mapForm.target = "Map";
+                mapForm.method = "POST"; // or "post" if appropriate
+                mapForm.action = "http://localhost:80/vnpay-recharge/vnpay.php";
+                var mapInput = document.createElement("input"); //input momo_method
+                mapInput.type = "text";
+                mapInput.name = "method_payment";
+                mapInput.value = global_method_recharge;
+                mapForm.appendChild(mapInput);
+                var mapInput = document.createElement("input"); //input total_payment
+                mapInput.type = "text";
+                mapInput.name = "total_payment";
+                mapInput.value = global_total_recharge;
+                mapForm.appendChild(mapInput);
+                var mapInput = document.createElement("input"); //input maSinhVien
+                mapInput.type = "text";
+                mapInput.name = "maSinhVien";
+                mapInput.value = <%= STUDENT_DATA.maSinhVien %>;
+                mapForm.appendChild(mapInput);
+                document.body.appendChild(mapForm);
+                const parentWidth = window.screen.availWidth;   //setting windows
+                const parentHeight = window.screen.availHeight;
+                const childWidth = parentWidth - (parentWidth * 0.2);
+                const childHeight = parentHeight - (parentHeight * 0.2);
+                map = window.open("", "Map", "status=0,title=0,height="+childHeight+",width="+childWidth+",scrollbars=1");
+                if(map) mapForm.submit();
+                else alert('You must allow popups for this map to work.');
+            }
+            if(global_method_recharge === "PAYPAL") {
+                $("#paypalModal").modal("toggle");
+                // swal({
+                //     title: "Bạn có chắc chắn?",
+                //     text: "Paypal hiện tại chỉ chấp nhận thanh toán tiền tệ đơn vị USD. Sẽ có sự chênh lệnh mệnh giá với các phương thức thanh toán khác là đồng VNĐ. Chúng tôi sẽ chuyển bạn đến trang thanh toán của Paypal.",
+                //     icon: "warning",
+                //     buttons: true,
+                //     dangerMode: true,
+                // })
+                // .then((willDelete) => {
+                //     if (willDelete) {
+                //         audio.play();
+                //         var mapForm = document.createElement("form");
+                //         mapForm.className = "d-none";
+                //         mapForm.target = "Map";
+                //         mapForm.method = "POST"; // or "post" if appropriate
+                //         mapForm.action = "http://localhost:80/paypal-recharge/paypal.php";
+                //         var mapInput = document.createElement("input"); //input momo_method
+                //         mapInput.type = "text";
+                //         mapInput.name = "method_payment";
+                //         mapInput.value = global_method_recharge;
+                //         mapForm.appendChild(mapInput);
+                //         var mapInput = document.createElement("input"); //input total_payment
+                //         mapInput.type = "text";
+                //         mapInput.name = "total_payment";
+                //         mapInput.value = global_total_recharge;
+                //         mapForm.appendChild(mapInput);
+                //         var mapInput = document.createElement("input"); //input maSinhVien
+                //         mapInput.type = "text";
+                //         mapInput.name = "maSinhVien";
+                //         mapInput.value = <%= STUDENT_DATA.maSinhVien %>;
+                //         mapForm.appendChild(mapInput);
+                //         document.body.appendChild(mapForm);
+                //         const parentWidth = window.screen.availWidth;   //setting windows
+                //         const parentHeight = window.screen.availHeight;
+                //         const childWidth = parentWidth - (parentWidth * 0.2);
+                //         const childHeight = parentHeight - (parentHeight * 0.2);
+                //         map = window.open("", "Map", "status=0,title=0,height="+childHeight+",width="+childWidth+",scrollbars=1");
+                //         if(map) mapForm.submit();
+                //         else alert('You must allow popups for this map to work.');
+                //     } else audio.play();
+                // });
+            }
+            if(global_method_recharge === "CARD") {
+                
+            }
+        }
+    }
+    $(document).ready(function() {
+        $("input[name='wannaWallet']").change(function() {
+            let wannaWalletValue = $(this).val();
+            const inputId = $(this).attr('id');
+            if(inputId == "wannaOptional")
+                wannaWalletValue = $("#balanced").val();
+            $("#total_payment").text(formatNumber(wannaWalletValue));
+        });
+        $("#balanced").on("input", function(e) {
+            $("#total_payment").text(formatNumber($(this).val()));
+        });
+    });
+</script>
+<script>
+    async function createTransaction() {//Hàm nhận input {studentId, balance} trả về string maGiaoDich
+        const maSinhVien = <%= STUDENT_DATA.maSinhVien %>;
+        return $.ajax({
+            type: "POST",
+            url: "<%= process.env.SELF_EJS_API_URL %>/student/wallet/createTransaction",
+            data: JSON.stringify({studentId: maSinhVien, balance: global_total_recharge}),
+            contentType: 'application/json',
+        }).then(data => data);
+    }
+    paypal.Buttons({
+        style: {
+            layout: 'vertical',
+            color:  'gold',
+            shape:  'pill',
+            label:  'checkout'
+        },
+        createOrder: async (data, actions) => {
+            global_ma_giao_dich = await createTransaction();
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: parseFloat(global_total_recharge/23450).toFixed(2) // Can also reference a variable or function
+                    }
+                }]
+            });
+        },
+        onApprove: (data, actions) => {
+            const callBackUrl = "<%= process.env.SELF_EJS_API_URL %>/student/recharge/callback?extraData="+global_ma_giao_dich+"&resultCode=0&amount="+global_total_recharge+"&orderType='PAYPAL - WALLET'";
+            return actions.redirect(callBackUrl);
+        },
+        onCancel: function(data) {
+            window.location.href = "<%= process.env.SELF_EJS_API_URL %>/student/payment/callback?resultCode=1006";
+        }
+    }).render('#paypal-button-container');
+</script>
+</body>
+</html>

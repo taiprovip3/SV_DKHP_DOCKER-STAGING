@@ -1,0 +1,8 @@
+Server: sql12.freemysqlhosting.net
+Name: sql12597644
+Username: sql12597644
+Password: IMU8EWg6GX
+Port number: 3306
+
+Token: dc929bd814bee674e40d51f703798b6c
+Url: https://www.emailondeck.com/
