@@ -1,0 +1,111 @@
+{
+    "AWSEBDockerrunVersion": "3",
+    "containerDefinitions": [
+      {
+        "name": "php",
+        "image": "taiproduaxe/sv_dkhp_php",
+        "portMappings": [
+          {
+            "containerPort": 80,
+            "hostPort": 80
+          }
+        ],
+        "links": [
+          "mysql"
+        ]
+      },
+      {
+        "name": "web",
+        "image": "taiproduaxe/sv_dkhp_web",
+        "portMappings": [
+          {
+            "containerPort": 4000,
+            "hostPort": 4000
+          }
+        ],
+        "links": [
+          "mysql"
+        ]
+      },
+      {
+        "name": "java",
+        "image": "taiproduaxe/sv_dkhp_java",
+        "portMappings": [
+          {
+            "containerPort": 8080,
+            "hostPort": 8080
+          }
+        ],
+        "links": [
+          "mysql"
+        ],
+        "environment": [
+          {
+            "name": "SPRING_DATASOURCE_URL",
+            "value": "jdbc:mysql://mysql:3306/sv_dkhp?useSSL=false&serverTimezone=UTC&createDatabaseIfNotExist=true"
+          },
+          {
+            "name": "SPRING_DATASOURCE_USERNAME",
+            "value": "root"
+          },
+          {
+            "name": "SPRING_DATASOURCE_PASSWORD",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "name": "mysql",
+        "image": "taiproduaxe/sv_dkhp_mysql",
+        "environment": [
+          {
+            "name": "MYSQL_ROOT_USER",
+            "value": "root"
+          },
+          {
+            "name": "MYSQL_ROOT_PASSWORD",
+            "value": ""
+          },
+          {
+            "name": "MYSQL_DATABASE",
+            "value": "sv_dkhp"
+          },
+          {
+            "name": "MYSQL_CHARSET",
+            "value": "utf8"
+          },
+          {
+            "name": "MYSQL_COLLATION",
+            "value": "utf8_general_ci"
+          },
+          {
+            "name": "MYSQL_ALLOW_EMPTY_PASSWORD",
+            "value": "yes"
+          }
+        ],
+        "portMappings": [
+          {
+            "containerPort": 3306,
+            "hostPort": 3306
+          }
+        ],
+        "mountPoints": [
+          {
+            "containerPath": "/var/lib/mysql",
+            "sourceVolume": "mysql_data"
+          }
+        ]
+      }
+    ],
+    "family": "sv_dkhp",
+    "volumes": [
+      {
+        "name": "mysql_data",
+        "host": {
+          "sourcePath": "/var/app/current/mysql_data"
+        }
+      }
+    ],
+    "networkMode": "bridge"
+  }
+  

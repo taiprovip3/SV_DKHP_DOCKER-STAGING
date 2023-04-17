@@ -209,7 +209,7 @@ app.get("/student-logout", (req, res) => {
     if(req.session.student) {
         req.session.student = "";
     }
-    return res.redirect("/student");
+    return res.redirect("./student");
 });
 async function renderStudentHomepage(req,res,signal){
     if(!signal)
@@ -229,7 +229,7 @@ async function renderStudentHomepage(req,res,signal){
 }
 app.post("/student-login", upload.fields([]), async (req, res) => {
     if(req.session.student && req.session.jwt_token) { //Đã session
-        return res.redirect("/student");
+        return res.redirect("./student");
     } else { //First try
         const {ma_sinh_vien, mat_khau, captcha_code} = req.body;
         const LIST_ANNOUNCEMENT = await getListAnnouncement();
