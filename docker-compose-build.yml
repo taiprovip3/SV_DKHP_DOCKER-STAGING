@@ -1,7 +1,9 @@
 version: '3.9'
 services:
   php:
-    image: taiproduaxe/sv_dkhp_php:latest
+    build:
+      context: ./php
+      dockerfile: Dockerfile
     ports:
       - "80:80"
     depends_on:
@@ -10,7 +12,9 @@ services:
       sv-dkhp-network:
         ipv4_address: 172.20.0.10
   web:
-    image: taiproduaxe/sv_dkhp_web:latest
+    build: 
+      context: ./web
+      dockerfile: Dockerfile
     ports:
       - "4000:4000"
     depends_on:
@@ -19,7 +23,9 @@ services:
       sv-dkhp-network:
         ipv4_address: 172.20.0.11
   java:
-    image: taiproduaxe/sv_dkhp_java:latest
+    build: 
+      context: ./java
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     depends_on:
@@ -32,7 +38,9 @@ services:
       sv-dkhp-network:
         ipv4_address: 172.20.0.12
   mysql:
-    image: taiproduaxe/sv_dkhp_mysql:latest
+    build: 
+      context: ./mysql
+      dockerfile: Dockerfile
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
