@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ErukaLearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+</head>
+<body>
+    <%
+        function checkTotNghiep(namBatDau) {
+            const date = new Date();
+            const yearNow = date.getFullYear();
+            if( parseInt(namBatDau+4) <= yearNow )
+                return "Đang học";
+            return "Đã tốt nghiệp";
+        }
+        function formatDate(date){
+            let mydate = new Date(date);
+            let d = mydate.getDate();
+            let m = mydate.getMonth() + 1;
+            let y = mydate.getFullYear();
+            return (d <= 9 ? '0' + d : d) + "/" + (m<=9 ? '0' + m : m) + "/" + y;
+        }
+        var bacDaoTaoArray = {DAI_HOC: "Đại học", CAO_DANG: "Cao đẳng"};
+        var coSoArray = {HA_NOI: "Hà Nội", HO_CHI_MINH: "Hồ Chí Minh"};
+        var loaiHinhDaoTaoArray = {CHAT_LUONG_CAO: "CLC", DAI_TRA: "Đại trà"};
+        if(signal) {
+            if(signal == "INTERNAL_SERVER_ERROR") { %>
+                <script>
+                    swal("Internal Server Error!")
+                    .then((value) => {
+                        audio.play();
+                        window.location.href = "<%= process.env.SELF_EJS_API_URL %>/student";
+                    });
+                </script>
+            <% }
+        }
+    %>
+<div class="container-fluid bg-light">
+    <div class="row mt-2 position-relative">
+        <div class="col-lg-12">
+            <div class="bg-white small fw-light p-3 border container-fluid">
+
+                <div class="row">
+                    <div class="col-lg-3 border-end px-3 text-center">
+                        <img src="https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv-iuh-avatar-pattern_oyubmc.jpg" alt="avatar" width="100px" height="100px" class="rounded-circle"><br>
+                        <span>MSSV: <span class="fw-bold"><%= STUDENT_DATA.maSinhVien %></span></span><br>
+                        <span>Họ tên: <span class="fw-bold"><%= STUDENT_DATA.hoTen %></span></span></span><br>
+                        <span>Giới tính: <span class="fw-bold"><%= STUDENT_DATA.gioiTinh %></span></span></span></span>
+                    </div>
+                    <div class="col-lg-9 px-3">
+                        <div>
+                            <span class="fw-bold text-muted fs-3">Thông tin học vấn</span>
+                            <hr>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span>Trạng thái: <span class="fw-bold"><%= checkTotNghiep(STUDENT_DATA.lopHocDanhNghia.khoaHoc.namBatDau) %></span></span><br>
+                                <span>Lớp học: <span class="fw-bold"><%= STUDENT_DATA.lopHocDanhNghia.tenLop %></span></span><br>
+                                <span>Bậc đào tạo: <span class="fw-bold"><%= bacDaoTaoArray[STUDENT_DATA.daoTao.bacDaoTao] %></span></span><br>
+                                <span>Thuộc khoa: <span class="fw-bold"><%= STUDENT_DATA.lopHocDanhNghia.nganh.khoa.tenKhoa %></span></span><br>
+                                <span>Chuyên ngành: <span class="fw-bold"><%= STUDENT_DATA.lopHocDanhNghia.nganh.tenNganh %></span></span>
+                            </div>
+                            <div>
+                                <span>Ngày vào trường: <span class="fw-bold"><%= formatDate(STUDENT_DATA.ngayVaoTruong) %></span></span><br>
+                                <span>Cơ sở: <span class="fw-bold"><%= coSoArray[STUDENT_DATA.daoTao.coSo] %></span></span>
+                                <br>
+                                <span>Loại hình đào tạo: <span class="fw-bold"><%= loaiHinhDaoTaoArray[STUDENT_DATA.daoTao.loaiHinhDaoTao] %></span></span>
+                                <br>
+                                <span>Khóa học: <span class="fw-bold"><%= STUDENT_DATA.lopHocDanhNghia.khoaHoc.namBatDau %>-<%= STUDENT_DATA.lopHocDanhNghia.khoaHoc.namBatDau + 4 %></span></span><br>
+                                <span>Mã hồ sơ: <span class="fw-bold">1000001</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="position-absolute px-3 pt-1">
+            <form action="<%= process.env.SELF_EJS_API_URL %>/student-login" method="post"> 
+                <label for="returnToStudentHomepage"><i class="fas fa-angle-left fs-3 crs"></i> </label>
+                <button type="submit" class="d-none" id="returnToStudentHomepage"></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-lg-12">
+            <div class="bg-white small fw-light p-3 border container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 border-end d-flex align-items-center justify-content-center">
+                        <div class="text-center">
+                            <i class="fas fa-user-circle fa-5x text-info"></i><br>
+                            Thông tin bao gồm tất cả dữ liệu đầu vào từ hồ sơ và không thể chỉnh sửa cá nhân!
+                        </div>
+                    </div>
+                    <div class="col-lg-9 px-3">
+                        <div>
+                            <span class="fw-bold text-muted fs-3">Thông tin cá nhân</span>
+                            <hr>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="w-100">
+                                <span>Ngày sinh: <span class="fw-bold">25/05/2001</span> (21 tuổi)</span>
+                                <br>
+                                <span>Số CMND/CCCD: <span class="fw-bold">079201030774</span></span>
+                                <br>
+                                <span>Ngày cấp: <span class="fw-bold">13/08/2018</span></span>
+                                <br>
+                                <span>Nơi cấp: <span class="fw-bold">Cục CSQL Ctr&Dc</span></span>
+                                <br>
+                                <span>Đối tượng: <span class="fw-bold">Con thương binh liệt sĩ</span></span>
+                                <br>
+                                <span>Diện chính sách: <span class="fw-bold">Hộ nghèo miền trung</span></span>
+                            </div>
+                            <div class="w-100">
+                                <span>Ngày vào đoàn: <span class="fw-bold">01/01/2018</span></span>
+                                <br>
+                                <span>Ngày vào đảng: <span class="fw-bold">01/01/2018</span></span>
+                                <br>
+                                <span>Dân tộc: <span class="fw-bold">Kinh</span></span>
+                                <br>
+                                <span>Tôn giáo: <span class="fw-bold">Phật giáo</span></span>
+                                <br>
+                                <span>Điện thoại: <span class="fw-bold">(+84) 0338188506</span></span>
+                                <br>
+                                <span>Địa chỉ liên hệ: <span class="fw-bold">60/122, Tổ 10, Kp 8, P.Tân Chánh Hiệp, Quận 12, Tp.HCM</span></span>
+                            </div>
+                            <div class="w-100">
+                                <span>Hộ khẩu thường trú: <span class="fw-bold">52/367 Quang Trung, Phường 12, Quận Gò Vấp, Thành phố Hồ Chí Minh</span></span>
+                                <br>
+                                <span>Email: <span class="fw-bold">taito1doraemon@gmail.com</span></span>
+                                <br>
+                                <span>Quốc tịch: <span class="fw-bold">Việt Nam</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-lg-12">
+            <div class="bg-white small fw-light p-3 border container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 border-end d-flex align-items-center justify-content-center">
+                        <div class="text-center">
+                            <i class="fas fa-user-friends fa-5x text-info"></i><br>
+                            Cha / mẹ / Người thân
+                        </div>
+                    </div>
+                    <div class="col-lg-9 px-3">
+                        <div>
+                            <span class="fw-bold text-muted fs-3">Quan hệ gia đình</span>
+                            <hr>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="w-100 border-end d-flex">
+                                <div class="w-100">
+                                    <i class="fas fa-male text-decoration-underline"></i>
+                                    <span>Cha/người nuôi dưỡng</span>
+                                    <br>
+                                    <span>- Họ tên: <span class="fw-bold">Phan Sơn</span></span>
+                                    <br>
+                                    <span>- Năm sinh: <span class="fw-bold">1973</span></span>
+                                    <br>
+                                    <span>- Nghề nhiệp: <span class="fw-bold">Buôn bán</span></span>
+                                    <br>
+                                    <span>- Quốc tịch: <span class="fw-bold">Việt Nam</span></span>
+                                    <br>
+                                    <span>- Dân tộc: <span class="fw-bold">Kinh</span></span>
+                                    <br>
+                                    <span>- Tôn giáo: <span class="fw-bold">Phật giáo</span></span>
+                                </div>
+                                <div class="w-100">
+                                    <span>- Cơ quan công tác: <span class="fw-bold">Tại nhà</span></span>
+                                    <br>
+                                    <span>- Chức vụ: <span class="fw-bold">Không</span></span>
+                                    <br>
+                                    <span>- Số điện thoại: <span class="fw-bold">(+84) 0384195098</span></span>
+                                    <br>
+                                    <span>- Hộ khẩu: <span class="fw-bold">Không</span></span>
+                                    <br>
+                                    <span>- Chỗ ở hiện nay: <span class="fw-bold">Tại nhà</span></span>
+                                </div>
+                            </div>
+                            <div class="w-100 ps-2 d-flex">
+                                <div class="w-100">
+                                    <i class="fas fa-female text-decoration-underline"></i>
+                                    <span>Mẹ/người nuôi dưỡng</span>
+                                    <br>
+                                    <span>- Họ tên: <span class="fw-bold">Trần Thị Hạnh</span></span>
+                                    <br>
+                                    <span>- Năm sinh: <span class="fw-bold">1973</span></span>
+                                    <br>
+                                    <span>- Nghề nhiệp: <span class="fw-bold">Buôn bán</span></span>
+                                    <br>
+                                    <span>- Quốc tịch: <span class="fw-bold">Việt Nam</span></span>
+                                    <br>
+                                    <span>- Dân tộc: <span class="fw-bold">Kinh</span></span>
+                                    <br>
+                                    <span>- Tôn giáo: <span class="fw-bold">Phật giáo</span></span>
+                                </div>
+                                <div class="w-100">
+                                    <span>- Cơ quan công tác: <span class="fw-bold">Tại nhà</span></span>
+                                    <br>
+                                    <span>- Chức vụ: <span class="fw-bold">Không</span></span>
+                                    <br>
+                                    <span>- Số điện thoại: <span class="fw-bold">(+84) 0384195098</span></span>
+                                    <br>
+                                    <span>- Hộ khẩu: <span class="fw-bold">Không</span></span>
+                                    <br>
+                                    <span>- Chỗ ở hiện nay: <span class="fw-bold">Tại nhà</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // function checkTotNghiep(namBatDau) {
+    //     const d = new Date();
+    //     const year = d.getFullYear();
+    //     if((namBatDau+4) > year)
+    //         return "Đã tốt nghiệp";
+    //     return "Đang học";
+    // }
+const audio = new Audio();
+audio.src = "../audio/click.mp3";
+var pathNodejs = window.location.protocol + '//' + window.location.host;
+</script>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ErukaLearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://unpkg.com/pdfjs-dist/build/pdf.min.js"></script>
+    <script src="https://unpkg.com/pdfjs-dist/build/pdf.worker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/easyinvoice/dist/easyinvoice.min.js"></script>
+    <style>
+        #pdf {
+            text-align: center;
+        }
+
+        #pdf canvas {
+            border: 1px solid black;
+            width: 95%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row position-relative">
+
+            <div class="position-absolute top-0 start-0 text-start mt-2 fs-3 w-50">
+                <i class="fas fa-bars crs dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" onclick="audio.play();"></i>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                    <li class="lead"><a class="dropdown-item" href="../../student"><i class="fab fa-fort-awesome-alt"></i> Trang chủ</a></li>
+                    <li class="lead"><a class="dropdown-item disabled"><i class="fas fa-journal-whills"></i> Học tập</a></li>
+                    <li class="lead">
+                        <div>
+                            <a class="crs text-decoration-none d-block" href="../../student/timetable">&emsp;&emsp;<i class="fas fa-calendar-check"></i> Lịch học theo tuần</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/score">&emsp;&emsp;<i class="fas fa-chart-bar"></i> Kết quả học tập</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/dkhp">&emsp;&emsp;<i class="fab fa-xbox"></i> Đăng ký học phần</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/pattern">&emsp;&emsp;<i class="fab fa-windows"></i> Chương trình khung</a>
+                        </div>
+                    </li>
+                    <li class="lead"><a class="dropdown-item disabled"><i class="fas fa-journal-whills"></i> Học phí</a></li>
+                    <li class="lead">
+                        <div>
+                            <a class="crs text-decoration-none d-block" href="../../student/debt">&emsp;&emsp;<i class="fas fa-sack-dollar"></i> Tra cứu công nợ</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/order-detail">&emsp;&emsp;<i class="fas fa-file-invoice-dollar"></i> Biên lai tổng hợp</a>
+                            <a class="crs text-decoration-none d-block text-white bg-primary" href="javascript:void(0)">&emsp;&emsp;<i class="fab fa-cc-apple-pay"></i> Thanh toán học phí</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/wallet">&emsp;&emsp;<i class="fas fa-donate"></i> Nạp tiền vào ví</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="position-absolute top-0 end-0 text-end mt-2 fs-3 w-50">
+                <a href="../../student"><i class="fas fa-door-open text-secondary crs" onclick="audio.play();"></i></a>
+            </div>
+            
+            <div class="col-lg-12 py-2 px-5" style="background: #ededed;">
+                <div class="bg-white p-3">
+                    <p class="fs-3 text-secondary fw-bold">Thanh toán học phí / công nợ trực tuyến</p>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p>Các phương thức thanh toán, loại giao dịch chấp nhận hiện tại <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Thanh toán trực tuyến là bạn có thể đóng tiền học phí mà không cần phải gặp mặt các nhân viên phòng tài chính kế toán, tránh mất thời gian đi lại, chậm trễ. Thực hiện đúng theo chỉ dẫn đóng tiền đảm bảo tin cậy 100%. Hỗ trợ sinh viên nếu xảy ra chậm trễ trong việc nhận tiền thanh toán."></i></p>
+                            <div class="d-flex small">
+                                <div class="text-center mx-1 px-2 py-1 crs border" onclick="onchangeMethodPayment('MOMO');" id="MOMO_DIV">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxX_8dNwRvpgw6AjfpNrRF3ehsWpjEjmP2kV9T9HtgrA&s" alt="momo" width="32px" height="32px">
+                                    <span class="d-block">Momo</span>
+                                </div>
+                                <div class="text-center mx-1 px-2 py-1 crs border" onclick="onchangeMethodPayment('VNPAY');" id="VNPAY_DIV">
+                                    <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Icon-VNPAY-QR.png" alt="vnpay" width="32px" height="32px">
+                                    <span class="d-block">VNPay</span>
+                                </div>
+                                <div class="text-center mx-1 px-2 py-1 crs border" onclick="onchangeMethodPayment('PAYPAL');" id="PAYPAL_DIV">
+                                    <img src="https://img.freepik.com/free-icon/paypal_318-566100.jpg?w=2000" alt="paypal" width="32px" height="32px">
+                                    <span class="d-block">Paypal</span>
+                                </div>
+                                <div class="text-center mx-1 px-2 py-1 crs border" onclick="onchangeMethodPayment('WALLET');" id="WALLET_DIV">
+                                    <img src="https://play-lh.googleusercontent.com/LeS7kLv06u9mGx2OxtSAAZqxaE5hyR2ETUYOaGkimLi1gMFZwrrgpV6p8ZQuCr-PiQ" alt="wallet" width="32px" height="32px">
+                                    <span class="d-block">Số dư ví</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ControlerBar">
+                            <label for="hocKy">Chọn học kỳ:</label>
+                            <select name="select_course" id="select_course" class="form-select form-select-lg" onclick="audio.play();">
+                                <option value="" onclick="audio.play();">Tất cả</option>
+                                <% for(let i=0; i<LIST_COURSE.length; i++) { %>
+                                    <option value="<%= LIST_COURSE[i].maKhoaHoc %>" onclick="audio.play();"><%= LIST_COURSE[i].alias %> (<%= LIST_COURSE[i].namBatDau %>-<%= LIST_COURSE[i].namKetThuc %>)</option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-4">
+                        <table class="table table-bordered text-center">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã công nợ</th>
+                                    <th>Nội dung cần thu</th>
+                                    <th>Số tín chỉ</th>
+                                    <th>Bắt buộc?</th>
+                                    <th>Số tiền (vnđ)</th>
+                                    <th>Chọn</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myTBody">
+                                <% for(let i=0; i<LIST_DEBT.length; i++) { %>
+                                    <tr>
+                                        <td><%= parseInt(i+1) %></td>
+                                        <td><%= LIST_DEBT[i].id %></td>
+                                        <td>Học phí "<span class="text-lowercase"><%= LIST_DEBT[i].monHoc.tenMonHoc %></span>"</td>
+                                        <td><%= LIST_DEBT[i].monHoc.soTinChi %></td>
+                                        <td><i class="fas fa-check-square text-success"></i></td>
+                                        <td><%= new Intl.NumberFormat().format(LIST_DEBT[i].monHoc.soTinChi*850000) %>đ</td>
+                                        <td><input type="checkbox" name="selectCongNo" id="<%= LIST_DEBT[i].id %>" value="<%= LIST_DEBT[i].id %>" onclick="handleRadioButtonClick(this.id);"></td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <p>Tổng công nợ thanh toán: <span class="fw-bold text-decoration-underline fs-3" id="total_payment">0</span>đ</p>
+                        <p>Phương thức thanh toán: <span class="fw-bold fs-3" id="method_payment">Chưa chọn</span></p>
+                        <div class="d-none mb-2" id="MOMO_OPTION">
+                            <input type="radio" name="SELECT_MOMO" id="MOMO_ATM" value="MOMO_ATM" class="form-check-input" checked onclick="audio.play();" />
+                            <label for="MOMO_ATM" class="form-check-label">Momo ATM</label>
+                            &emsp;
+                            <input type="radio" name="SELECT_MOMO" id="MOMO_QR" value="MOMO_QR" class="form-check-input" onclick="audio.play();" />
+                            <label for="MOMO_QR" class="form-check-label">Quét mã QR momo</label>
+                        </div>
+                        <div class="d-none" id="WALLET_OPTION">
+                            <p><i class="fas fa-dollar-sign text-success bg-info"></i> Số dư trong ví còn: <span class="text-warning fs-3"><%= new Intl.NumberFormat().format(STUDENT_DATA.soDu); %></span><span class="text-warning">đ</span></p>
+                        </div>
+                        <button class="btn btn-lg text-white fw-bold" style="background: #FF5A00;" onclick="pay();">Thanh toán</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+const audio = new Audio();
+audio.src = "../audio/click.mp3";
+var pathNodejs = window.location.protocol + '//' + window.location.host;
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl){
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+var total_debt = [];
+var total_payment = 0;
+var method_payment = "";
+var student_wallet = <%= STUDENT_DATA.soDu %>;
+
+$(document).ready(function() {
+    $("#btn-pdf").click(function() {
+        console.log("ok");
+        var data = {
+            "customize": {
+            },
+            "images": {
+                "logo": "https://rubee.com.vn/wp-content/uploads/2021/05/logo-iuh-1.png",
+                "background": "https://public.easyinvoice.cloud/img/watermark-draft.jpg"
+            },
+            "sender": {
+                "company": "Hoá đơn học phí Pdf",
+                "address": "Số 12 Nguyễn Văn Bảo, Phường 4, Quận Gò Vấp, Thành phố Hồ Chí Minh",
+                "zip": "70000 NVB",
+                "city": "Hồ Chí Minh",
+                "country": "Việt Nam"
+            },
+            // Your recipient
+            "client": {
+                "company": "Sinh viên IUH",
+                "address": "60/122, Tổ 10, KP8, Phường TCH, Q12",
+                "zip": "70000 HTH",
+                "city": "Hồ Chí Minh",
+                "country": "Việt Nam"
+            },
+            "information": {
+                "number": "2021.0001",
+                "date": "12-12-2021",
+                "due-date": "31-12-2021"
+            },
+            "products": [
+                {
+                    "quantity": 1,
+                    "description": "Chứng chỉ TOEIC 450",
+                    "tax-rate": 0,
+                    "price": 4250000
+                },
+            ],
+            "bottom-notice": "Đã được toà - Chi cục thế phường - Gò Vấp tỉnh đóng dấu chức thực bảo mật thông tin ✔️.",
+            "settings": {
+                "currency": "VND",
+            },
+            "translate": {
+            },
+        };
+        $.ajax({
+            type: "POST",
+            url: "<%= process.env.SELF_EJS_API_URL %>/test/send-mail",
+            data: JSON.stringify({data}),
+            contentType: 'application/json',
+            success: function(callback) {
+                console.log("Mycallback=",callback);
+            }
+        });
+    });
+    $("#select_course").change(async function(){
+        total_debt = [];
+        total_payment = 0;
+        $("#total_payment").text(total_payment);
+        const maKhoaHoc= $(this).val();
+        let undebts = [];
+        if(maKhoaHoc != "")
+            undebts = await getUnDebtsByStudentIdAndCourseId(maKhoaHoc);
+        else undebts = await getUnDebtsByStudentId();
+        let myLoop = "";
+        for(let i=0; i<undebts.length; i++) {
+            myLoop += 
+            '<tr>'+
+                '<td>'+ parseInt(i+1) +'</td>'+
+                '<td>'+ undebts[i].id +'</td>'+
+                '<td>Học phí "<span class="text-lowercase">'+ undebts[i].monHoc.tenMonHoc +'</span>"</td>'+
+                '<td>'+ undebts[i].monHoc.soTinChi +'</td>'+
+                '<td><i class="fas fa-check-square text-success"></i></td>'+
+                '<td>'+ formatCurrency(undebts[i].monHoc.soTinChi*850000) +'đ</td>'+
+                '<td><input type="checkbox" name="selectCongNo" id="'+ undebts[i].id +'" value="'+ undebts[i].id +'" onchange="handleRadioButtonClick(this.id);"></td>'+
+            '</tr>';
+        }
+        $("#myTBody").html(myLoop);
+    });
+});
+async function pay() {
+    audio.play();
+    if(total_debt.length <= 0) {
+        toastr.error('Bạn chưa chọn nội dung nào để thanh toán.', 'Mục thanh toán!');
+        return;
+    }
+    if(method_payment == "") {
+        toastr.error('Bạn chưa chọn phương thức thanh toán.', 'Phương thức thanh toán!');
+        return;
+    }
+    if(method_payment == "WALLET" && student_wallet == 0) {
+        toastr.error('Số dư ví WALLET của bạn không đủ.', 'Số dư ví!');
+        return;
+    }
+    //handle thanh toán here...
+    if(method_payment === "MOMO") {
+        const momo_method = $("input[name='SELECT_MOMO']:checked").val();
+        var mapForm = document.createElement("form");
+        mapForm.className = "d-none";
+        mapForm.target = "Map";
+        mapForm.method = "POST"; // or "post" if appropriate
+        mapForm.action = "http://localhost:80/momo/momo.php";
+        var mapInput = document.createElement("input"); //input momo_method
+        mapInput.type = "text";
+        mapInput.name = "momo_method";
+        mapInput.value = momo_method;
+        mapForm.appendChild(mapInput);
+        var mapInput = document.createElement("input"); //input total_payment
+        mapInput.type = "text";
+        mapInput.name = "total_payment";
+        mapInput.value = total_payment;
+        mapForm.appendChild(mapInput);
+        for(let i=0; i<total_debt.length; i++) { //nhiều input mã cần thanh toán
+            var mapInput = document.createElement("input");
+            mapInput.type = "text";
+            mapInput.name = "debt"+i;
+            mapInput.value = total_debt[i];
+            mapForm.appendChild(mapInput);
+        }
+        var mapInput = document.createElement("input"); //input số lượng phần tử mảng
+        mapInput.type = "text";
+        mapInput.name = "total_debt_length";
+        mapInput.value = total_debt.length;
+        mapForm.appendChild(mapInput);
+        var mapInput = document.createElement("input"); //input maSinhVien
+        mapInput.type = "text";
+        mapInput.name = "maSinhVien";
+        mapInput.value = <%= STUDENT_DATA.maSinhVien %>;
+        mapForm.appendChild(mapInput);
+        document.body.appendChild(mapForm);
+        const parentWidth = window.screen.availWidth;   //setting windows
+        const parentHeight = window.screen.availHeight;
+        const childWidth = parentWidth - (parentWidth * 0.2);
+        const childHeight = parentHeight - (parentHeight * 0.2);
+        map = window.open("", "Map", "status=0,title=0,height="+childHeight+",width="+childWidth+",scrollbars=1");
+        if(map) mapForm.submit();
+        else alert('You must allow popups for this map to work.');
+    } else {
+        if(method_payment === "VNPAY") {
+            //Do payVNPay here...
+            var mapForm = document.createElement("form");
+            mapForm.className = "d-none";
+            mapForm.target = "Map";
+            mapForm.method = "POST"; // or "post" if appropriate
+            mapForm.action = "http://localhost:80/vnpay/vnpay.php";
+            var mapInput = document.createElement("input"); //input momo_method
+            mapInput.type = "text";
+            mapInput.name = "method_payment";
+            mapInput.value = method_payment;
+            mapForm.appendChild(mapInput);
+            var mapInput = document.createElement("input"); //input total_payment
+            mapInput.type = "text";
+            mapInput.name = "total_payment";
+            mapInput.value = total_payment;
+            mapForm.appendChild(mapInput);
+            for(let i=0; i<total_debt.length; i++) { //nhiều input mã cần thanh toán
+                var mapInput = document.createElement("input");
+                mapInput.type = "text";
+                mapInput.name = "debt"+i;
+                mapInput.value = total_debt[i];
+                mapForm.appendChild(mapInput);
+            }
+            var mapInput = document.createElement("input"); //input số lượng phần tử mảng
+            mapInput.type = "text";
+            mapInput.name = "total_debt_length";
+            mapInput.value = total_debt.length;
+            mapForm.appendChild(mapInput);
+            var mapInput = document.createElement("input"); //input maSinhVien
+            mapInput.type = "text";
+            mapInput.name = "maSinhVien";
+            mapInput.value = <%= STUDENT_DATA.maSinhVien %>;
+            mapForm.appendChild(mapInput);
+            document.body.appendChild(mapForm);
+            const parentWidth = window.screen.availWidth;   //setting windows
+            const parentHeight = window.screen.availHeight;
+            const childWidth = parentWidth - (parentWidth * 0.2);
+            const childHeight = parentHeight - (parentHeight * 0.2);
+            map = window.open("", "Map", "status=0,title=0,height="+childHeight+",width="+childWidth+",scrollbars=1");
+            if(map) mapForm.submit();
+            else alert('You must allow popups for this map to work.');
+        }
+        if(method_payment === "PAYPAL") {
+            //Do payPayMent here ...
+            swal({
+                title: "Bạn có chắc chắn?",
+                text: "Paypal hiện tại chỉ chấp nhận thanh toán tiền tệ đơn vị USD. Sẽ có sự chênh lệnh mệnh giá với các phương thức thanh toán khác là đồng VNĐ. Chúng tôi sẽ chuyển bạn đến trang thanh toán của Paypal.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    audio.play();
+                    var mapForm = document.createElement("form");
+                    mapForm.className = "d-none";
+                    mapForm.target = "Map";
+                    mapForm.method = "POST"; // or "post" if appropriate
+                    mapForm.action = "http://localhost:80/paypal/paypal.php";
+                    var mapInput = document.createElement("input"); //input momo_method
+                    mapInput.type = "text";
+                    mapInput.name = "method_payment";
+                    mapInput.value = method_payment;
+                    mapForm.appendChild(mapInput);
+                    var mapInput = document.createElement("input"); //input total_payment
+                    mapInput.type = "text";
+                    mapInput.name = "total_payment";
+                    mapInput.value = total_payment;
+                    mapForm.appendChild(mapInput);
+                    for(let i=0; i<total_debt.length; i++) { //nhiều input mã cần thanh toán
+                        var mapInput = document.createElement("input");
+                        mapInput.type = "text";
+                        mapInput.name = "debt"+i;
+                        mapInput.value = total_debt[i];
+                        mapForm.appendChild(mapInput);
+                    }
+                    var mapInput = document.createElement("input"); //input số lượng phần tử mảng
+                    mapInput.type = "text";
+                    mapInput.name = "total_debt_length";
+                    mapInput.value = total_debt.length;
+                    mapForm.appendChild(mapInput);
+                    var mapInput = document.createElement("input"); //input maSinhVien
+                    mapInput.type = "text";
+                    mapInput.name = "maSinhVien";
+                    mapInput.value = <%= STUDENT_DATA.maSinhVien %>;
+                    mapForm.appendChild(mapInput);
+                    document.body.appendChild(mapForm);
+                    const parentWidth = window.screen.availWidth;   //setting windows
+                    const parentHeight = window.screen.availHeight;
+                    const childWidth = parentWidth - (parentWidth * 0.2);
+                    const childHeight = parentHeight - (parentHeight * 0.2);
+                    map = window.open("", "Map", "status=0,title=0,height="+childHeight+",width="+childWidth+",scrollbars=1");
+                    if(map) mapForm.submit();
+                    else alert('You must allow popups for this map to work.');
+                } else audio.play();
+            });
+        }
+        if(method_payment === "WALLET") {
+            //Do payWallet here ...
+            swal({
+                title: "Vui lòng xác nhận lại",
+                text: "Bạn có chắc chắn muốn thanh toán bằng ví số dư của bạn không?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: "POST",
+                        url: "<%= process.env.SELF_EJS_API_URL %>/student/payment/resolvePaymentStudentWallet",
+                        data: JSON.stringify({total_debt}),
+                        contentType: 'application/json',
+                        success: function(swalResponse) {
+                            if(swalResponse.icon == "success") {
+                                swal({
+                                    title: "Thành công",
+                                    text: swalResponse.text,
+                                    icon: swalResponse.icon,
+                                }).then((value) => {
+                                    window.location.href = window.location.href;
+                                });
+                            } else {
+                                swal({
+                                    title: "Thất bại",
+                                    text: swalResponse.text,
+                                    icon: swalResponse.icon,
+                                });
+                            }
+                        }
+                    });      
+                }
+            });
+        }
+    }
+
+}
+function onchangeMethodPayment(method_type) {
+    audio.play();
+    method_payment = method_type;
+    $("#method_payment").text(method_type);
+    if(method_type === "MOMO") {
+        $("#MOMO_DIV").css({"background": "blue", "color": "white", "font-weight": "bold"});
+        $("#VNPAY_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#PAYPAL_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#WALLET_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#MOMO_OPTION").removeClass('d-none');
+        $("#WALLET_OPTION").addClass('d-none');
+        return;
+    }
+    if(method_type === "WALLET") {
+        $("#WALLET_DIV").css({"background": "blue", "color": "white", "font-weight": "bold"});
+        $("#VNPAY_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#PAYPAL_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#MOMO_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#WALLET_OPTION").removeClass('d-none');
+        $("#MOMO_OPTION").addClass('d-none');
+        return;
+    }
+    if(method_type === "VNPAY") {
+        $("#VNPAY_DIV").css({"background": "blue", "color": "white", "font-weight": "bold"});
+        $("#MOMO_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#PAYPAL_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#WALLET_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#MOMO_OPTION").addClass('d-none');
+        $("#WALLET_OPTION").addClass('d-none');
+        return;
+    }
+    if(method_type === "PAYPAL") {
+        $("#PAYPAL_DIV").css({"background": "blue", "color": "white", "font-weight": "bold"});
+        $("#VNPAY_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#MOMO_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#WALLET_DIV").css({"background": "unset", "color": "unset", "font-weight": "unset"});
+        $("#MOMO_OPTION").addClass('d-none');
+        $("#WALLET_OPTION").addClass('d-none');
+        return;
+    }
+}
+async function handleRadioButtonClick(id) {
+    audio.play();
+    const undebt = await getUnDebtById(id);
+    const soTien = undebt.monHoc.soTinChi * 850000;
+    if(document.getElementById(id).checked) {
+        total_debt.push(id);
+        total_payment += soTien;
+    } else {
+        total_debt = total_debt.filter(function(item) {
+            return item !== id;
+        });
+        total_payment -= soTien;
+    }
+    $("#total_payment").text(formatCurrency(total_payment));
+}
+async function getUnDebtsByStudentIdAndCourseId(courseId) {
+    return $.ajax({
+        type: "POST",
+        url: "<%= process.env.SELF_EJS_API_URL %>/student/payment/getUnDebtsByStudentIdAndCourseId",
+        data: JSON.stringify({courseId}),
+        contentType: 'application/json',
+    }).then(data => data);
+}
+async function getUnDebtsByStudentId() {
+    return $.ajax({
+        type: "GET",
+        url: "<%= process.env.SELF_EJS_API_URL %>/student/payment/getUnDebtsByStudentId",
+        contentType: 'application/json',
+    }).then(data => data);
+}
+async function getUnDebtById(debtId) {
+    return $.ajax({
+        type: "POST",
+        url: "<%= process.env.SELF_EJS_API_URL %>/student/payment/getUnDebtById",
+        data: JSON.stringify({debtId}),
+        contentType: 'application/json',
+    }).then(data => data);
+}
+function formatCurrency(number) {
+    return new Intl.NumberFormat().format(number);
+}
+</script>
+</html>

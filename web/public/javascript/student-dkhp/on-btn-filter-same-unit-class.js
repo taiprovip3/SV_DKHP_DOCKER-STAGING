@@ -1,7 +1,7 @@
 async function getUnitClassesStudentRegisterByStudentIdAndMaKhoaHoc() {
     return  $.ajax({
         type: "POST",
-        url: "<%= process.env.SELF_EJS_API_URL %>/student/dkhp/getUnitClassesStudentRegisterByStudentIdAndMaKhoaHoc",
+        url: pathNodejs+"/student/dkhp/getUnitClassesStudentRegisterByStudentIdAndMaKhoaHoc",
         contentType: 'application/json',
         data: JSON.stringify({ maKhoaHoc: selected_ma_khoa_hoc }),
     }).then(data => data);

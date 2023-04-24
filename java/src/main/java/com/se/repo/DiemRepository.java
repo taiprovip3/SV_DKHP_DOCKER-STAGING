@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.se.entity.Diem;
+import com.se.enums.XepLoai;
 
 @Repository
 public interface DiemRepository extends CrudRepository<Diem, Long> {
@@ -23,4 +24,7 @@ public interface DiemRepository extends CrudRepository<Diem, Long> {
 	@Modifying
 	@Query(value = "DELETE FROM diem WHERE ma_diem = ?1", nativeQuery = true)
 	public void deleteScoreById(long maDiem);
+	
+	@Query(value = "SELECT COALESCE(COUNT(*), 0) FROM diem WHERE xep_loai = ?1", nativeQuery = true)
+	public int getCounterByXepLoai(String xepLoai);
 }

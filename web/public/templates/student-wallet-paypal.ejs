@@ -12,7 +12,7 @@
     <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+    <link rel="stylesheet" href="../css/common.css" type="text/css">
     <script src="https://www.paypal.com/sdk/js?client-id=AWr1ugFyX8drd_9M8C2nCzIevgvclI5sdU5izC9lamGeKwW9FC0exjrfxgNzvqtsP5R16QMMTNjJ03kc&currency=USD&debug=true&commit=false"></script>
 </head>
 <body>
@@ -33,7 +33,7 @@
             
         },
         onCancel: function(data) {
-            window.location.href = "http://web:4000/student/payment/callback?resultCode=1006";
+            window.location.href = pathNodejs+"/student/payment/callback?resultCode=1006";
         }
     }).render('#paypal-button-container');
 </script>

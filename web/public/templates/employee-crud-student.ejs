@@ -10,54 +10,48 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/employee.css" type="text/css">
-    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
-    <style>
-        button, input{
-            outline: none;
-        }
-        button{
-            border: none;
-        }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <link rel="stylesheet" href="../css/employee.css" type="text/css">
+    <link rel="stylesheet" href="../css/common.css" type="text/css">
+    <link rel="stylesheet" href="../css/button.css" type="text/css">
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-3 styleline" style="background: #05091a;">
-                <div class="p-3 navigation-item-active text-wrap"><i class="text-warning fas fa-user-graduate"></i>&ensp;Sinh viên</div>
-                <a href="./employee-crud-class" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-sign"></i></i>&ensp;Lớp danh Nghĩa</div>
+            <div class="col-lg-3">
+                <a href="/employee" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-sign"></i></i>&ensp;Trang chủ</div>
                 </a>
-                <a href="./employee-crud-teacher" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
+                <div class="p-3 navigation-item-active text-wrap"><i class="fas fa-user-graduate"></i>&ensp;Sinh viên</div>
+                <a href="/employee-crud-class" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-sign"></i></i>&ensp;Lớp danh Nghĩa</div>
                 </a>
-                <a href="./employee-crud-course" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fab fa-discourse"></i>&ensp;Khoá học</div>
+                <a href="/employee-crud-teacher" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
                 </a>
-                <a href="./employee-crud-department" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fab fa-shopware"></i>&ensp;Khoa</div>
+                <a href="/employee-crud-course" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fab fa-discourse"></i>&ensp;Khoá học</div>
                 </a>
-                <a href="./employee-crud-majors" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-wrench"></i>&ensp;Ngành</div>
+                <a href="/employee-crud-department" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fab fa-shopware"></i>&ensp;Khoa</div>
                 </a>
-                <a href="./employee-crud-department_announcement" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-bell"></i>&ensp;Thông báo Khoa</div>
+                <a href="/employee-crud-majors" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-wrench"></i>&ensp;Ngành</div>
                 </a>
-                <a href="./employee-crud-unit_class" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-window-restore"></i>&ensp;Lớp học phần</div>
+                <a href="/employee-crud-department_announcement" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-bell"></i>&ensp;Thông báo Khoa</div>
                 </a>
-                <a href="./employee-crud-time_table" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
+                <a href="/employee-crud-unit_class" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-window-restore"></i>&ensp;Lớp học phần</div>
                 </a>
-                <a href="./employee-crud-debt" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
+                <a href="/employee-crud-time_table" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
                 </a>
-                <a href="./employee-logout" class="text-decoration-none d-flex justify-content-center align-items-center">
-                    <div class="p-3 navigation-item text-wrap text-secondary">Log out</div>
+                <a href="/employee-crud-debt" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
                 </a>
             </div>
-            <div class="col-lg-9 position-relative">
+            <div class="col-lg-9 position-relative overflow-auto" style="max-height: 100vh;">
                 <div>
                     <% if(signal) { %>
                         <% if(signal == "INSERT_SUCCESS") { %>
@@ -69,25 +63,22 @@
                         }
                     } %>
                 </div>
-                <p class="fw-bold"><a href="./employee">Home</a> > <a href="javascript:void(0)">Manage student</a></p>
+                <p class="fw-bold"><a href="/employee">Home</a> / <a href="javascript:void(0)">Manage student</a></p>
                 <div class="d-flex">
-                    <form action="<%= process.env.SELF_EJS_API_URL %>/employee-crud-class-excel-import" enctype="multipart/form-data" method="POST">
+                    <form action="/employee-crud-class-excel-import" enctype="multipart/form-data" method="POST">
                     <div id="left_action"  class="d-flex align-items-center">
-                        <!-- <a data-bs-toggle="modal" data-bs-target="#addModal" href="javascript:void(0);">Thêm sinh viên</a>&emsp14;<i class="text-warning fas fa-pen-square text-warning"></i> -->
-                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addModal">Thêm hồ sơ <i class="fas fa-pen-square text-warning"></i></button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#addModal" class="import-button">Thêm hồ sơ <i class="fas fa-pen-square text-warning"></i></button>
                         <div>&emsp;</div>
-                        <button class="btn btn-outline-dark" type="button"><label for="excel_file" class="crs">Nhập từ file excel</label> <i class="text-success fas fa-file-excel text-success"></i></button>
-                        <!-- <label for="excel_file" class="text-primary text-decoration-underline fw-bold crs"></label>&emsp14;<i class="text-warning fas fa-file-excel text-success"></i> -->
+                        <button class="import-button" type="button"><label for="excel_file" class="crs">Nhập từ file excel</label> <i class="fas fa-file-excel text-success"></i></button>
                         <input type="file" name="excel_file" id="excel_file" class="d-none" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                         <div>&emsp;</div>
-                        <button class="d-none btn-primary" id="btn-import" type="submit">Import</button>
-                        <button class="btn btn-outline-dark" type="button" id="btn-export-excel">Xuất bảng excel <i class="fas fa-file-export text-danger"></i></button>
+                        <button class="d-none import-button" id="btn-import" type="submit">Import <i class="fas fa-cloud-upload"></i></button>
+                        <button class="import-button" type="button" id="btn-export-excel">Export excel <i class="fas fa-file-export text-white"></i></button>
                     </div>
                     </form>
                     <div id="right_action" style="position: absolute;">
                         <button id="action_delete">Xoá</button>
                         <button id="action_update">Sửa</button>
-                        <button id="action_select_all">Chọn hết</button>
                     </div>
                 </div>
                 <br>
@@ -115,8 +106,8 @@
                             </tr>
                         </thead>
                         <form id="myForm" method="post" enctype="multipart/form-data">
-                        <% for(let i=0; i<LIST_STUDENT_METADATA.data.length ;i++) { %>
-                            <% var encodedJsonObject = Buffer.from(JSON.stringify(LIST_STUDENT_METADATA.data[i].tot_nghiep)).toString('base64'); %>
+                        <% for(let i=0; i<LIST_STUDENT.length ;i++) { %>
+                            <% var encodedJsonObject = Buffer.from(JSON.stringify(LIST_STUDENT[i].tot_nghiep)).toString('base64'); %>
                             <% const decodedJsonObject = Buffer.from(encodedJsonObject, 'base64').toString('ascii'); %>
                             <% const loaiHinhDaoTaoShortCut = {CHAT_LUONG_CAO: 'Chất Lượng Cao', DAI_TRA: 'Đại Trà'} %>
                             <% const bacDaoTaoShortCut = { DAI_HOC: 'Đại Học', CAO_DANG: 'Cao Đẳng' } %>
@@ -135,59 +126,34 @@
                             %>
                             <tr class="small">
                                 <td class="text-truncate">
-                                    <input type="checkbox" name="<%= LIST_STUDENT_METADATA.data[i].ma_sinh_vien %>" id="<%= LIST_STUDENT_METADATA.data[i].ma_sinh_vien %>" class="myCheckBoxClass">
+                                    <input type="checkbox" name="<%= LIST_STUDENT[i].ma_sinh_vien %>" id="<%= LIST_STUDENT[i].ma_sinh_vien %>" class="myCheckBoxClass">
                                 </td>
                                 <td class="text-truncate"><%= i + 1 %></td>
-                                <td class="text-truncate"><%= LIST_STUDENT_METADATA.data[i].ma_sinh_vien %></td>
-                                <td class="text-truncate"><%= LIST_STUDENT_METADATA.data[i].ho_ten %></td>
-                                <td class="text-truncate"><%= LIST_STUDENT_METADATA.data[i].gioi_tinh %></td>
-                                <td class="text-truncate"><%= formatDate(LIST_STUDENT_METADATA.data[i].ngay_sinh) %></td>
-                                <td class="text-truncate"><%= LIST_STUDENT_METADATA.data[i].noi_sinh %></td>
-                                <td class="text-truncate"><%= LIST_STUDENT_METADATA.data[i].sdt %></td>
-                                <td class="text-truncate"><%= LIST_STUDENT_METADATA.data[i].dia_chi %></td>
-                                <td class="text-truncate"><%= LIST_STUDENT_METADATA.data[i].cccd %></td>
-                                <td class="text-truncate"><%= formatDate(LIST_STUDENT_METADATA.data[i].ngay_vao_truong) %></td>
-                                <td class="text-truncate"><%= LIST_STUDENT_METADATA.data[i].ma_lop_danh_nghia %></td>
+                                <td class="text-truncate"><%= LIST_STUDENT[i].ma_sinh_vien %></td>
+                                <td class="text-truncate"><%= LIST_STUDENT[i].ho_ten %></td>
+                                <td class="text-truncate"><%= LIST_STUDENT[i].gioi_tinh %></td>
+                                <td class="text-truncate"><%= formatDate(LIST_STUDENT[i].ngay_sinh) %></td>
+                                <td class="text-truncate"><%= LIST_STUDENT[i].noi_sinh %></td>
+                                <td class="text-truncate"><%= LIST_STUDENT[i].sdt %></td>
+                                <td class="text-truncate"><%= LIST_STUDENT[i].dia_chi %></td>
+                                <td class="text-truncate"><%= LIST_STUDENT[i].cccd %></td>
+                                <td class="text-truncate"><%= formatDate(LIST_STUDENT[i].ngay_vao_truong) %></td>
+                                <td class="text-truncate"><%= LIST_STUDENT[i].ma_lop_danh_nghia %></td>
                                 <td class="text-truncate"><%= JSON.parse(decodedJsonObject).data == 1 ? "True" : "False" %></td>
-                                <td class="text-truncate"><%= formatNumber(LIST_STUDENT_METADATA.data[i].so_du) %></td>
-                                <td class="text-truncate"><%= bacDaoTaoShortCut[LIST_STUDENT_METADATA.data[i].bac_dao_tao] %></td>
-                                <td class="text-truncate"><%= loaiHinhDaoTaoShortCut[LIST_STUDENT_METADATA.data[i].loai_hinh_dao_tao] %></td>
-                                <td class="text-truncate"><%= coSoShortCut[LIST_STUDENT_METADATA.data[i].co_so] %></td>
+                                <td class="text-truncate"><%= formatNumber(LIST_STUDENT[i].so_du) %></td>
+                                <td class="text-truncate"><%= bacDaoTaoShortCut[LIST_STUDENT[i].bac_dao_tao] %></td>
+                                <td class="text-truncate"><%= loaiHinhDaoTaoShortCut[LIST_STUDENT[i].loai_hinh_dao_tao] %></td>
+                                <td class="text-truncate"><%= coSoShortCut[LIST_STUDENT[i].co_so] %></td>
                             </tr>
                         <% } %>
                         </form>
                     </table>
                 </div>
-                <div class="p-2 d-flex justify-content-between">
-                    <%
-                        if(LIST_STUDENT_METADATA.pagination.pageSize > 10) { %>
-                            <span class="text-decoration-underline crs small text-danger" id="btn_reset_view_more">Reset page</span>
-                        <% } else { %>
-                            <span class="text-decoration-underline crs small text-danger invisible">Reset page</span>
-                        <% }
-                    %>
-                    <%
-                        if(LIST_STUDENT_METADATA.pagination.totalRecords > 10) { %>
-                            <span class="text-decoration-underline crs small text-danger" id="btn_view_more">View more (+10)..</span>
-                        <% } else { %>
-                            <span class="text-decoration-underline crs small text-danger invisible">View more (+10)..</span>
-                        <% }
-                    %>
-                </div>
             </div>
         </div>
     </div>
-    <div class="position-fixed bottom-0 text-secondary small">
-        1997 - 2023
-        &ensp;
-        |
-        &ensp;
-        IUH - Industrial University of Ho Chi Minh City Reserved
-        &ensp;
-        |
-        &ensp;
-        Secure
-        <i class="fas fa-shield-alt"></i>
+    <div class="position-fixed bottom-0 small p-2">
+        <span>Secure</span> <i class="fas fa-shield-alt text-info"></i>
     </div>
 <!-- Add Modal -->
 <div class="modal" id="addModal">
@@ -202,7 +168,7 @@
     
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="<%= process.env.SELF_EJS_API_URL %>/employee-crud-add-student" method="post" enctype="multipart/form-data" id="form_add_employee">
+                <form action="/employee-crud-add-student" method="post" enctype="multipart/form-data" id="form_add_employee">
                     <input type="text" placeholder="Họ và tên.." class="w-100" autofocus name="ho_ten" id="ho_ten">
                     <div>
                         <input type="radio" name="gioi_tinh" id="gioi_tinh_nam" value="NAM" checked>
@@ -279,7 +245,7 @@
     
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="<%= process.env.SELF_EJS_API_URL %>/ad-crud-update-employee" method="post" enctype="multipart/form-data" id="form_upadte_employee">
+                <form action="/ad-crud-update-employee" method="post" enctype="multipart/form-data" id="form_upadte_employee">
                     <input type="text" name="ma_sinh_vien2" id="ma_sinh_vien2" hidden>
                     <input type="text" placeholder="Tên nhân viên..." class="w-100" autofocus name="ho_ten2" id="ho_ten2" required>
                     <label for="gioi_tinh_nam2">Nam</label>
@@ -337,18 +303,7 @@
 </div>
 </body>
 <script>
-    let isCheckAll = false;
-    if(!localStorage.getItem('limit')) {
-        localStorage.setItem('limit', 10);
-    }
-    const totalRecords = <%= LIST_STUDENT_METADATA.pagination.totalRecords %>;
-    if (localStorage.getItem('limit') > totalRecords) {
-        $("#btn_view_more").removeClass('d-block');
-        $("#btn_view_more").addClass('d-none');
-    } else {
-        $("#btn_view_more").removeClass('d-none');
-        $("#btn_view_more").addClass('d-block');
-    }
+    const pathNodejs = '<%= process.env.EJS_API_URL %>';
     $(document).ready(function(){
         const tab_length = $(".col-lg-9").width();
         const right_action_length = $("#right_action").width();
@@ -408,18 +363,7 @@
             $("#btn-import").removeClass('d-none');
         });
         $("#btn-export-excel").click(function() {
-            window.location.href = './employee-crud-export-student';
-        });
-        $("#btn_view_more").click(function() {
-            let limit = Number(localStorage.getItem('limit'));
-            limit += 10;
-            localStorage.setItem('limit', limit);
-            window.location.href = './employee-crud-student?limit=' + limit;
-        });
-        $("#btn_reset_view_more").click(function() {
-            const limit = 10;
-            localStorage.setItem('limit', limit);
-            window.location.href = './employee-crud-student?limit=' + limit;
+            window.location.href = pathNodejs+"/employee-crud-export?entityName=student";
         });
     });
     const btn_add_employee = document.getElementById("btn_add_employee");
@@ -427,8 +371,9 @@
     const name_field = document.getElementById("ten_nhan_vien");
     const phone_field = document.getElementById("sdt");
     const password_field = document.getElementById("mat_khau");
-    if(name_field != " " && phone_field != " " && password_field != " ")
+    if(name_field != " " && phone_field != " " && password_field != " ") {
         document.getElementById("form_add_employee").submit();
+    }
 });
 </script>
 </html>

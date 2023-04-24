@@ -34,7 +34,7 @@
             <li>Quy đổi thanh toán: <span><%= (debtData.soTien/23450).toFixed(2) %></span>$</li>
             <li>Phương thức thanh toán - <span><%= debtData.loaiThanhToan %></span></li>
         </ul>
-        <form action="<%= process.env.SELF_EJS_API_URL %>/paypal/payment" method="post">
+        <form action="/paypal/payment" method="post">
             <input type="hidden" name="maThanhToanGiaoDich" value="<%= debtData.maThanhToanGiaoDich %>" />
             <input type="hidden" name="maCongNo" value="<%= debtData.maCongNo %>" />
             <input type="hidden" name="maSinhVien" value="<%= debtData.maSinhVien %>" />

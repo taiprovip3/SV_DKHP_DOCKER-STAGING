@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ErukaLearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div>
+        <% if(signal) {
+            if(signal == "INTERNAL_SERVER_ERROR") { %>
+                <script>swal({title: "Internal Server Error",text: "Undefined resolution!", icon: "warning", dangerMode: true});</script>
+            <% }
+        } %>
+    </div>
+    <div class="container-fluid">
+        <div class="row position-relative">
+            <div class="position-absolute top-0 start-0 text-start mt-2 fs-3 w-50">
+                <i class="fas fa-bars crs dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" onclick="audio.play();"></i>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                    <li class="lead"><a class="dropdown-item" href="../../student"><i class="fab fa-fort-awesome-alt"></i> Trang chủ</a></li>
+                    <li class="lead"><a class="dropdown-item disabled"><i class="fas fa-journal-whills"></i> Học tập</a></li>
+                    <li class="lead">
+                        <div>
+                            <a class="crs text-decoration-none d-block" href="../../student/timetable">&emsp;&emsp;<i class="fas fa-calendar-check"></i> Lịch học theo tuần</a>
+                            <a class="crs text-decoration-none d-block text-white bg-primary" href="javascript:void(0)">&emsp;&emsp;<i class="fas fa-chart-bar"></i> Kết quả học tập</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/dkhp">&emsp;&emsp;<i class="fab fa-xbox"></i> Đăng ký học phần</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/pattern">&emsp;&emsp;<i class="fab fa-windows"></i> Chương trình khung</a>
+                        </div>
+                    </li>
+                    <li class="lead"><a class="dropdown-item disabled"><i class="fas fa-journal-whills"></i> Học phí</a></li>
+                    <li class="lead">
+                        <div>
+                            <a class="crs text-decoration-none d-block" href="../../student/debt">&emsp;&emsp;<i class="fas fa-sack-dollar"></i> Tra cứu công nợ</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/order-detail">&emsp;&emsp;<i class="fas fa-file-invoice-dollar"></i> Biên lai tổng hợp</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/payment">&emsp;&emsp;<i class="fab fa-cc-apple-pay"></i> Thanh toán học phí</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/wallet">&emsp;&emsp;<i class="fas fa-donate"></i> Nạp tiền vào ví</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="position-absolute top-0 end-0 text-end mt-2 fs-3 w-50">
+                <a href="../../student"><i class="fas fa-door-open text-secondary crs" onclick="audio.play();"></i></a>
+            </div>
+            <div class="col-lg-12 py-2 px-5" style="background: #ededed;">
+                <div class="bg-white p-3">
+                    <p class="fs-3 text-muted fw-bold">Kết quả học tập</p>
+                    <hr>
+                    <div id="trs">
+                        <div class="d-flex" style="background: lightgrey;">
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">STT</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Mã LHP</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Môn/học phần</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Tín chỉ</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Điểm LT1</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Điểm LT2</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Điểm LT3</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Điểm TH1</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Điểm TH2</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Điểm TH3</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Giữa kỳ</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Điểm CK</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Điểm tổng kết</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Thang điểm 4</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Điểm chữ</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Xếp loại</div>
+                            <div class="p-2 fw-bold border d-flex align-items-center justify-content-center text-center w-100">Đạt?</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+const audio = new Audio();
+audio.src = "../audio/click.mp3";
+var pathNodejs = window.location.protocol + '//' + window.location.host;
+    function diemTongKetCal(obj) {
+        let diemTongKet = 0;
+        if(obj.lopHocPhan.monHoc.soTietTH == 0) { //Nếu môn chỉ có LT
+            lt = ((obj.diemLT1 + obj.diemLT2 + obj.diemLT3)/3)*0.2;
+            gk = obj.diemGK*0.3;
+            ck = obj.diemCK*0.5;
+            diemTongKet = parseFloat(lt + gk +ck);
+        } else {
+            lt = ((obj.diemLT1 + obj.diemLT2 + obj.diemLT3)/3)*0.2;
+            gk = obj.diemGK*0.3;
+            ck = obj.diemCK*0.5;
+            let diemTongKetLT = parseFloat(lt + gk +ck);
+            soTC_LT = obj.lopHocPhan.monHoc.soTietLT / 15;
+            TBC_TH = (obj.diemTH1 + obj.diemTH2 + obj.diemTH3)/3;
+            soTC_TH = obj.lopHocPhan.monHoc.soTietTH / 15;
+            diemTongKet = ( (diemTongKetLT*soTC_LT) + (TBC_TH*soTC_TH) ) / (soTC_LT + soTC_TH);
+        }
+        return diemTongKet;
+    }
+    function diemChuCal(params) {
+        if(params < 4)
+            return "F";
+        if(params >= 4.0 && params <= 4.9)
+            return "D";
+        if(params >=5.0 && params <= 5.4)
+            return "D+";
+        if(params >= 5.5 && params <= 6.4)
+            return "C";
+        if(params >= 6.5 && params <= 6.9)
+            return "C+";
+        if(params >= 7.0 && params <= 7.9)
+            return "B";
+        if(params >= 8.0 && params <= 8.4)
+            return "B+";
+        return "A";
+    }
+    function xepLoaiCal(params) {
+        if(params < 4)
+            return "Kém";
+        if(params >= 4.0 && params <= 4.9)
+            return "Yếu";
+        if(params >=5.0 && params <= 5.4)
+            return "Trung bình yếu";
+        if(params >= 5.5 && params <= 6.4)
+            return "Trung bình";
+        if(params >= 6.5 && params <= 6.9)
+            return "Trung bình khá";
+        if(params >= 7.0 && params <= 7.9)
+            return "Khá";
+        if(params >= 8.0 && params <= 8.4)
+            return "Khá giỏi";
+        return "Giỏi";
+    }
+    async function getStudentScoresBySemesterId(semesterId) { //Hàm trả về 1 mảng [obj]
+        return $.ajax({
+            type: "POST",
+            url: "<%= process.env.SELF_EJS_API_URL %>/student/score/getStudentScoresBySemesterId",
+            data: JSON.stringify({semesterId}),
+            contentType: 'application/json',
+        }).then(data => data);
+    }
+    async function renderTrs(SEMESTERS) {
+        for(let i=0; i<SEMESTERS.length; i++) {
+            let Diems = await getStudentScoresBySemesterId(SEMESTERS[i]);
+            let tongSoTinChi1HK = 0;
+            let diemTongKet1HK = 0;
+            let element =
+            '<div class="fw-bold p-1 border text-center fs-4 bg-light">HỌC KỲ '+ parseInt(i+1) +' (2020-2021)</div>';
+            for(let j=0; j<Diems.length; j++) {
+                const diem = Diems[j];
+                tongSoTinChi1HK += diem.lopHocPhan.monHoc.soTinChi;
+                diemTongKet1HK += diemTongKetCal(diem);
+                let passBeLike = "<i class='fas fa-times-circle text-danger'></i>";
+                if(diem.pass)
+                    passBeLike = "<i class='fas fa-check-circle text-success'></i>";
+                element +=
+                    '<div class="d-flex">'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ parseInt(j+1) +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ diem.lopHocPhan.maLopHocPhan +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ diem.lopHocPhan.monHoc.tenMonHoc +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ diem.lopHocPhan.monHoc.soTinChi +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ diem.diemLT1 +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ diem.diemLT2 +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ diem.diemLT3 +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ diem.diemTH1 +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ diem.diemTH2 +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ diem.diemTH3 +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ diem.diemGK +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ diem.diemCK +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ diem.diemTongKet.toFixed(1) +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ diem.diem4.toFixed(1) +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ diemChuCal(diem.diemTongKet) +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ xepLoaiCal(diem.diemTongKet) +'</div>'+
+                        '<div class="p-2 border d-flex align-items-center justify-content-center text-center w-100">'+ passBeLike +'</div>'+
+                    '</div>';
+            }
+            element += 
+                '<div>'+
+                    '<div class="d-flex">'+
+                        '<div class="border text-center p-2 d-flex align-items-center">'+
+                            '<div class="fw-bold">'+
+                                '<span class="d-block">Tổng kết</span>'+
+                                '<span class="fw-bold">HK'+ parseInt(i+1) +'</span>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="p-2">'+
+                            '<ul class="list-group list-group-flush">'+
+                                '<li class="list-group-item">'+
+                                   ' <span class="d-block">Điểm trung bình học kỳ (thang 10): <span class="fw-bold">'+ (diemTongKet1HK/Diems.length).toFixed(1) +'</span> ('+ ((diemTongKet1HK/Diems.length)*100/10).toFixed(0) +'%)</span>'+
+                                '</li>'+
+                                '<li class="list-group-item">'+
+                                   ' <span class="d-block">Điểm trung bình học kỳ (thang 4): <span class="fw-bold">'+ ((diemTongKet1HK/Diems.length)/10*4).toFixed(1) +'</span></span>'+
+                                '</li>'+
+                                '<li class="list-group-item">'+
+                                   ' <span class="d-block">Tổng số tín chỉ (TC) học kỳ hoàn thành: <span class="fw-bold">'+ tongSoTinChi1HK +'</span></span>'+
+                                '</li>'+
+                            '</ul>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>';
+            $("#trs").append(element);
+        }
+    }
+    var SEMESTERS = <%= JSON.stringify(SEMESTERS) %>;
+    renderTrs(SEMESTERS);
+</script>
+</html>

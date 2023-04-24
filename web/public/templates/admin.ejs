@@ -79,7 +79,7 @@
             </form>
         </table>
         <div id="end_bar" class="position-absolute">
-            <a href="./admin-logout">Log out</a>
+            <a href="/admin-logout">Log out</a>
         </div>
     </div>
 
@@ -97,7 +97,7 @@
     
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="<%= process.env.SELF_EJS_API_URL %>/admin-crud-add-employee" method="post" enctype="multipart/form-data" id="form_add_employee">
+                <form action="/admin-crud-add-employee" method="post" enctype="multipart/form-data" id="form_add_employee">
                     <input type="text" placeholder="Tên nhân viên..." class="w-100" autofocus name="ten_nhan_vien" id="ten_nhan_vien">
                     <select name="chuc_vu" id="chuc_vu" class="w-100">
                         <option value="THU_THU">THỦ THƯ</option>
@@ -137,7 +137,7 @@
     
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="<%= process.env.SELF_EJS_API_URL %>/admin-crud-update-employee" method="post" enctype="multipart/form-data" id="form_upadte_employee">
+                <form action="/admin-crud-update-employee" method="post" enctype="multipart/form-data" id="form_upadte_employee">
                     <input type="text" name="ma_nhan_vien2" id="ma_nhan_vien2" hidden>
                     <input type="text" placeholder="Tên nhân viên..." class="w-100" autofocus name="ten_nhan_vien2" id="ten_nhan_vien2" required>
                     <select name="chuc_vu2" id="chuc_vu2" class="w-100" required>

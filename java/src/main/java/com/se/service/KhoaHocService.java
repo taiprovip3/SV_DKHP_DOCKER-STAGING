@@ -8,5 +8,6 @@ import com.se.entity.KhoaHoc;
 public interface KhoaHocService {
 	public KhoaHoc addCourse(KhoaHocDTO khoaHoc);
 	public List<KhoaHoc> getCourses();
-	public List<KhoaHoc> getCoursesByStudentId(long id);
+	public int getCounterStudentsByCourseId(long courseId);
+	public List<KhoaHoc> getCoursesByStudentId(long studendId);
 }

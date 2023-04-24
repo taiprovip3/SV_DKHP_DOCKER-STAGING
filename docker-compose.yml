@@ -46,7 +46,7 @@ services:
       MYSQL_DATABASE: sv_dkhp
       MYSQL_CHARSET: utf8
       MYSQL_COLLATION: utf8_general_ci
-      MYSQL_ALLOW_EMPTY_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
     ports:
       - "3306:3306"
     volumes:

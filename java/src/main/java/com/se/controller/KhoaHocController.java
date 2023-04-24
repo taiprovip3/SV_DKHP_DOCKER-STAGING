@@ -35,4 +35,8 @@ public class KhoaHocController {
 	public List<KhoaHoc> getCoursesByStudentId(@PathVariable long studentId){
 		return khoaHocService.getCoursesByStudentId(studentId);
 	}
+	@GetMapping("/course/getCounterStudentsByCourseId/{courseId}")
+	public int getCounterStudentsByCourseId(@PathVariable long courseId) {
+		return khoaHocService.getCounterStudentsByCourseId(courseId);
+	}
 }

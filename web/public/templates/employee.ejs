@@ -9,69 +9,467 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/student.css" type="text/css">
+    <link rel="stylesheet" href="../css/student.css" type="text/css">
     <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/employee.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/employee.css" type="text/css">
+    <link rel="stylesheet" href="../css/button.css" type="text/css">
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-3 styleline" style="background: #05091a;">
-            <a href="./employee-crud-student" class="text-decoration-none">
-            <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-user-graduate"></i>&ensp;Sinh viên</div>
-            </a>
-            <a href="./employee-crud-class" class="text-decoration-none">
-            <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-sign"></i></i>&ensp;Lớp danh Nghĩa</div>
-            </a>
-            <a href="./employee-crud-teacher" class="text-decoration-none">
-            <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
-            </a>
-            <a href="./employee-crud-course" class="text-decoration-none">
-            <div class="p-3 navigation-item text-wrap"><i class="text-warning fab fa-discourse"></i>&ensp;Khoá học</div>
-            </a>
-            <a href="./employee-crud-department" class="text-decoration-none">
-            <div class="p-3 navigation-item text-wrap"><i class="text-warning fab fa-shopware"></i>&ensp;Khoa</div>
-            </a>
-            <a href="./employee-crud-majors" class="text-decoration-none">
-            <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-wrench"></i>&ensp;Ngành</div>
-            </a>
-            <a href="./employee-crud-department_announcement" class="text-decoration-none">
-            <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-bell"></i>&ensp;Thông báo Khoa</div>
-            </a>
-            <a href="./employee-crud-pattern" class="text-decoration-none">
-            <div class="p-3 navigation-item text-wrap"><i class="text-warning fab fa-windows"></i>&ensp;Chương trình Khung</div>
-            </a>
-            <a href="./employee-crud-unit_class" class="text-decoration-none">
-            <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-window-restore"></i>&ensp;Lớp học phần</div>
-            </a>
-            <a href="./employee-crud-time_table" class="text-decoration-none">
-            <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
-            </a>
-            <a href="./employee-crud-debt" class="text-decoration-none">
-            <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
-            </a>
-            <a href="./employee-crud-time_table" class="text-decoration-none">
-            <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
-            </a>
-            <a href="./employee-logout" class="text-decoration-none d-flex justify-content-center align-items-center">
-                <div class="p-3 navigation-item text-wrap text-secondary">Log out</div>
-            </a>
-        </div>
-        <div class="col-lg-9 styleline d-flex justify-content-center align-items-center position-relative px-3">
-           
-            <img src="https://gv.iuh.edu.vn/Content/login2/img/slide1.png" alt="gv-iuh" />
-            
+<!-- Setting Modal -->
+<div class="modal" id="settingModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6 border-start border-end">
+                        <ul class="nav flex-column">
+                            <li class="nav-item border-bottom">
+                                <a class="nav-link" href="javascript:void(0)" id="backup-btn" onclick="highlight('backup-btn')">Backup data</a>
+                            </li>
+                            <li class="nav-item border-bottom">
+                                <a class="nav-link" href="javascript:void(0)" id="help-btn" onclick="highlight('help-btn')">Trợ giúp</a>
+                            </li>
+                            <li class="nav-item border-bottom">
+                                <a class="nav-link" href="javascript:void(0)" id="theme-btn" onclick="highlight('theme-btn')">Đổi theme</a>
+                            </li>
+                            <li class="nav-item border-bottom">
+                                <a class="nav-link" href="javascript:void(0)" id="info-btn" onclick="highlight('info-btn')">Thông tin Product</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6" id="settingModalColContent">
+                        <img src="https://www.mobmaxime.com/wp-content/uploads/2022/11/uwp-development.webp" alt="modal-logo" width="100%">
+                    </div>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="import-button" data-bs-dismiss="modal" >Close</button>
+                <button type="button" class="import-button" data-bs-dismiss="modal" onclick="window.location.href='./employee-logout';">Log out</button>
+            </div>
         </div>
     </div>
 </div>
-<div class="position-fixed bottom-0 text-secondary small fst-italic">
-    1997 - 2023
-    &ensp;
-    No.<i class="fas fa-copyright"></i><i class="fas fa-registered"></i>
-    &ensp;
-    IUH - Industrial University of Ho Chi Minh City Reserved
+<!-- Help Modal -->
+<div class="modal" id="helpModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Hướng dẫn sử dụng</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div>
+                    <h6>1. Giới thiệu <i class="text-success fas fa-question-circle"></i></h6>
+                    <p>Trang quản lý sinh viên (ErukaLearn) dành cho nhân viên sử dụng tại nhà trường IUH. Nhằm mục địch hỗ trợ, đào tạo và quản lý sinh viên trong nhiều mảng chức năng đang theo học tại nhà trường. Hệ thống cung cấp khả năng quản lý tiện ích nhiều chức năng để giúp nhân viên không còn sử dụng thủ công các tài liệu quản lý mà thay vào đó là công nghệ phần mềm, data, điện tính!</p>
+                </div>
+                <div>
+                    <h6>2. Hệ thống quản lý <i class="text-success fab fa-ubuntu"></i></h6>
+                    <ul>
+                        <li>Chức năng quản lý Sinh Viên</li>
+                        <li>Chức năng quản lý Lớp học</li>
+                        <li>Chức năng quản lý Lớp học phần</li>
+                        <li>Chức năng quản lý Công nợ</li>
+                        <li>...</li>
+                    </ul>
+                    <span>Website giúp nhà quản lý có thể lưu trữ, quản lý các đối tượng tồn tại trong hệ thống giáo dục hiện tại của IUH, giúp công việc vận hành suốn sẽ hơn.</span>
+                </div>
+                <div>
+                    <h6>2. Auto backup data <i class="text-success fas fa-database"></i></i></h6>
+                    <span>Hệ thống cho phép tự động backup data bằng 2 hình thức</span>
+                    <ul>
+                        <li>Thủ công</li>
+                            <i>Thông báo nhắc nhở định kì khi nhà quản lý khởi động.</i>
+                        <li>Tự động</li>
+                            <i>Tự sao lưu system các đối tượng thông qua cài đặt</i>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"  id="export-button">Close</button>
+            </div>
+
+        </div>
+    </div>
 </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3">
+            <!-- <a href="/employee" class="text-decoration-none"> -->
+            <div class="p-3 navigation-item-active text-wrap"><i class="fas fa-sign"></i></i>&ensp;Trang chủ</div>
+            <!-- </a> -->
+            <a href="/employee-crud-student" class="text-decoration-none">
+            <div class="p-3 navigation-item text-wrap"><i class="fas fa-user-graduate"></i>&ensp;Sinh viên</div>
+            </a>
+            <a href="/employee-crud-class" class="text-decoration-none">
+            <div class="p-3 navigation-item text-wrap"><i class="fas fa-sign"></i></i>&ensp;Lớp danh Nghĩa</div>
+            </a>
+            <a href="/employee-crud-teacher" class="text-decoration-none">
+            <div class="p-3 navigation-item text-wrap"><i class="fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
+            </a>
+            <a href="/employee-crud-course" class="text-decoration-none">
+            <div class="p-3 navigation-item text-wrap"><i class="fab fa-discourse"></i>&ensp;Khoá học</div>
+            </a>
+            <a href="/employee-crud-department" class="text-decoration-none">
+            <div class="p-3 navigation-item text-wrap"><i class="fab fa-shopware"></i>&ensp;Khoa</div>
+            </a>
+            <a href="/employee-crud-majors" class="text-decoration-none">
+            <div class="p-3 navigation-item text-wrap"><i class="fas fa-wrench"></i>&ensp;Ngành</div>
+            </a>
+            <a href="/employee-crud-department_announcement" class="text-decoration-none">
+            <div class="p-3 navigation-item text-wrap"><i class="fas fa-bell"></i>&ensp;Thông báo Khoa</div>
+            </a>
+            <a href="/employee-crud-unit_class" class="text-decoration-none">
+            <div class="p-3 navigation-item text-wrap"><i class="fas fa-window-restore"></i>&ensp;Lớp học phần</div>
+            </a>
+            <a href="/employee-crud-time_table" class="text-decoration-none">
+            <div class="p-3 navigation-item text-wrap"><i class="fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
+            </a>
+            <a href="/employee-crud-debt" class="text-decoration-none">
+            <div class="p-3 navigation-item text-wrap"><i class="fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
+            </a>
+        </div>
+        <div class="col-lg-9" style="height: 100vh;">
+            <div class="h-50 overflow-auto border p-2">
+                <canvas id="registerChart"></canvas>
+            </div>
+            <div class="h-50 overflow-auto d-flex">
+                <div class="col-6 border p-2 text-center">
+                    <p class="text-success"><i class="fas fa-user-circle"></i> Thông tin Nhân viên</p>
+                    <img src="https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv-iuh-avatar-pattern_oyubmc.jpg" alt="avatar" width="90px" height="90px" class="rounded-circle">
+                    <div class="my-3">
+                        <hr width="75%" class="m-auto text-success">
+                    </div>
+                    <%
+                        const gioiTinhShorcut = { NAM: 'Nam', NU: 'Nữ' };
+                        const chucVuShort = { THU_THU: 'Thủ thư', LAO_CONG: 'Lao công', NHAN_VIEN_Y_TE: 'Nhân viên Y tế', KE_TOAN: 'Kế toán', TAI_LIEU: 'Tài liệu', CAN_TIN: 'Căn tin', BAO_VE: 'Bảo vệ', GIU_XE: 'Giữ xe', THO_DIEN: 'Thợ điện' };
+                        function formatDate(date){
+                            let mydate = new Date(date);
+                            let d = mydate.getDate();
+                            let m = mydate.getMonth() + 1;
+                            let y = mydate.getFullYear();
+                            return (d <= 9 ? '0' + d : d) + "/" + (m<=9 ? '0' + m : m) + "/" + y;
+                        }
+                    %>
+                    <div class="d-flex">
+                        <div class="col-6 p-2 text-start">
+                            <span class="d-block">Họ và tên: <span class="text-success"><%= EMPLOYEE_DATA.tenNhanVien %></span></span>
+                            <span class="d-block">Năm sinh: <span class="text-success"><%= EMPLOYEE_DATA.namSinh %></span></span>
+                            <span class="d-block">Giới tính: <span class="text-success"><%= gioiTinhShorcut[EMPLOYEE_DATA.gioiTinh] %></span></span>
+                            <span class="d-block">Số điện thoại: <span class="text-success"><%= EMPLOYEE_DATA.sdt %></span></span>
+                            <span class="d-block text-truncate">Địa chỉ: <span class="text-success"><%= EMPLOYEE_DATA.diaChi %></span></span>
+                        </div>
+                        <div class="col-6 p-2 text-start">
+                            <span class="d-block">Mã nhân viên: <span class="text-success">#<%= EMPLOYEE_DATA.maNhanVien %></span></span>
+                            <span class="d-block">Mã hồ sơ: <span class="text-success">#<%= EMPLOYEE_DATA.taiKhoan.id %></span></span>
+                            <span class="d-block">Chức vụ: <span class="text-success"><%= chucVuShort[EMPLOYEE_DATA.chucVu] %></span></span>
+                            <span class="d-block">Ngày vào làm: <span class="text-success"><%= formatDate(EMPLOYEE_DATA.ngayVaoLam) %></span></span>
+                            <span class="d-block text-truncate">Khung ảnh: <span class="text-success"><%= EMPLOYEE_DATA.avatar %></span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 border text-center d-flex align-items-center justify-content-center">
+                    <canvas id="classifyChart"></canvas>
+                    <!-- <div class="border p-3">
+                        <button class="import-button" data-bs-toggle="modal" data-bs-target="#settingModal">Cài đặt <i class="fas fa-cogs"></i></button>
+                    </div> -->
+                    <!-- <img src="https://www.mobmaxime.com/wp-content/uploads/2022/11/uwp-development.webp" alt="gv-iuh" width="350px" height="350px" /> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="position-fixed bottom-0 text-success small p-2">
+    Secure <i class="fas fa-shield-alt"></i>
+</div>
+<div class="position-fixed end-0 top-0 p-3 m-2 border text-center text-success small crs" data-bs-toggle="modal" data-bs-target="#settingModal">
+    <i class="fas fa-cog d-block" style="font-size: x-large;"></i>
+    <span>Settings</span>
+</div>
+<div class="d-none" id="hide1">
+    <div class="small">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="backupTypeRemid" name="backupType" value="REMIND_BACKUP" onchange="onBackupTypeChange(this);">
+            <label class="form-check-label" for="backupTypeAuto">Tự động nhắc nhở Backup</label>
+        </div>
+        <div class="text-center">
+            <button class="import-button" onclick="backUp();">Sao lưu ngay <i class="text-white fas fa-cloud-download-alt"></i></button>
+            <p>Hệ thống sẽ export ra file .bak tương ứng!</p>
+        </div>
+    </div>
+</div>
+<div class="d-none" id="hide2">
+    <div class="small">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="darkMode" name="themeType" value="DARK" onchange="onThemeChange(this);">
+            <label class="form-check-label" for="darkMode">Dark mode <i class="text-success fas fa-tablet-alt"></i></label>
+        </div>
+    </div>
+</div>
+<div class="d-none" id="hide3">
+    <div class="small">
+        <ul>
+            <li>Product version: v1.0</li>
+            <li>Release: 9:18 PM, 22/04/2023</li>
+            <li>Nocopyright: Industrial of University Of Ho Chi Minh (IUH)</li>
+            <li>Supports: browser.*</li>
+        </ul>
+    </div>
+</div>
+<div class="d-none" id="hide4">
+    <div class="small">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="backupTypeRemid" name="backupType" value="REMIND_BACKUP" onchange="onBackupTypeChange(this);" checked>
+            <label class="form-check-label" for="backupTypeAuto">Tự động nhắc nhở Backup</label>
+        </div>
+        <div class="text-center">
+            <button class="import-button" onclick="backUp();">Sao lưu ngay <i class="text-white fas fa-cloud-download-alt"></i></button>
+            <p>Hệ thống sẽ export ra file .bak tương ứng!</p>
+        </div>
+    </div>
+</div>
+<div class="d-none" id="hide5">
+    <div class="small">
+        <div>
+            <h6>1. Giới thiệu <i class="text-success fas fa-question-circle"></i></h6>
+            <p>Trang quản lý sinh viên (ErukaLearn) dành cho nhân viên sử dụng tại nhà trường IUH. Nhằm mục địch hỗ trợ, đào tạo và quản lý sinh viên trong nhiều mảng chức năng đang theo học tại nhà trường. Hệ thống cung cấp khả năng quản lý tiện ích nhiều chức năng để giúp nhân viên không còn sử dụng thủ công các tài liệu quản lý mà thay vào đó là công nghệ phần mềm, data, điện tính!</p>
+        </div>
+        <div>
+            <h6>2. Hệ thống quản lý <i class="text-success fab fa-ubuntu"></i></h6>
+            <ul>
+                <li>Chức năng quản lý Sinh Viên</li>
+                <li>Chức năng quản lý Lớp học</li>
+                <li>Chức năng quản lý Lớp học phần</li>
+                <li>Chức năng quản lý Công nợ</li>
+                <li>...</li>
+            </ul>
+            <span>Website giúp nhà quản lý có thể lưu trữ, quản lý các đối tượng tồn tại trong hệ thống giáo dục hiện tại của IUH, giúp công việc vận hành suốn sẽ hơn.</span>
+        </div>
+        <div>
+            <h6>2. Auto backup data <i class="text-success fas fa-database"></i></i></h6>
+            <span>Hệ thống cho phép tự động backup data bằng 2 hình thức</span>
+            <ul>
+                <li>Thủ công</li>
+                    <i>Thông báo nhắc nhở định kì khi nhà quản lý khởi động.</i>
+                <li>Tự động</li>
+                    <i>Tự sao lưu system các đối tượng thông qua cài đặt</i>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    var registerChartData;
+    var classifyChartData;
+    const pathNodejs = '<%= process.env.EJS_API_URL %>';
+    toastr.options.onclick = function() { 
+        $("#settingModal").modal('toggle');
+    }
+    ringRemindBackup();
+    renderRegisterChart();
+    renderClassifyChart();
+    function ringRemindBackup() {
+        const remindBackup = getRemindBackupKey();
+        if(remindBackup && remindBackup === 'true') {
+            setTimeout(() => {
+                toastr.info('Nhắc nhở backup hệ thống', 'Hôm nay bạn chưa sao lưu cơ sở dữ liệu!', {timeOut: 10000});
+                localStorage.setItem('remindBackup', 'reminded');
+            }, 2000);
+        }
+    }
+    function getRemindBackupKey() {
+        try {
+            const remindBackup = localStorage.getItem('remindBackup');
+            console.log('getRemindBackupKey=', remindBackup);
+            if(!remindBackup) {
+                return null;
+            }
+            return remindBackup;
+        } catch (error) {
+            console.log('error=',error);
+            return null;
+        }
+    }
+    function highlight(buttonId) {
+        // Loại bỏ lớp active từ tất cả các nút trong menu
+        const buttons = document.querySelectorAll('.nav-link');
+        buttons.forEach(button => {
+            button.classList.remove('active');
+            button.classList.remove('text-decoration-underline');
+            button.classList.remove('bg-primary');
+            button.classList.remove('text-white');
+        });
+        // Thêm lớp active vào nút được click
+        const clickedButton = document.getElementById(buttonId);
+        clickedButton.classList.add('active');
+        clickedButton.classList.add('text-decoration-underline');
+        clickedButton.classList.add('bg-primary');
+        clickedButton.classList.add('text-white');
+        switch (clickedButton.id) {
+            case "backup-btn":
+                const remindBackup = getRemindBackupKey();
+                let backupContent = null;
+                if(remindBackup === 'false' || !remindBackup) {
+                    backupContent = $("#hide1").html(); // 1 là check
+                } else {
+                    backupContent = $("#hide4").html(); // 4 là uncheck
+                }
+                $("#settingModalColContent").html(backupContent);
+                break;
+            case "help-btn":
+                const helpContent = $("#hide5").html();
+                $("#settingModalColContent").html(helpContent);
+                $("#helpModal").modal('toggle');
+                break;
+            case "theme-btn":
+                const themeContent = $("#hide2").html();
+                $("#settingModalColContent").html(themeContent);
+                break;
+            case "info-btn":
+                const infoContent = $("#hide3").html();
+                $("#settingModalColContent").html(infoContent);
+                break;
+            default:
+                break;
+        }
+    }
+    function backUp() {
+        swal({
+            title: "Bạn có chắc chắn?",
+            text: "Sẽ tự tải xuống bản backup với sao lưu toàn bộ data trong cơ sở dữ liệu. Hãy cân nhắc máy tính (thiết bị ổ cứng) của bạn còn đủ dung lượng để lưu trữ!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                window.location.href='./employee-backup';
+            }
+        });
+    }
+    function onThemeChange(checkbox) {
+        if (checkbox.checked) {
+            // Thêm mã để thay đổi nội dung trang web ở chế độ dark mode
+            $('body').css('background-image', 'url("https://png.pngtree.com/thumb_back/fw800/background/20210216/pngtree-black-dots-background-image-image_562439.jpg")');
+        } else {
+            // Thêm mã để thay đổi nội dung trang web ở chế độ light mode
+            $('body').css('background-image', 'url("https://media.istockphoto.com/id/927772590/vector/dotted-paper-background.jpg?s=612x612&w=0&k=20&c=KGlRB32MYf6K-r3Yxghv7oGy1a7QfcfrwG0I5d5BUSI="');
+        }
+    }
+    function onBackupTypeChange(checkbox) {
+        if (checkbox.checked) {
+            localStorage.setItem('remindBackup', true);
+        } else {
+            localStorage.setItem('remindBackup', false);
+        }
+    }
+    async function renderRegisterChart() {
+        const courses = await getScores();
+        const start_courses = [];
+        const counter_courses = [];
+        for(const course of courses) {
+            const counter = await getCounterStudentsByCourseId(course.maKhoaHoc);
+            start_courses.push(course.namBatDau); 
+            counter_courses.push(counter);
+        }
+        const ctx = document.getElementById('registerChart');
+            if (registerChartData) {
+                registerChartData.destroy();
+            }
+            registerChartData = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: start_courses,
+                    datasets: [{
+                        label: '# Thống kê lượng sinh viên đăng ký học phần',
+                        data: counter_courses,
+                        borderWidth: 1,
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgb(75, 192, 192)',
+                        ]
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        }
+                    }
+                }
+            });
+            registerChartData.update('active');
+    }
+    async function getScores() {
+        return $.ajax({
+            type: "GET",
+            url: pathNodejs+"/employee-getCourses",
+            contentType: 'application/json',
+        })
+        .then(courses => courses);
+    }
+    async function getCounterStudentsByCourseId(courseId) {
+        return $.ajax({
+            type: "GET",
+            url: pathNodejs+"/employee-getCounterStudentsByCourseId/"+courseId,
+            contentType: 'application/json',
+        })
+        .then(counter => counter);
+    }
+
+    async function renderClassifyChart() {
+        const xepLoais = ['KEM', 'YEU', 'TRUNG_BINH_YEU', 'TRUNG_BINH', 'TRUNG_BINH_KHA', 'KHA', 'KHA_GIOI', 'GIOI'];
+        const counterXepLoais = [];
+        for(const xepLoai of xepLoais) {
+            const counter = await getCounterByXepLoai(xepLoai);
+            counterXepLoais.push(counter);
+        }
+        console.log('counterXepLoais=',counterXepLoais);
+        const ctx = document.getElementById('classifyChart');
+            if (classifyChartData) {
+                classifyChartData.destroy();
+            }
+            classifyChartData = new Chart(ctx, {
+                type: 'polarArea',
+                data: {
+                    labels: xepLoais,
+                    datasets: [{
+                        label: '# Mực độ năng lực học tập của toàn sinh viên',
+                        data: counterXepLoais,
+                        backgroundColor: [
+                            'rgb(232, 55, 41)',
+                            'rgb(108, 133, 155)',
+                            'rgb(108, 183, 155)',
+                            'rgb(108, 210, 155)',
+                            'rgb(108, 222, 155)',
+                            'rgb(108, 240, 155)',
+                            'rgb(108, 255, 155)',
+                            'rgb(135, 255, 108)',
+                        ]
+                    }]
+                },
+            });
+            classifyChartData.update('active');
+    }
+    async function getCounterByXepLoai(xepLoaiString) {
+        return $.ajax({
+            type: "GET",
+            url: pathNodejs+"/employee-getCounterByXepLoai/"+xepLoaiString,
+            contentType: 'application/json',
+        })
+        .then(counter => counter);
+    }
+</script>
 </body>
 </html>

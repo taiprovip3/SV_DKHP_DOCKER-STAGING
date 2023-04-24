@@ -21,12 +21,12 @@
     </div>
     <div class="position-fixed top-50 start-50 translate-middle justify-content-center align-items-center text-center">
         <h3>Administrator</h3>
-        <form action="<%= process.env.SELF_EJS_API_URL %>/admin-login" method="post" enctype="multipart/form-data">
+        <form action="admin-login" method="post" enctype="multipart/form-data">
             <input type="text" name="username" id="username" placeholder="Tên đăng nhập..." class="m-1" required value="sa" autofocus>
             <br>
             <input type="password" placeholder="Mật khẩu.." class="m-1" name="password" id="password" value="123123az" required>
             <div class="position-relative">
-                <div class="position-absolute top-0 start-0"><a href="./">Back</a></div>
+                <div class="position-absolute top-0 start-0"><a href="/">Back</a></div>
                 <div class="m-1 position-absolute top-0 end-0"><button type="submit">Đăng nhập</button></div>
             </div>
         </form>

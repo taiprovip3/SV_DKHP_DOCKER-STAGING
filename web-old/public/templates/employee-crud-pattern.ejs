@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ErukaLearn | Employee CRUD | PATTERN</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+    <div>
+        <% if(signal) { %>
+            <% if(signal == "INSERT_SUCCESS") { %>
+                <script>swal({title: "Goob jobs!", text: "Thao tác dữ liệu thành công", icon: "success"})</script>
+            <% } else {
+                if(signal == "INTERNAL_SERVER_ERROR") { %>
+                    <script>swal({title: "Internal Server Error",text: "Undefined resolution!", icon: "warning", dangerMode: true});</script>
+                <% }
+            }
+        } %>
+    </div>
+    <h5>Form:</h5>
+    <form action="<%= process.env.SELF_EJS_API_URL %>/employee-crud-add-pattern" method="post" enctype="multipart/form-data">
+        <input type="text" name="maSinhVien" id="maSinhVien" placeholder="maSinhVien">
+        <br>
+        <input type="text" name="maMonHoc" id="maMonHoc" placeholder="maMonHoc">
+        <br>
+        
+        <input type="radio" name="done" id="done_true">
+        <label for="done_true">Pass</label>
+        
+        <input type="radio" name="done" id="done_false">
+        <label for="done_false">Fail</label>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    <a href="./employee">Back</a>
+</body>
+<script>
+// $(document).ready(function() {
+//     const tab_length = $("table").width();
+//     const right_action_length = $("#right_action").width();
+//     const minus = tab_length - right_action_length;
+//     $("#right_action").css("left", minus);
+// });
+</script>
+</html>

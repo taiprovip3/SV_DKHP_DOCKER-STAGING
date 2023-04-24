@@ -9,7 +9,7 @@ async function onCheckSameUnitClass(val) {
         if(selected_ma_lop_hoc_phan) {
             $.ajax({
                 type: "POST",
-                url: "<%= process.env.SELF_EJS_API_URL %>/student/dkhp/getUnitClassesBySubjectIdAndLoaiHocAndMaKhoaHoc",
+                url: pathNodejs+"/student/dkhp/getUnitClassesBySubjectIdAndLoaiHocAndMaKhoaHoc",
                 data: JSON.stringify({maMonHoc: selected_ma_mon_hoc, loaiHoc: selected_loai_hoc, maKhoaHoc: selected_ma_khoa_hoc}),
                 contentType: 'application/json',
                 success: async function(LHPs) {

@@ -10,56 +10,49 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/employee.css" type="text/css">
-    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
-    <style>
-        button, input{
-            outline: none;
-        }
-        button{
-            border: none;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/employee.css" type="text/css">
+    <link rel="stylesheet" href="../css/common.css" type="text/css">
+    <link rel="stylesheet" href="../css/button.css" type="text/css">
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-3 styleline" style="background: #05091a;">
-                <a href="./employee-crud-student" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-user-graduate"></i>&ensp;Sinh viên</div>
+            <div class="col-lg-3">
+                <a href="/employee" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-sign"></i></i>&ensp;Trang chủ</div>
                 </a>
-                <a href="./employee-crud-class" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-sign"></i></i>&ensp;Lớp danh Nghĩa</div>
+                <a href="/employee-crud-student" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-user-graduate"></i>&ensp;Sinh viên</div>
                 </a>
-                <a href="./employee-crud-teacher" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
+                <a href="/employee-crud-class" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-sign"></i></i>&ensp;Lớp danh Nghĩa</div>
                 </a>
-                <!-- <a href="./employee-crud-course" class="text-decoration-none"> -->
-                <div class="p-3 navigation-item-active text-wrap"><i class="text-warning fab fa-discourse"></i>&ensp;Khoá học</div>
+                <a href="/employee-crud-teacher" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
+                </a>
+                <!-- <a href="/employee-crud-course" class="text-decoration-none"> -->
+                <div class="p-3 navigation-item-active text-wrap"><i class="fab fa-discourse"></i>&ensp;Khoá học</div>
                 <!-- </a> -->
-                <a href="./employee-crud-department" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fab fa-shopware"></i>&ensp;Khoa</div>
+                <a href="/employee-crud-department" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fab fa-shopware"></i>&ensp;Khoa</div>
                 </a>
-                <a href="./employee-crud-majors" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-wrench"></i>&ensp;Ngành</div>
+                <a href="/employee-crud-majors" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-wrench"></i>&ensp;Ngành</div>
                 </a>
-                <a href="./employee-crud-department_announcement" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-bell"></i>&ensp;Thông báo Khoa</div>
+                <a href="/employee-crud-department_announcement" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-bell"></i>&ensp;Thông báo Khoa</div>
                 </a>
-                <a href="./employee-crud-unit_class" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-window-restore"></i>&ensp;Lớp học phần</div>
+                <a href="/employee-crud-unit_class" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-window-restore"></i>&ensp;Lớp học phần</div>
                 </a>
-                <a href="./employee-crud-time_table" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
+                <a href="/employee-crud-time_table" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
                 </a>
-                <a href="./employee-crud-debt" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
-                </a>
-                <a href="./employee-logout" class="text-decoration-none d-flex justify-content-center align-items-center">
-                    <div class="p-3 navigation-item text-wrap text-secondary">Log out</div>
+                <a href="/employee-crud-debt" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
                 </a>
             </div>
-            <div class="col-lg-9 position-relative">
+            <div class="col-lg-9 position-relative overflow-auto" style="max-height: 100vh;">
                 <div>
                     <% if(signal) { %>
                         <% if(signal == "INSERT_SUCCESS") { %>
@@ -71,17 +64,17 @@
                         }
                     } %>
                 </div>
-                <p class="fw-bold"><a href="./employee">Home</a> > <a href="javascript:void(0)">Manage course</a></p>
+                <p class="fw-bold"><a href="/employee">Home</a> / <a href="javascript:void(0)">Manage course</a></p>
                 <div class="d-flex">
-                    <form action="<%= process.env.SELF_EJS_API_URL %>/employee-crud-class-excel-import" enctype="multipart/form-data" method="POST">
+                    <form action="/employee-crud-class-excel-import" enctype="multipart/form-data" method="POST">
                     <div id="left_action"  class="d-flex align-items-center">
-                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addModal">Thêm khóa học mới <i class="fas fa-pen-square text-warning"></i></button>
+                        <button type="button" class="import-button" data-bs-toggle="modal" data-bs-target="#addModal">Thêm khóa học mới <i class="fas fa-pen-square text-warning"></i></button>
                         <div>&emsp;</div>
-                        <button class="btn btn-outline-dark" type="button"><label for="excel_file" class="crs">Nhập từ file excel</label> <i class="text-success fas fa-file-excel text-success"></i></button>
+                        <button class="import-button" type="button"><label for="excel_file" class="crs">Nhập từ file excel</label> <i class="text-success fas fa-file-excel text-success"></i></button>
                         <input type="file" name="excel_file" id="excel_file" class="d-none" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
                         <div>&emsp;</div>
-                        <button class="d-none btn-primary" id="btn-import" type="submit">Import</button>
-                        <button class="btn btn-outline-dark">Xuất bảng excel <i class="fas fa-file-export text-danger"></i></button>
+                        <button class="d-none import-button" id="btn-import" type="submit">Import <i class="fas fa-cloud-upload"></i></button>
+                        <button class="import-button" type="button" id="btn-export-excel">Xuất bảng excel <i class="fas fa-file-export text-white"></i></button>
                     </div>
                     </form>
                     <div id="right_action" style="position: absolute;">
@@ -136,7 +129,7 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="<%= process.env.SELF_EJS_API_URL %>/employee-crud-add-course" method="post" enctype="multipart/form-data" id="form_add_course">
+                <form action="/employee-crud-add-course" method="post" enctype="multipart/form-data" id="form_add_course">
                     <div>
                         <label for="ten_khoa_hoc">Học kỳ</label>
                         <select name="ten_khoa_hoc" id="ten_khoa_hoc">
@@ -189,7 +182,7 @@
     
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="<%= process.env.SELF_EJS_API_URL %>/ad-crud-update-course" method="post" enctype="multipart/form-data" id="form_upadte_course">
+                <form action="/ad-crud-update-course" method="post" enctype="multipart/form-data" id="form_upadte_course">
                     <input type="text" name="ma_hoc_ky" id="ma_hoc_ky" hidden>
                     <div>
                         <label for="ten_khoa_hoc2">Học kỳ</label>
@@ -227,20 +220,12 @@
         </div>
     </div>
 </div>
-<div class="position-fixed bottom-0 text-secondary small">
-    1997 - 2023
-    &ensp;
-    |
-    &ensp;
-    IUH - Industrial University of Ho Chi Minh City Reserved
-    &ensp;
-    |
-    &ensp;
-    Secure
-    <i class="fas fa-shield-alt"></i>
+<div class="position-fixed bottom-0 text-primary small p-2">
+    Secure <i class="fas fa-shield-alt"></i>
 </div>
 </body>
 <script>
+const pathNodejs = '<%= process.env.EJS_API_URL %>';
 $(document).ready(function() {
     const tab_length = $(".col-lg-9").width();
     const right_action_length = $("#right_action").width();
@@ -248,6 +233,9 @@ $(document).ready(function() {
     $("#right_action").css("left", minus);
     $("#excel_file").on("change", function(){
         $("#btn-import").removeClass('d-none');
+    });
+    $("#btn-export-excel").click(function() {
+        window.location.href = pathNodejs+"/employee-crud-export?entityName=course";
     });
 });
 </script>

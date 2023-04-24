@@ -1,7 +1,7 @@
 function renderUnitClassBySujectId() {
     $.ajax({
         type: "POST",
-        url: "<%= process.env.SELF_EJS_API_URL %>/student/dkhp/getUnitClassesBySubjectIdAndLoaiHocAndMaKhoaHoc",
+        url: pathNodejs+"/student/dkhp/getUnitClassesBySubjectIdAndLoaiHocAndMaKhoaHoc",
         data: JSON.stringify({maMonHoc: selected_ma_mon_hoc, loaiHoc: selected_loai_hoc, maKhoaHoc: selected_ma_khoa_hoc}),
         contentType: 'application/json',
         success: function(data) {
@@ -55,7 +55,7 @@ function renderUnitClassBySujectId() {
             if(selected_ma_lop_hoc_phan != '') {
                 $.ajax({
                     type: "POST",
-                    url: "<%= process.env.SELF_EJS_API_URL %>/student/dkhp/getTimeTablesByUnitClassId",
+                    url: pathNodejs+"/student/dkhp/getTimeTablesByUnitClassId",
                     data: JSON.stringify({maLopHocPhan: selected_ma_lop_hoc_phan}),
                     contentType: 'application/json',
                     success: function(tkbsLT) {

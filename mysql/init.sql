@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 16, 2023 at 04:22 AM
--- Server version: 10.4.28-MariaDB-log
+-- Generation Time: Apr 24, 2023 at 06:01 AM
+-- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -211,15 +211,17 @@ CREATE TABLE `khoa_hoc` (
 INSERT INTO `khoa_hoc` (`ma_khoa_hoc`, `alias`, `nam_bat_dau`, `nam_ket_thuc`, `ten_khoa_hoc`, `ma_hoc_ky`) VALUES
 (1, 'Học kỳ 1', 2019, 2020, 'HOC_KY_I', 1),
 (2, 'Học kỳ 2', 2019, 2020, 'HOC_KY_II', 2),
-(3, 'Học kỳ 1', 2020, 2021, 'HOC_KY_I', 3),
-(4, 'Học kỳ 2', 2020, 2021, 'HOC_KY_II', 4),
-(5, 'Học kỳ 1', 2021, 2022, 'HOC_KY_I', 5),
-(6, 'Học kỳ 2', 2021, 2022, 'HOC_KY_II', 6),
-(7, 'Học kỳ 1', 2022, 2023, 'HOC_KY_I', 7),
-(8, 'Học kỳ 2', 2022, 2023, 'HOC_KY_II', 8),
+(3, 'Học kỳ 3', 2019, 2020, 'HOC_KY_III', NULL),
+(4, 'Học kỳ 1', 2020, 2021, 'HOC_KY_I', 3),
+(5, 'Học kỳ 2', 2020, 2021, 'HOC_KY_II', 4),
+(6, 'Học kỳ 3', 2020, 2021, 'HOC_KY_III', NULL),
+(7, 'Học kỳ 1', 2021, 2022, 'HOC_KY_I', 5),
+(8, 'Học kỳ 2', 2021, 2022, 'HOC_KY_II', 6),
 (9, 'Học kỳ 3', 2021, 2022, 'HOC_KY_III', NULL),
-(10, 'Học kỳ 3', 2022, 2023, 'HOC_KY_III', NULL),
-(11, 'Học kỳ 3', 2023, 2024, 'HOC_KY_III', NULL);
+(10, 'Học kỳ 1', 2022, 2023, 'HOC_KY_I', 7),
+(11, 'Học kỳ 2', 2022, 2023, 'HOC_KY_II', 8),
+(12, 'Học kỳ 3', 2022, 2023, 'HOC_KY_III', NULL),
+(13, 'Học kỳ 1', 2023, 2024, 'HOC_KY_I', 1);
 
 -- --------------------------------------------------------
 
@@ -261,7 +263,11 @@ INSERT INTO `lop_hoc_danh_nghia` (`ma_lop`, `so_luong`, `ten_lop`, `ma_giao_vien
 (18, 31, 'DHKTPM1ATT', 1, 1, 1),
 (19, 32, 'DHKTPM2ATT', 1, 1, 1),
 (20, 31, 'DHKTPM1ATT', 1, 1, 1),
-(21, 32, 'DHKTPM2ATT', 1, 1, 1);
+(21, 32, 'DHKTPM2ATT', 1, 1, 1),
+(22, 31, 'DHKTPM1ATT', 1, 1, 1),
+(23, 32, 'DHKTPM2ATT', 1, 1, 1),
+(24, 31, 'DHKTPM1ATT', 1, 1, 1),
+(25, 32, 'DHKTPM2ATT', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -289,13 +295,13 @@ CREATE TABLE `lop_hoc_phan` (
 --
 
 INSERT INTO `lop_hoc_phan` (`ma_lop_hoc_phan`, `han_nop_hoc_phi`, `loai_hoc`, `ngay_bat_dau`, `ngay_ket_thuc`, `so_luong`, `so_luong_max`, `ten_lop_hoc_phan`, `trang_thai`, `ma_giao_vien`, `ma_khoa_hoc`, `ma_mon_hoc`) VALUES
-(1, '2023-02-12', 'HOC_MOI', '2023-02-12', '2023-03-31', 0, 23, 'DHKTPM15CTT', 'DA_KHOA', 1, 8, 1000081),
-(2, '2023-03-12', 'HOC_MOI', '2023-03-12', '2023-03-31', 1, 55, 'DHKTPM15ATT', 'CHAP_NHAN_MO_LOP', 1, 8, 1000082),
-(3, '2023-03-01', 'HOC_MOI', '1899-11-01', '2023-03-30', 3, 44, 'DHKTPM15ATT', 'DANG_CHO_SINH_VIEN_DANG_KY', 1, 8, 1000080),
+(1, '2023-02-12', 'HOC_MOI', '2023-02-12', '2023-03-31', 0, 23, 'DHKTPM15CTT', 'DA_KHOA', 1, 11, 1000081),
+(2, '2023-03-12', 'HOC_MOI', '2023-03-12', '2023-03-31', 1, 55, 'DHKTPM15ATT', 'CHAP_NHAN_MO_LOP', 1, 11, 1000082),
+(3, '2023-03-01', 'HOC_MOI', '1899-11-01', '2023-03-30', 3, 44, 'DHKTPM15ATT', 'DANG_CHO_SINH_VIEN_DANG_KY', 1, 11, 1000080),
 (4, '2023-04-01', 'HOC_MOI', '2023-04-01', '2023-04-30', 0, 32, 'DHKTPM16', 'DANG_CHO_SINH_VIEN_DANG_KY', 1, 1, 1000001),
 (5, '2023-04-01', 'HOC_MOI', '2023-04-01', '2023-04-30', 0, 33, 'DHKTPM16S', 'DANG_CHO_SINH_VIEN_DANG_KY', 1, 1, 1000001),
-(6, '2023-04-05', 'HOC_MOI', '2023-04-05', '2023-04-30', 30, 44, 'DHKTPM12B', 'DANG_CHO_SINH_VIEN_DANG_KY', 1, 8, 1000080),
-(7, '2023-04-25', 'HOC_MOI', '2023-04-25', '2023-04-30', 0, 22, 'DHKTPM1ATT', 'DANG_CHO_SINH_VIEN_DANG_KY', 1, 11, 1000001);
+(6, '2023-04-05', 'HOC_MOI', '2023-04-05', '2023-04-30', 30, 44, 'DHKTPM12B', 'DANG_CHO_SINH_VIEN_DANG_KY', 1, 11, 1000080),
+(7, '2023-04-25', 'HOC_MOI', '2023-04-25', '2023-04-30', 0, 22, 'DHKTPM1ATT', 'DANG_CHO_SINH_VIEN_DANG_KY', 1, 13, 1000001);
 
 -- --------------------------------------------------------
 
@@ -473,15 +479,20 @@ CREATE TABLE `nhan_vien` (
   `dia_chi` varchar(255) DEFAULT NULL,
   `sdt` varchar(255) DEFAULT NULL,
   `ten_nhan_vien` varchar(255) DEFAULT NULL,
-  `ma_tai_khoan` bigint(20) DEFAULT NULL
+  `ma_tai_khoan` bigint(20) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `gioi_tinh` varchar(255) DEFAULT NULL,
+  `last_backup` datetime DEFAULT NULL,
+  `nam_sinh` int(11) NOT NULL,
+  `ngay_vao_lam` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `nhan_vien`
 --
 
-INSERT INTO `nhan_vien` (`ma_nhan_vien`, `chuc_vu`, `dia_chi`, `sdt`, `ten_nhan_vien`, `ma_tai_khoan`) VALUES
-(1, 'THO_DIEN', '60/122 To 10 KP8 Phuong TCH Q12 TP.HCM', '0338188506', 'Nhân Viên A', 2);
+INSERT INTO `nhan_vien` (`ma_nhan_vien`, `chuc_vu`, `dia_chi`, `sdt`, `ten_nhan_vien`, `ma_tai_khoan`, `avatar`, `gioi_tinh`, `last_backup`, `nam_sinh`, `ngay_vao_lam`) VALUES
+(2, 'THO_DIEN', '60/122 To 10 KP8 Phuong TCH Q12 TP.HCM, Đường Huỳnh Thị Hai', '0338188506', 'Nhân Viên A', 2, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv-iuh-avatar-pattern_oyubmc.jpg', 'NAM', NULL, 2001, '2023-04-01');
 
 -- --------------------------------------------------------
 
@@ -955,9 +966,9 @@ CREATE TABLE `token` (
 --
 
 INSERT INTO `token` (`id`, `token`, `token_exp_date`, `created_by`) VALUES
-(1, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdjEiLCJleHAiOjE2ODE1NTI5NzgsImlhdCI6MTY4MTUzNDk3OH0.oem3tWmoj3CqL64bfqCgZbDdp9sCVNsb6STpwzoXTRQAP0WMysh_hqy5bZbW8pmvl8JEIL8Nb12kzo_YNIfr-A', '2023-02-04 14:46:52', 4),
-(2, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJndjEiLCJleHAiOjE2ODE1MDUyMDgsImlhdCI6MTY4MTQ4NzIwOH0.nj9JnHsZvlzHt0nbb_fgsnoIam7-Khg9rheq0btK4BvwgATY0FvZXVmHgkx7nEzBY9z0M2912XiNNRokE2RYsA', '2023-02-04 20:15:46', 1),
-(3, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJudjEiLCJleHAiOjE2ODE1ODk4MzIsImlhdCI6MTY4MTU3MTgzMn0.WLL03eQIzMt6h7hXFRSpz3_MoVZJ35tT6DR00Ab_8NA4d04sNYPIBq4mz7Rb-m6jm_3E0qVfiq-1-0t5vq1gtg', '2023-02-05 01:08:03', 2),
+(1, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdjEiLCJleHAiOjE2ODIzMjUyMDQsImlhdCI6MTY4MjMwNzIwNH0.xmSJHPSuB8UyrOpxbvZr8NrxbEmBoEtmcBcPeW4OqGOCdQmfWjq7d9I0coVd2XmlvS5ChaefcaFABnr62IBAUQ', '2023-02-04 14:46:52', 4),
+(2, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJndjEiLCJleHAiOjE2ODIyNzcwMzAsImlhdCI6MTY4MjI1OTAzMH0.dwqcEZG5ui-oNTdAiGkOR_ESkNMPDbDQ6AjuKS2DqwJOhR4OB22RfpeCg0ZmMJF8zr4qjqZLUHqzax5LkTcPzg', '2023-02-04 20:15:46', 1),
+(3, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJudjEiLCJleHAiOjE2ODIzMjM1OTQsImlhdCI6MTY4MjMwNTU5NH0.kM32VCxCEwrnUv4pUwCtebebkSZLU1TjBSEpUJJynMDNG0vyfUofNNS2LZ4v3HVc8kZ95cBRA7i16Gph05_C-w', '2023-02-05 01:08:03', 2),
 (4, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYSIsImV4cCI6MTY4MTUwNTU5MCwiaWF0IjoxNjgxNDg3NTkwfQ.jalt9_rCs1v0vKueIzSjDviMNHbze3HvtL15AOJJxPNF0nFJ3gILyLS4JwoRN4BhTknWRNjAIaSaqfd8nSqvpg', '2023-04-15 03:53:10', 3);
 
 -- --------------------------------------------------------
@@ -1262,13 +1273,13 @@ ALTER TABLE `khoa`
 -- AUTO_INCREMENT for table `khoa_hoc`
 --
 ALTER TABLE `khoa_hoc`
-  MODIFY `ma_khoa_hoc` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ma_khoa_hoc` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `lop_hoc_danh_nghia`
 --
 ALTER TABLE `lop_hoc_danh_nghia`
-  MODIFY `ma_lop` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `ma_lop` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `lop_hoc_phan`
@@ -1286,7 +1297,7 @@ ALTER TABLE `nganh`
 -- AUTO_INCREMENT for table `nhan_vien`
 --
 ALTER TABLE `nhan_vien`
-  MODIFY `ma_nhan_vien` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ma_nhan_vien` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `permission`

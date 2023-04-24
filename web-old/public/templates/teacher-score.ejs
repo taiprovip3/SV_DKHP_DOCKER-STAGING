@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ErukaLearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+</head>
+<body>
+    <div>
+        <% if(signal) { %>
+            <% if(signal == "INSERT_SUCCESS") { %>
+                <script>swal({title: "Goob jobs!", text: "Thao tác dữ liệu thành công", icon: "success"})</script>
+            <% } else {
+                if(signal == "INTERNAL_SERVER_ERROR") { %>
+                    <script>swal({title: "Internal Server Error",text: "Undefined resolution!", icon: "warning", dangerMode: true});</script>
+                <% }
+            }
+        } %>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 p-2" style="background: #b9bbbd; height: 100vh; overflow: hidden;">
+                <!-- div1 -->
+                <div class="p-3 bg-light position-relative" style="height: 20%;">
+                    <div class="position-absolute top-0 end-0 m-3 crs">
+                        <a href="./teacher"><i class="fas fa-door-open fa-2x text-secondary"></i></a>
+                    </div>
+                    <div class="">
+                        <p class="fs-3 fw-bold text-secondary">Nhập điểm cho sinh viên <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Trường hợp muốn sữa lại điểm cũ cho sinh viên thì chỉ cần override lại mã sinh viên và các cột điểm cần sữa. Các cột trống sẽ giữ như cũ"></i></p>
+                        <hr class="w-50">
+                    </div>
+                </div>
+                <!-- div2 -->
+                <div class="p-3 bg-white overflow-auto" style="height: 50%;">
+                    <table class="table table-bordered table-sm text-center">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã sinh viên</th>
+                                <th>Mã LHP</th>
+                                <th>Mã môn học</th>
+                                <th>Điểm LT1</th>
+                                <th>Điểm LT2</th>
+                                <th>Điểm LT3</th>
+                                <th>Điểm TH1</th>
+                                <th>Điểm TH2</th>
+                                <th>Điểm TH3</th>
+                                <th>Điểm GK</th>
+                                <th>Điểm CK</th>
+                                <th>Điểm Tổng Kết</th>
+                                <th>Thang điểm 4</th>
+                                <th>Điểm chữ</th>
+                                <th>Xếp loại</th>
+                                <th>Ghi chú</th>
+                                <th>Đạt?</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                            function diemTongKetCal(obj) {
+                                let diemTongKet = 0;
+                                if(obj.lopHocPhan.monHoc.soTietTH == 0) { //Nếu môn chỉ có LT
+                                    lt = ((obj.diemLT1 + obj.diemLT2 + obj.diemLT3)/3)*0.2;
+                                    gk = obj.diemGK*0.3;
+                                    ck = obj.diemCK*0.5;
+                                    diemTongKet = parseFloat(lt + gk +ck);
+                                } else {
+                                    lt = ((obj.diemLT1 + obj.diemLT2 + obj.diemLT3)/3)*0.2;
+                                    gk = obj.diemGK*0.3;
+                                    ck = obj.diemCK*0.5;
+                                    let diemTongKetLT = parseFloat(lt + gk +ck);
+                                    soTC_LT = obj.lopHocPhan.monHoc.soTietLT / 15;
+                                    TBC_TH = (obj.diemTH1 + obj.diemTH2 + obj.diemTH3)/3;
+                                    soTC_TH = obj.lopHocPhan.monHoc.soTietTH / 15;
+                                    diemTongKet = ( (diemTongKetLT*soTC_LT) + (TBC_TH*soTC_TH) ) / (soTC_LT + soTC_TH);
+                                }
+                                return diemTongKet;
+                            }
+                            function diemChuCal(params) {
+                                if(params < 4)
+                                    return "F";
+                                if(params >= 4.0 && params <= 4.9)
+                                    return "D";
+                                if(params >=5.0 && params <= 5.4)
+                                    return "D+";
+                                if(params >= 5.5 && params <= 6.4)
+                                    return "C";
+                                if(params >= 6.5 && params <= 6.9)
+                                    return "C+";
+                                if(params >= 7.0 && params <= 7.9)
+                                    return "B";
+                                if(params >= 8.0 && params <= 8.4)
+                                    return "B+";
+                                return "A";
+                            }
+                            function xepLoaiCal(params) {
+                                if(params < 4)
+                                    return "Kém";
+                                if(params >= 4.0 && params <= 4.9)
+                                    return "Yếu";
+                                if(params >=5.0 && params <= 5.4)
+                                    return "Trung bình yếu";
+                                if(params >= 5.5 && params <= 6.4)
+                                    return "Trung bình";
+                                if(params >= 6.5 && params <= 6.9)
+                                    return "Trung bình khá";
+                                if(params >= 7.0 && params <= 7.9)
+                                    return "Khá";
+                                if(params >= 8.0 && params <= 8.4)
+                                    return "Khá giỏi";
+                                return "Giỏi";
+                            }
+                            for(let i=0;i<SCORES.length;i++) { 
+                                
+                            %>
+                                <tr>
+                                    <td><%= parseInt(i+1) %></td>
+                                    <td><%= SCORES[i].sinhVien.maSinhVien %></td>
+                                    <td><%= SCORES[i].lopHocPhan.maLopHocPhan %></td>
+                                    <td><%= SCORES[i].lopHocPhan.monHoc.maMonHoc %></td>
+                                    <td><%= SCORES[i].diemLT1 %></td>
+                                    <td><%= SCORES[i].diemLT2 %></td>
+                                    <td><%= SCORES[i].diemLT3 %></td>
+                                    <td><%= SCORES[i].diemTH1 %></td>
+                                    <td><%= SCORES[i].diemTH2 %></td>
+                                    <td><%= SCORES[i].diemTH3 %></td>
+                                    <td><%= SCORES[i].diemGK %></td>
+                                    <td><%= SCORES[i].diemCK %></td>
+                                    <td><%= SCORES[i].diemTongKet.toFixed(2) %></td>
+                                    <td><%= SCORES[i].diem4.toFixed(2) %></td>
+                                    <td><%= SCORES[i].diemChu %></td>
+                                    <td><%= SCORES[i].xepLoai %></td>
+                                    <td><%= SCORES[i].ghiChu %></td>
+                                    <td><%= SCORES[i].pass %></td>
+                                    <td><input type="radio" name="isSelected" id="<%= SCORES[i].maDiem %>" class="form-check-input" onchange="sendData(<%= JSON.stringify(SCORES[i]) %>, this.id);"></td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- div3 -->
+                <div class="p-3 bg-light overflow-auto small" style="height: 30%;">
+                    <form action="<%= process.env.SELF_EJS_API_URL %>/teacher/add-score" method="post" enctype="multipart/form-data">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <label for="maLopHocPhan" class="form-label">Mã lớp học phần:</label>
+                                <input type="text" name="maLopHocPhan" id="maLopHocPhan" placeholder="Nhập mã LHP.." class="form-control" required />
+                            </div>
+                            <div>
+                                <label for="maSinhVien" class="form-label">Mã sinh viên:</label>
+                                <input type="text" name="maSinhVien" id="maSinhVien" placeholder="Nhập mã sinh viên.."  class="form-control" required />
+                            </div>
+                            <div>
+                                <label for="diemGK" class="form-label">Điểm GK:</label>
+                                <input type="text" name="diemGK" id="diemGK" placeholder="Nhập điểm Giữa kỳ.." class="form-control" />
+                            </div>
+                            <div>
+                                <label for="diemLT1" class="form-label">Điểm LT1:</label>
+                                <input type="text" name="diemLT1" id="diemLT1" placeholder="Nhập điểm Lý thuyết 1.." class="form-control" />
+                            </div>
+                            <div>
+                                <label for="diemLT2" class="form-label">Điểm LT2:</label>
+                                <input type="text" name="diemLT2" id="diemLT2" placeholder="Nhập điểm Lý thuyết 2.." class="form-control" />
+                            </div>
+                        
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <label for="diemLT3" class="form-label">Điểm LT3:</label>
+                                <input type="text" name="diemLT3" id="diemLT3" placeholder="Nhập điểm Lý thuyết 3.." class="form-control" />
+                            </div>
+                            <div>
+                                <label for="diemTH1" class="form-label">Điểm TH1:</label>
+                                <input type="text" name="diemTH1" id="diemTH1" placeholder="Nhập điểm Thực hành 1.." class="form-control" />
+                            </div>
+                            <div>
+                                <label for="diemTH2" class="form-label">Điểm TH2:</label>
+                                <input type="text" name="diemTH2" id="diemTH2" placeholder="Nhập điểm Thực hành 2.." class="form-control" />
+                            </div>
+                            <div>
+                                <label for="diemTH3" class="form-label">Điểm TH3:</label>
+                                <input type="text" name="diemTH3" id="diemTH3" placeholder="Nhập điểm Thực hành 3.." class="form-control" />
+                            </div>
+                            <div>
+                                <label for="diemCK" class="form-label">Điểm CK:</label>
+                                <input type="text" name="diemCK" id="diemCK" placeholder="Nhập điểm Cuối kỳ.." class="form-control" />
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <button type="submit" class="btn btn-primary btn-lg my-3 px-5 fw-bold">Lưu lại <i class="fas fa-save"></i></button>
+                            <div>&emsp;</div>
+                            <button type="button" class="btn btn-secondary btn-lg d-none" onclick="delete_diem();" id="delete_button">Xóa điểm <i class="fas fa-eraser"></i></button>
+                            <div>&emsp;</div>
+                            <button type="button" class="btn btn-success btn-lg my-3 px-5 fw-bold" data-bs-toggle="modal" data-bs-target="#excelModal">Nhập excel <i class="fas fa-file-excel"></i></button>
+                            <div class="flex-fill"></div>
+                            <i class="fas fa-question-circle text-primary fa-2x" data-bs-toggle="tooltip" title="Điểm tổng kết được sinh ra từ các cột điểm LT & TH. Điểm 4, Điểm chữ, xếp loại, Đạt (hay Hoàn thành) được sinh ra từ điểm điểm tổng kết"></i>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<!-- The Modal -->
+<div class="modal" id="excelModal">
+    <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <p>Import excel</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="<%= process.env.SELF_EJS_API_URL %>/teacher/add-score-excel" enctype="multipart/form-data" method="POST">
+                <input type="file" name="excel_file" id="excel_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-lg" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-primary btn-lg" id="btn-import" type="submit" disabled>Xác nhận</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+var pathNodejs = window.location.protocol + '//' + window.location.host;
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+var selected_maDiem = null;
+    function sendData(obj, maDiem) {
+        document.getElementById("maLopHocPhan").value = obj.lopHocPhan.maLopHocPhan;
+        document.getElementById("maSinhVien").value = obj.sinhVien.maSinhVien;
+        document.getElementById("diemGK").value = obj.diemGK;
+        document.getElementById("diemLT1").value = obj.diemLT1;
+        document.getElementById("diemLT2").value = obj.diemLT2;
+        document.getElementById("diemLT3").value = obj.diemLT3;
+        document.getElementById("diemTH1").value = obj.diemTH1;
+        document.getElementById("diemTH2").value = obj.diemTH2;
+        document.getElementById("diemTH3").value = obj.diemTH3;
+        document.getElementById("diemCK").value = obj.diemCK;
+        $("#delete_button").removeClass("d-none");
+        selected_maDiem = maDiem;
+    }
+     function delete_diem() {
+        if(!selected_maDiem)
+            return;
+        swal({
+            title: "Bạn có chắc chắn",
+            text: "Hành động này sẽ không thể phục hồi trở lại?",
+            icon: "warning",
+            dangerMode: true,
+            buttons: true
+        }).then((value) => {
+            if(value) {
+                $.ajax({
+                    type: "POST",
+                    url: pathNodejs + "/teacher/deleteScoreById",
+                    data: JSON.stringify({maDiem: selected_maDiem}),
+                    contentType: 'application/json',
+                    success: function(data) {
+                        if(data)
+                            swal({
+                                title: "Good jobs!",
+                                text: "Xóa điểm thành công, không thể rollback",
+                                icon: "success",
+                            }).then((value) => {
+                                window.location.href = pathNodejs + "/teacher/score" 
+                            });
+                        else 
+                            swal({
+                                title: "Không thể xóa!",
+                                text: "Điểm này không còn tồn tại trong hệ thống nữa!",
+                                icon: "warning",
+                                dangerMode: true
+                            });
+                    }, error: function(error) {
+                        console.error(error);
+                        swal({
+                            title: "Error",
+                            text: "Internal Server Error",
+                            icon: "warning",
+                            dangerMode: true,
+                        });
+                    }
+                });
+            }
+        })
+     }
+$(document).ready(function(){
+    $("#excel_file").on("change", function(){
+        $("#btn-import").attr('disabled',false);
+    });
+});
+</script>
+</html>

@@ -40,8 +40,13 @@ public class KhoaHocImpl implements KhoaHocService{
 	}
 
 	@Override
-	public List<KhoaHoc> getCoursesByStudentId(long id) {
-		return khoaHocRepository.getCoursesByStudentId(id);
+	public List<KhoaHoc> getCoursesByStudentId(long studendId) {
+		return khoaHocRepository.getCoursesByStudentId(studendId);
+	}
+
+	@Override
+	public int getCounterStudentsByCourseId(long courseId) {
+		return khoaHocRepository.getCounterStudentsByCourseId(courseId);
 	}
 
 }

@@ -243,4 +243,9 @@ public class DiemImpl implements DiemService {
 		diemRepository.deleteScoreById(maDiem);
 		return "DELETED";
 	}
+
+	@Override
+	public int getCounterByXepLoai(String xepLoai) {
+		return diemRepository.getCounterByXepLoai(xepLoai);
+	}
 }

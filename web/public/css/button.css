@@ -1,0 +1,124 @@
+.add-button {
+    border: 1px solid #3e8e41;
+    background-color: transparent; /* Màu nền của nút */
+    color: #3e8e41; /* Màu chữ trên nút */
+    padding: 12px 24px; /* Khoảng cách giữa nội dung và viền nút */
+    text-align: center; /* Căn giữa nội dung trong nút */
+    text-decoration: none; /* Loại bỏ gạch chân dưới nội dung nút */
+    display: inline-block; /* Hiển thị nút như một khối */
+    font-size: 16px; /* Cỡ chữ của nút */
+    border-radius: 4px; /* Bo góc nút */
+    cursor: pointer; /* Biến con trỏ chuột thành hình bàn tay khi di chuột qua nút */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền của nút */
+    /* width: calc(100% / 2); */
+    margin: 1px;
+  }
+  
+  .add-button:hover {
+    background-color: #3e8e41; /* Đổi màu nền của nút khi di chuột qua */
+    color: white;
+  }
+  
+  .update-button {
+    border: 1px solid #045ebe;
+    background-color: transparent; /* Màu nền của nút */
+    color: #045ebe; /* Màu chữ trên nút */
+    padding: 12px 24px; /* Khoảng cách giữa nội dung và viền nút */
+    text-align: center; /* Căn giữa nội dung trong nút */
+    text-decoration: none; /* Loại bỏ gạch chân dưới nội dung nút */
+    display: inline-block; /* Hiển thị nút như một khối */
+    font-size: 16px; /* Cỡ chữ của nút */
+    border-radius: 4px; /* Bo góc nút */
+    cursor: pointer; /* Biến con trỏ chuột thành hình bàn tay khi di chuột qua nút */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền của nút */
+    /* width: calc(100% / 2); */
+    margin: 1px;
+  }
+  
+  .update-button:hover {
+    background-color: #045ebe; /* Đổi màu nền của nút khi di chuột qua */
+    color: white;
+  }
+
+  .delete-button {
+    border: 1px solid #cc2e25;
+    background-color: transparent; /* Màu nền của nút */
+    color: #cc2e25; /* Màu chữ trên nút */
+    padding: 12px 24px; /* Khoảng cách giữa nội dung và viền nút */
+    text-align: center; /* Căn giữa nội dung trong nút */
+    text-decoration: none; /* Loại bỏ gạch chân dưới nội dung nút */
+    display: inline-block; /* Hiển thị nút như một khối */
+    font-size: 16px; /* Cỡ chữ của nút */
+    border-radius: 4px; /* Bo góc nút */
+    cursor: pointer; /* Biến con trỏ chuột thành hình bàn tay khi di chuột qua nút */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền của nút */
+    /* width: calc(100% / 2); */
+    margin: 1px;
+  }
+  
+  .delete-button:hover {
+    background-color: #cc2e25; /* Đổi màu nền của nút khi di chuột qua */
+    color: white;
+  }
+
+  .reset-button {
+    border: 1px solid #c69500;
+    background-color: transparent; /* Màu nền của nút */
+    color: #c69500; /* Màu chữ trên nút */
+    padding: 12px 24px; /* Khoảng cách giữa nội dung và viền nút */
+    text-align: center; /* Căn giữa nội dung trong nút */
+    text-decoration: none; /* Loại bỏ gạch chân dưới nội dung nút */
+    display: inline-block; /* Hiển thị nút như một khối */
+    font-size: 16px; /* Cỡ chữ của nút */
+    border-radius: 4px; /* Bo góc nút */
+    cursor: pointer; /* Biến con trỏ chuột thành hình bàn tay khi di chuột qua nút */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền của nút */
+    /* width: calc(100% / 2); */
+    margin: 1px;
+  }
+  
+  .reset-button:hover {
+    background-color: #c69500; /* Đổi màu nền của nút khi di chuột qua */
+    color: white;
+  }
+
+  .import-button {
+    background-color: #28a745; /* Màu nền của nút */
+    border: none; /* Xóa viền nút */
+    color: white; /* Màu chữ trên nút */
+    padding: 12px 24px; /* Khoảng cách giữa nội dung và viền nút */
+    text-align: center; /* Căn giữa nội dung trong nút */
+    text-decoration: none; /* Loại bỏ gạch chân dưới nội dung nút */
+    display: inline-block; /* Hiển thị nút như một khối */
+    font-size: 16px; /* Cỡ chữ của nút */
+    border-radius: 4px; /* Bo góc nút */
+    cursor: pointer; /* Biến con trỏ chuột thành hình bàn tay khi di chuột qua nút */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền của nút */
+    /* width: calc(100% / 2); */
+    margin: 1px;
+  }
+  
+  .import-button:hover {
+    background-color: #218838; /* Đổi màu nền của nút khi di chuột qua */
+  }
+
+  .export-button {
+    background-color: #007bff; /* Màu nền của nút */
+    border: none; /* Xóa viền nút */
+    color: white; /* Màu chữ trên nút */
+    padding: 12px 24px; /* Khoảng cách giữa nội dung và viền nút */
+    text-align: center; /* Căn giữa nội dung trong nút */
+    text-decoration: none; /* Loại bỏ gạch chân dưới nội dung nút */
+    display: inline-block; /* Hiển thị nút như một khối */
+    font-size: 16px; /* Cỡ chữ của nút */
+    border-radius: 4px; /* Bo góc nút */
+    cursor: pointer; /* Biến con trỏ chuột thành hình bàn tay khi di chuột qua nút */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền của nút */
+    /* width: calc(100% / 2); */
+    margin: 1px;
+  }
+  
+  .export-button:hover {
+    background-color: #0062cc; /* Đổi màu nền của nút khi di chuột qua */
+  }
+  

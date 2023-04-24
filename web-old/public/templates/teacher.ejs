@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ErukaLearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <style>
+        /* @import url('https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap');
+        * {
+            font-family: 'Tilt Warp', cursive;
+        } */
+        .feature-item{
+            background: rgb(235, 235, 235);
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <% if(signal) {
+            if(signal == "SUCCESS_LOGON") { %>
+                <script>
+                    var session = document.cookie;
+                    if(!session) {
+                        toastr.success("Đã lưu phiên đăng nhập cho lần kế", "Login Successfully", {positionClass: "toast-bottom-right"});
+                        document.cookie = "session=<%= TEACHER_DATA.tenGiaoVien %>";
+                    }
+                </script>
+         <% }
+        } %>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 px-4 py-2" style="height: 100vh;background: #b9bbbd;">
+                <div class="py-5 bg-white position-relative">
+                    <div id="myHeader" class="d-flex justify-content-sm-around">
+                        <div class="text-center d-flex align-items-center">
+                            <!-- <div><span class="display-2 text-primary fw-bold">Homepage</span>
+                            <h1 class="text-primary">Trang Giảng Viên - IUH</h1></div> -->
+                            <img src="https://images.cooltext.com/5650413.png" alt="logo-iuh-gv" width="100%">
+                        </div>
+                        <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0gWW50OldXTx1BYDOMVzNZo5cbm1FLWvjBPcxKGsaaCGv49C2ZqAxSO5boiSszPUyBuQ&usqp=CAU" alt="logo-iuh" width="100%"></div>
+                    </div>
+                    <hr class="w-75 m-auto"><br>
+                    <div class="d-flex justify-content-between">
+                        <div></div>
+                        <div class="border rounded-3 p-3 px-5" id="profileInfo">
+                            <div class="text-center">
+                                <img src="<%= TEACHER_DATA.avatar %>" alt="avatar" width="128px" height="128px" class="rounded-circle">
+                                <br>
+                                <span class="text-primary text-decoration-underline crs" data-bs-toggle="modal" data-bs-target="#detailInfoModal">Xem chi tiết</span>
+                            </div>
+                            <div class="d-flex justify-content-evenly">
+                                <%
+                                    function formatDate(date){
+                                        let mydate = new Date(date);
+                                        let d = mydate.getDate();
+                                        let m = mydate.getMonth() + 1;
+                                        let y = mydate.getFullYear();
+                                        return (d <= 9 ? '0' + d : d) + "/" + (m<=9 ? '0' + m : m) + "/" + y;
+                                    }
+                                    const shortCutSex = {NAM: 'Nam', NU: 'Nữ'};
+                                    const shortCutLoaiGiaoVien = {GIAO_VIEN_BO_MON: 'Giáo Viên Bộ Môn', GIAO_VIEN_CHU_NHIEM: 'Giáo Viên Chủ Nhiệm', GIAO_VIEN_HUONG_DAN: 'Giáo Viên Hướng Dẫn', GIAO_VIEN_GIAM_SAT: 'Giáo Viên Giám Sát'};
+                                %>
+                                <div class="px-2">
+                                    <span class="d-block">Mã giáo viên: <span class="text-primary">#<%= TEACHER_DATA.maGiaoVien %></span></span>
+                                    <span class="d-block">Tên giáo viên: <span class="text-primary"><%= TEACHER_DATA.tenGiaoVien %></span></span>
+                                    <span class="d-block">Giới tính: <span class="text-primary"><%= shortCutSex[TEACHER_DATA.gioiTin] %></span></span>
+                                    <span class="d-block">Loại giáo viên: <span class="text-primary"><%= shortCutLoaiGiaoVien[TEACHER_DATA.loaiGiaoVien] %></span></span>
+                                </div>
+                                <div class="px-2">
+                                    <span class="d-block">Ngày sinh: <span class="text-primary"><%= formatDate(TEACHER_DATA.ngaySinh) %></span></span>
+                                    <span class="d-block">Địa chỉ: <span class="text-primary"><%= TEACHER_DATA.diaChi %></span></span>
+                                    <span class="d-block">Số điện thoại: <span class="text-primary"><%= TEACHER_DATA.sdt %></span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                    </div>
+                    <br>
+                    <div class="d-flex justify-content-around">
+                        <a href="./teacher/timetable" class="text-decoration-none">
+                            <div class="border p-3 text-center crs feature-item">
+                                <span><i class="fas fa-calendar-check fa-2x"></i></span>
+                                <br>
+                                <span>Xem lịch dạy</span>
+                                <br>
+                                <span>(Hôm nay có lịch)</span>
+                            </div>
+                        </a>
+                        <a href="./teacher/score" class="text-decoration-none">
+                            <div class="border p-3 text-center crs feature-item">
+                                <span><i class="fas fa-pen-square fa-2x"></i></span>
+                                <br>
+                                <span>Nhập điểm</span>
+                                <br>
+                                <span>Cho sinh viên</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="position-absolute top-0 end-0 m-1 text-center crs" data-bs-toggle="tooltip" title="Log out">
+                        <a href="./teacher-logout"><i class="fas fa-sign-out-alt fa-2x text-secondary"></i></a>
+                        <br>
+                        <span class="small text-decoration-underline" style="color: blue;">Log out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- The Modal -->
+<div class="modal" id="detailInfoModal">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Thông tin giáo viên</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <div class="text-center">
+                <img src="<%= TEACHER_DATA.avatar %>" alt="avatar" width="128px" height="128px" class="rounded-circle">
+                <br>
+                <a href="<%= TEACHER_DATA.avatar %>" target="_blank"><span class="text-primary text-decoration-underline">Avatar</span></a>
+            </div>
+            <hr width="75%" class="m-auto my-2">
+            <div class="d-flex">
+                <div class="border bg-light p-3 mx-2">
+                    <span class="d-block">Họ và tên: <span class="text-primary">Hoàng Thùy Linh</span></span>
+                    <span class="d-block">Ngày sinh: <span class="text-primary">25/05/20221</span></span>
+                    <span class="d-block">Giới tính: <span class="text-primary">Nữ</span></span>
+                    <span class="d-block">SĐT: <span class="text-primary">0338188506</span></span>
+                    <span class="d-block">Địa chỉ: <span class="text-primary">60/122 KP8 Phường Tân Chánh Hiệp, Q12, TP.HCM</span></span>
+                </div>
+                <div class="border bg-light p-3 mx-2">
+                    <span class="d-block">Mã GV: <span class="text-primary">#1</span></span>
+                    <span class="d-block">Loại GV: <span class="text-primary">[Giáo viên bộ môn, Giáo viên chủ nhiệm]</span></span>
+                    <span class="d-block">Ngày công tác: <span class="text-primary">18/03/1999</span></span>
+                    <span class="d-block">Mã hồ sơ: <span class="text-primary">#1</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $(document).ready(function() {
+        const profileInfoJQuery = $("#profileInfo");
+        const heightBox = profileInfoJQuery.height();
+        profileInfoJQuery.width(parseInt(heightBox+20));
+    });
+</script>
+</html>

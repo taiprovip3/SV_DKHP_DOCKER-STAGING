@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ErukaLearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css//common.css" type="text/css">
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+</head>
+<body>
+<!-- Xem Lịch Trùng modal -->
+<div class="modal" id="SameUnitClassModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <p class="modal-title">Danh sách LHP/Thời Khóa Biểu trùng lịch:</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body table-responsive small">
+                <label for="myTable">Trùng lịch của bạn:</label>
+                <table class="table table-bordered table-striped table-hover text-nowrap" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã lớp học phần</th>
+                            <th>Lớp đại diện</th>
+                            <th>Tên môn bị trùng</th>
+                            <th>Thứ</th>
+                            <th>Từ tiết</th>
+                            <th>Đến tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tBodyMyDuplicate">
+                    </tbody>
+                </table>
+                <label for="myTable">Trùng lịch vừa chọn:</label>
+                <table class="table table-bordered table-striped table-hover text-nowrap" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã lớp học phần</th>
+                            <th>Lớp đại diện</th>
+                            <th>Tên môn bị trùng</th>
+                            <th>Thứ</th>
+                            <th>Từ tiết</th>
+                            <th>Đến tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tBodyServerDuplicate">
+                    </tbody>
+                </table>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Đóng lại</button>
+            </div>
+            </div>
+    </div>
+</div>
+<!-- Xem Lớp Học modal -->
+<div class="modal" id="SvlhpDetailsModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <p class="modal-title">Chi tiết lớp học:</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body table-responsive small">
+                <table class="table table-bordered table-striped table-hover text-nowrap text-center">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Lịch học</th>
+                            <th>Nhóm <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Nếu lịch học là 'THỰC HÀNH (TH)' thì sẽ phân theo nhóm học thường là `1` hoặc `2`. Lý do vì nếu không phân nhóm sẽ không đủ thiết bị thực hành cho một lớp học đông. Còn lịch 'LÝ THUYẾT (LT)' thường không phân nhóm (0)."></i></th>
+                            <th>Phòng học</th>
+                            <th>Dãy nhà</th>
+                            <th>Giảng viên</th>
+                            <th>Thời gian</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tBodyTKBDetails">
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Đóng lại</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="container-fluid ">
+        <div class="row position-relative">
+            <div class="position-absolute top-0 start-0 text-start mt-2 fs-3 w-50">
+                <i class="fas fa-bars crs dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" onclick="audio.play();"></i>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                    <li class="lead"><a class="dropdown-item" href="../../student"><i class="fab fa-fort-awesome-alt"></i> Trang chủ</a></li>
+                    <li class="lead"><a class="dropdown-item disabled"><i class="fas fa-journal-whills"></i> Học tập</a></li>
+                    <li class="lead">
+                        <div>
+                            <a class="crs text-decoration-none d-block" href="../../student/timetable">&emsp;&emsp;<i class="fas fa-calendar-check"></i> Lịch học theo tuần</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/score">&emsp;&emsp;<i class="fas fa-chart-bar"></i> Kết quả học tập</a>
+                            <a class="crs text-decoration-none d-block text-white bg-primary" href="javascript:void(0)">&emsp;&emsp;<i class="fab fa-xbox"></i> Đăng ký học phần</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/pattern">&emsp;&emsp;<i class="fab fa-windows"></i> Chương trình khung</a>
+                        </div>
+                    </li>
+                    <li class="lead"><a class="dropdown-item disabled"><i class="fas fa-journal-whills"></i> Học phí</a></li>
+                    <li class="lead">
+                        <div>
+                            <a class="crs text-decoration-none d-block" href="../../student/debt">&emsp;&emsp;<i class="fas fa-sack-dollar"></i> Tra cứu công nợ</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/order-detail">&emsp;&emsp;<i class="fas fa-file-invoice-dollar"></i> Biên lai tổng hợp</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/payment">&emsp;&emsp;<i class="fab fa-cc-apple-pay"></i> Thanh toán học phí</a>
+                            <a class="crs text-decoration-none d-block" href="../../student/wallet">&emsp;&emsp;<i class="fas fa-donate"></i> Nạp tiền vào ví</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="position-absolute top-0 end-0 text-end mt-2 fs-3 w-50">
+                <a href="../../student"><i class="fas fa-door-open text-secondary crs" onclick="audio.play();"></i></a>
+            </div>
+            <div class="col-lg-12 bg-light py-2 px-5" style="height: 100vh;">
+                <div class="bg-white p-4">
+                    <div>
+                        <h4 class="fw-bold text-muted">Đăng ký học phần</h4>
+                        <hr>
+                    </div>
+                    <div>
+                        <select name="select_course" id="select_course" class="p-3 w-100" onclick="audio.play();">
+                            <option value="0">Chọn đợt đăng ký học phần</option>
+                            <% for(let i=0; i<LIST_COURSE.length; i++) { %>
+                                <option value="<%= LIST_COURSE[i].maKhoaHoc %>" onclick="audio.play();"><%= LIST_COURSE[i].alias %> (<%= LIST_COURSE[i].namBatDau %> - <%= LIST_COURSE[i].namKetThuc %>)</option>
+                            <% } %> 
+                        </select>
+                        <div id="select_content">
+                        </div>
+                        <div>
+                            <input type="radio" name="LoaiHoc" id="HOC_MOI" value="HOC_MOI" class="form-check-input" onchange="onLoaiHocChange(this.value);" checked onclick="audio.play();">
+                            <label for="HOC_MOI">Học mới</label>
+                            &emsp;
+                            <input type="radio" name="LoaiHoc" id="HOC_LAI" value="HOC_LAI" class="form-check-input" onchange="onLoaiHocChange(this.value);" onclick="audio.play();">
+                            <label for="HOC_LAI">Học lại</label>
+                            &emsp;
+                            <input type="radio" name="LoaiHoc" id="HOC_CAI_THIEN" value="HOC_CAI_THIEN" class="form-check-input" onchange="onLoaiHocChange(this.value);" onclick="audio.play();">
+                            <label for="HOC_CAI_THIEN">Học cải thiện</label>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <span class="fw-bold">Danh sách môn học / học phần chờ đăng ký: <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Danh sách môn học có thể học đã được lọc đối cho phù hợp với từng sinh viên từng ngành khác nhau."></i></span>
+                        <div class="table-responsive">
+                            <form id="FormSelectedSubject">
+                            <table class="table table-bordered text-nowrap text-center">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th></th>
+                                        <th>STT</th>
+                                        <th>Mã học phần</th>
+                                        <th>Tên môn học</th>
+                                        <th>Số tín chỉ</th>
+                                        <th>Bắt buộc?</th>
+                                        <th>Yêu cầu học phần trước</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tBodySubjectCourseSelected">
+                                </tbody>
+                            </table>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="ListUnitClass" class="d-flex small mt-3 table-responsive">
+                        <!-- Append DOM here -->
+                    </div>
+                    <div class="mt-3">
+                        <span class="fw-bold">Lớp học phần được đăng ký từ môn học / học phần: <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Đây là bảng thông tin chi tiết lớp học phần mà bạn đã đăng ký môn học / học phần từ bảng trên."></i></span>
+                        <div class="border table-responsive">
+                            <table class="table table-bordered text-nowrap text-center">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>STT</th>
+                                        <th>Mã lớp học phần</th>
+                                        <th>Tên môn học phần</th>
+                                        <th>Lớp đại diện</th>
+                                        <th>Số tín chỉ</th>
+                                        <th>Thuộc nhóm học</th>
+                                        <th>Học phí</th>
+                                        <th>Hạn nộp</th>
+                                        <th>Thu?</th>
+                                        <th>Loại học</th>
+                                        <th>Ngày đăng ký</th>
+                                        <th>Trạng thái lớp học phần <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Trạng thái: `Chờ Sinh Viên Đăng Ký` có thể hủy lớp. Trạng thái: `Chấp Nhận Mở Lớp` sẽ không thể hủy đăng ký. Trạng thái `Đã Khóa` sẽ không thể hủy đăng ký. Trạng thái sẽ cập nhật vào đúng thời điểm thông báo khóa hết hạn do khoa quy định!"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tBodyUnitClassRegistered">
+                                    <!-- Render by Ajax -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="http://localhost:4000/socket.io/socket.io.js"></script>
+<script>
+    var socket = io.connect('ws://localhost:4000');
+    socket.on('connect', function() {
+      console.log('Connected to server');
+    });
+    socket.on('dataChange', function(data) {
+      const maMonHoc = data.monHoc.maMonHoc;
+      if(maMonHoc == selected_ma_mon_hoc) {
+        toastr.info(`Lớp học phần: LHP #${data.maLopHocPhan} - ${data.monHoc.maMonHoc} - ${data.monHoc.tenMonHoc.toUpperCase()} vừa được cập nhật`);
+        renderUnitClassBySujectId();
+      }
+    });
+</script>
+<script src="../javascript/student-dkhp/change-timetables.js"></script>
+<script src="../javascript/student-dkhp/on-btn-filter-same-unit-class.js"></script>
+<script src="../javascript/student-dkhp/on-checkbox-filter-same-unit-class.js"></script>
+<script src="../javascript/student-dkhp/on-radio-loai-hoc-change.js"></script>
+<script src="../javascript/student-dkhp/register-svlhp.js"></script>
+<script src="../javascript/student-dkhp/render-div-unit-class.js"></script>
+<script src="../javascript/student-dkhp/render-empty-div-unit-class.js"></script>
+<script src="../javascript/student-dkhp/render-trs-tkb.js"></script>
+<script src="../javascript/student-dkhp//render-unit-class-by-subjectid.js"></script>
+<script src="../javascript/student-dkhp/tooltip-trigger.js"></script>
+<script src="../javascript//student-dkhp/on-checkbox-filter-unlock-unit-class.js"></script>
+<script>
+const audio = new Audio();
+audio.src = "../audio/click.mp3";
+var pathNodejs = '<%= process.env.SELF_EJS_API_URL %>' + '';
+var global_filter_unlock_unit_class_checked = '';
+var global_filter_same_unit_class_checked = '';
+var selected_ma_thoi_khoa_bieu = '';
+var selected_thoi_khoa_bieu_con = '0';
+var selected_loai_hoc = 'HOC_MOI';
+var selected_ma_lop_hoc_phan = '';
+var selected_ma_mon_hoc = '';
+var selected_ma_khoa_hoc = 0;
+const latestCourseId = '<%= LIST_COURSE[LIST_COURSE.length-1].maKhoaHoc %>';
+$("#select_course option[value='"+ latestCourseId +"']").text($("#select_course option[value='"+ latestCourseId + "']").text()+" ✔");
+
+function changeTimeTableIdListener(maThoiKhoaBieu, loaiThoiKhoaBieu) {
+    selected_ma_thoi_khoa_bieu = maThoiKhoaBieu;
+    selected_thoi_khoa_bieu_con = loaiThoiKhoaBieu;
+}
+async function getSVLHPByMaLopHocPhanId(maLopHocPhan) {
+    return $.ajax({
+        type: "POST",
+        url: pathNodejs+"/student/dkhp/getSVLHPByMaLopHocPhanId",
+        data: JSON.stringify({maLopHocPhan: maLopHocPhan}),
+        contentType: 'application/json',
+    }).then(data => data);
+}
+async function getTimeTables(maLopHocPhan) {
+    return $.ajax({
+        type: "POST",
+        url: pathNodejs+"/student/dkhp/getTimeTables",
+        data: JSON.stringify({maLopHocPhan}),
+        contentType: 'application/json',
+    }).then(timeTables => timeTables);
+}
+async function getTimeTablesByUnitClassId() {
+    return $.ajax({
+        type: "POST",
+        url: pathNodejs+"/student/dkhp/getTimeTablesByUnitClassId",
+        data: JSON.stringify({maLopHocPhan: selected_ma_lop_hoc_phan}),
+        contentType: 'application/json',
+    }).then(data => data);
+}
+function ShowTKBDetails(svlhpId) {
+    audio.play();
+    $.ajax({
+        type: "POST",
+        url: pathNodejs+"/student/dkhp/getSvlhpById",
+        data: JSON.stringify({svlhpId}),
+        contentType: 'application/json',
+        success: function(svlhp) {
+            var trs = "";
+            const tkb = svlhp.thoiKhoaBieu;
+            trs +=
+            '<tr>'+
+                '<td>1</td>'+
+                '<td>'+ tkb.loaiBuoiHoc +' - Thứ '+ tkb.thuHoc +' (Tiết '+ tkb.tuTietHoc +' -> '+ tkb.denTietHoc +')</td>'+
+                '<td>'+ tkb.nhomHoc +'</td>'+
+                '<td>'+ tkb.phongHoc +'</td>'+
+                '<td>'+ tkb.phongHoc.substring(0,1) +'</td>'+
+                '<td>'+ tkb.lopHocPhan.giaoVien.tenGiaoVien +'</td>'+
+                '<td>'+ formatDate(tkb.lopHocPhan.ngayBatDau) +' - '+ formatDate(tkb.lopHocPhan.ngayKetThuc) +'</td>'+
+            '</tr>';
+            if(svlhp.thoiKhoaBieuCon) {
+                const tkb = svlhp.thoiKhoaBieuCon;
+                trs +=
+                '<tr>'+
+                    '<td>2</td>'+
+                    '<td>'+ tkb.loaiBuoiHoc +' - Thứ '+ tkb.thuHoc +' (Tiết '+ tkb.tuTietHoc +' -> '+ tkb.denTietHoc +')</td>'+
+                    '<td>'+ tkb.nhomHoc +'</td>'+
+                    '<td>'+ tkb.phongHoc +'</td>'+
+                    '<td>'+ tkb.phongHoc.substring(0,1) +'</td>'+
+                    '<td>'+ tkb.giaoVien.tenGiaoVien +'</td>'+
+                    '<td>'+ formatDate(tkb.ngayBatDau) +' - '+ formatDate(tkb.ngayKetThuc)+'</td>'+
+                '</tr>';
+            }
+            $("#tBodyTKBDetails").html(trs);
+        }
+    });
+}
+function handleDestroySvdkhp(id_svlhp) {
+    audio.play();
+    swal({
+            title: "Bạn có chắc chắn?",
+            text: "Lớp học phần này sẽ giảm đi số lượng (-1).\nVà có thể bị dành chỗ mất bởi người khác.\nTrường hợp LHP không đủ số lượng người\nđăng ký cũng sẽ bị hủy!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(async (willDelete) => {
+            if(willDelete) {
+                audio.play();
+                $.ajax({
+                    type: "DELETE",
+                    url: pathNodejs+"/student/dkhp/sv_lhp",
+                    data: JSON.stringify({maSVLHP: id_svlhp}),
+                    contentType: 'application/json',
+                    success: function(myStringResult) {
+                        if(myStringResult == "OUT_OF_DATE") {
+                            swal({title: "Thất bại!",text: "Lớp học ở trạng thái 'Đã Khóa' hoặc 'Chấp Nhận\nMở Lớp' sẽ không thể hủy được!",icon: "warning", dangerMode: true});
+                        } else {
+                            if(myStringResult == "OK") {
+                                swal({title: "Thành công!",text: "Đã hủy thành công lớp học phần",icon: "success", dangerMode: false}).then((willDelete) => {
+                                    audio.play();
+                                    location.reload();
+                                });
+                            } else {
+                                swal({title: "ERROR!",text: "Internal Server Error",icon: "warning", dangerMode: true});
+                                return;
+                            }
+                        }
+                    }
+                });
+            } else audio.play();
+        });
+}
+async function getLHPById(maLopHocPhan) {
+    return $.ajax({
+        type: "POST",
+        url: pathNodejs+"/student/dkhp/getUnitClassesById",
+        data: JSON.stringify({maLopHocPhan}),
+        contentType: 'application/json',
+    })
+    .then(lhp => lhp);
+}
+function getIdBlackListLHPSameUnitClass() {//trả về list id LHP trùng lịch
+    return $.ajax({
+        type: "POST",
+        url: pathNodejs+"/student/dkhp/getUnitClassesBySubjectIdAndLoaiHocAndMaKhoaHoc",
+        data: JSON.stringify({maMonHoc: selected_ma_mon_hoc, loaiHoc: selected_loai_hoc, maKhoaHoc: selected_ma_khoa_hoc}),
+        contentType: 'application/json',
+    })
+    .then(LHPsSelected => {
+        return $.ajax({
+            type: "POST",
+            url: pathNodejs+"/student/dkhp/getUnitClassesStudentRegisterByStudentIdAndMaKhoaHoc",
+            contentType: 'application/json',
+            data: JSON.stringify({ maKhoaHoc: selected_ma_khoa_hoc }),
+            success: async function(LHPsRegistered) {
+            }
+        })
+        .then(async (LHPsRegistered) => {
+            var misLHPsTKBs1 = [];
+            var misLHPsTKBs2 = [];
+            for (let i = 0; i < LHPsSelected.length; i++) {
+                const element = LHPsSelected[i];
+                const timeTables = await getTimeTables(element.maLopHocPhan);
+                misLHPsTKBs1.push({lopHocPhan: element, thoiKhoaBieus: timeTables});
+            }
+            for(let i=0; i<LHPsRegistered.length; i++) {
+                const element = LHPsRegistered[i];
+                const timeTables = await getTimeTables(element.maLopHocPhan);
+                misLHPsTKBs2.push({lopHocPhan: element, thoiKhoaBieus: timeTables});
+            }
+            //Lọc ra ds object LHP thõa mãn ko trùng. Kịch bản trùng: Thứ2: T1-T5
+            var idBlacklist = [];
+            for(let h=0; h<misLHPsTKBs2.length; h++) {
+                const object2 = misLHPsTKBs2[h];
+                for(let i=0; i<object2.thoiKhoaBieus.length; i++) { //Từng object2 của student
+                    const TKB2thuHoc = object2.thoiKhoaBieus[i].thuHoc;
+                    const TKB2tuTietHoc = object2.thoiKhoaBieus[i].tuTietHoc;
+                    const TKB2denTietHoc = object2.thoiKhoaBieus[i].denTietHoc;
+                    //đem compare vs từng TKB của server
+                    for(let j=0; j<misLHPsTKBs1.length; j++) {//Từng object1 của server
+                        const object1 = misLHPsTKBs1[j];
+                        for(let k=0; k<object1.thoiKhoaBieus.length; k++) {
+                            const TKB1thuHoc = object1.thoiKhoaBieus[k].thuHoc;
+                            const TKB1tuTietHoc = object1.thoiKhoaBieus[k].tuTietHoc;
+                            const TKB1denTietHoc = object1.thoiKhoaBieus[k].denTietHoc;
+                            if(TKB1thuHoc == TKB2thuHoc) {
+                                if(TKB1tuTietHoc == TKB2tuTietHoc || TKB1tuTietHoc == TKB2denTietHoc)
+                                    idBlacklist.push(object1.lopHocPhan.maLopHocPhan);
+                            }
+                        }
+                    }
+                }
+            }
+            return idBlacklist;
+        });
+    });
+}
+function formatDate(theDate) {
+    const date = new Date(theDate);
+    return date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+}
+$(document).ready(function(){
+    $("#select_course").change(function(){
+        $("#ListUnitClass").html("");
+        if($(this).val() === "0") {//Nếu chọn lại nút select mặc định
+            $("#tBodySubjectCourseSelected").html("");
+            $("#tBodyUnitClassRegistered").html("");
+            return;
+        }
+        selected_ma_khoa_hoc = $(this).val();
+        if(selected_ma_khoa_hoc != latestCourseId) {//Xử lý latest icon
+            swal({ title: "Học kỳ chọn quá hạn", text: "Khoá học bạn vừa chọn đã cũ và sẽ không còn lớp học phần nào được mở thêm. Chỉ có thể xem lại lịch sử. Vui lòng chọn những khoá học có tích xanh ✔.", icon: "warning", dangerMode: true });
+        }
+        $.ajax({//Xử lý: lấy danh sách subject by courseId
+            type: "POST",
+            url: pathNodejs+"/student/dkhp/getSubjectsByCourseId",
+            data: JSON.stringify({maKhoaHoc: selected_ma_khoa_hoc}),
+            contentType: 'application/json',
+            success: function(data) {
+                var myLoop = "";
+                for (let i = 0; i < data.length; i++) {
+                    var loaiMonBeLike = "null";
+                    if(data[i].loaiMon === "TU_CHON")
+                        loaiMonBeLike = '<i class="fas fa-times-circle text-danger" data-bs-toggle="tooltip" title="Bạn có thể tự do đăng ký môn này hoặc không hoặc các môn có tích đỏ khác để lấy đủ tín chỉ học phần TU_CHON yêu cầu!"></i>';
+                    else loaiMonBeLike = '<i class="fas fa-check-circle text-success" data-bs-toggle="tooltip" title="Đây là môn bắt buộc phải học trong học kỳ này. Nếu không đăng ký sẽ bị trễ tiến độ học, hậu quả tệ về sau!"></i>';
+                    myLoop += '<tr><td><input type="radio" name="SelectedSubject" id="'+ data[i].maMonHoc +'" value="'+ data[i].maMonHoc +'" class="form-check-input" onclick="audio.play();" /></td><td>'+ i +'</td><td>'+ data[i].maMonHoc +'</td><td>'+ data[i].tenMonHoc +'</td><td>'+ data[i].soTinChi +'</td><td>'+ loaiMonBeLike +'</td><td>'+ data[i].maMonYeuCau +'</td></tr>';
+                }
+                $("#tBodySubjectCourseSelected").html(myLoop);
+            }, error: function(error) {
+                console.error(error);
+            }
+        });
+        $.ajax({//Xử lý: lấy danh sách lhp đã đăng ký trong courseId selected
+            type: "POST",
+            url: pathNodejs+"/student/dkhp/getUnitClassesStudentRegisterByStudentIdAndMaKhoaHoc",
+            data: JSON.stringify({maKhoaHoc: selected_ma_khoa_hoc}),
+            contentType: 'application/json',
+            success: async function(data) {
+                //Render tab list hoc phần sv đã đăng ký...
+                var sv_lhps= [];
+                for(LHP of data) {
+                    const SVLHP = await getSVLHPByMaLopHocPhanId(LHP.maLopHocPhan);
+                    sv_lhps.push(SVLHP);
+                }
+                let myLoop = "";
+                for(let i=0; i<sv_lhps.length; i++) {
+                    let whatIcon = '<i class="fas fa-times-circle text-danger"></i>';
+                    if(sv_lhps[i].daThuHocPhi)
+                        whatIcon = '<i class="fas fa-check-circle text-success"></i>';
+                    let whatGroup = "Không";
+                    if(sv_lhps[i].thoiKhoaBieuCon)
+                        whatGroup = "LT - Nhóm " + sv_lhps[i].thoiKhoaBieu.nhomHoc + "<br>TH - Nhóm " + sv_lhps[i].thoiKhoaBieuCon.nhomHoc;
+                    let trangThaiBeLike = 'Đang chờ sinh viên đăng ký';
+                    let trangThaiTrBackground = "table-success";
+                    const myDateString = sv_lhps[i].lopHocPhan.ngayBatDau;
+                    const myD1 = new Date(myDateString);
+                    let previous7Day = new Date(myD1);
+                    previous7Day.setDate(previous7Day.getDate() - 7);
+                    const myD2 = new Date();
+                    if(myD2 > previous7Day) {
+                        const diffD = Math.abs(myD2 - previous7Day);
+                        const one_day=1000*60*60*24;
+                        const myResult = Math.round(diffD/one_day);
+                        trangThaiBeLike = 'Đã khóa';
+                        trangThaiTrBackground = "table-secondary";
+                    }
+                    myLoop += 
+                    '<tr class="'+ trangThaiTrBackground +'">'+
+                        '<td class="d-table-cell align-middle"><button class="btn btn-light btn-sm text-decoration-underline" id="'+ sv_lhps[i].id +'" data-bs-toggle="modal" data-bs-target="#SvlhpDetailsModal" onclick="ShowTKBDetails('+ sv_lhps[i].id +');">Xem</button></td>'+
+                        '<td class="d-table-cell align-middle"><button class="btn btn-light btn-sm text-muted text-decoration-underline" id="'+ sv_lhps[i].id +'" onclick="handleDestroySvdkhp('+ sv_lhps[i].id +');">Hủy</button></td>'+
+                        '<td class="d-table-cell align-middle">'+ parseInt(i+1) +'</td>'+
+                        '<td class="d-table-cell align-middle">'+ sv_lhps[i].lopHocPhan.maLopHocPhan +'</td>'+
+                        '<td class="d-table-cell align-middle">'+ sv_lhps[i].lopHocPhan.monHoc.tenMonHoc +' -<br>'+ sv_lhps[i].lopHocPhan.monHoc.maMonHoc +'</td>'+
+                        '<td class="d-table-cell align-middle">'+ sv_lhps[i].lopHocPhan.tenLopHocPhan +'</td>'+
+                        '<td class="d-table-cell align-middle">'+ sv_lhps[i].lopHocPhan.monHoc.soTinChi +'</td>'+
+                        '<td class="d-table-cell align-middle">'+ whatGroup +'</td>'+
+                        '<td class="d-table-cell align-middle">'+ sv_lhps[i].lopHocPhan.monHoc.hocPhi.toLocaleString('es-US') +' vnđ</td>'+
+                        '<td class="d-table-cell align-middle">'+ sv_lhps[i].lopHocPhan.ngayBatDau +'</td>'+
+                        '<td class="d-table-cell align-middle">'+ whatIcon +'</td>'+
+                        '<td class="d-table-cell align-middle">'+ sv_lhps[i].lopHocPhan.loaiHoc +'</td>'+
+                        '<td class="d-table-cell align-middle">'+ sv_lhps[i].ngayDangKy +'</td>'+
+                        '<td class="d-table-cell align-middle">'+ trangThaiBeLike +'</td>'+
+                    '</tr>';
+                }
+                $("#tBodyUnitClassRegistered").html(myLoop);
+            }
+        });
+    });
+    $("#FormSelectedSubject").change(function() {//Chọn select maMonHoc sẽ render bảng giữa
+        const maMonHoc= $("input[name='SelectedSubject']:checked").val(); //1000080
+        global_filter_same_unit_class_checked = "";
+        global_filter_unlock_unit_class_checked = "";
+        selected_ma_mon_hoc = maMonHoc;
+        renderUnitClassBySujectId();
+    });
+});
+</script>
+</html>

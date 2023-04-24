@@ -9,4 +9,5 @@ public interface NhanVienService {
 	public NhanVien addEmployee(NhanVienDTO nhanVien);
 	public List<Long> removeListEmployee(List<Long> listIdEmployee);
 	public NhanVien updateEmployee(NhanVienDTO nhanVien);
+	public NhanVien getEmployeeById(long employeeId);
 }

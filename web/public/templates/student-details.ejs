@@ -10,7 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+    <link rel="stylesheet" href="../css/common.css" type="text/css">
 </head>
 <body>
     <%
@@ -37,7 +37,7 @@
                     swal("Internal Server Error!")
                     .then((value) => {
                         audio.play();
-                        window.location.href = "<%= process.env.SELF_EJS_API_URL %>/student";
+                        window.location.href = pathNodejs+"/student";
                     });
                 </script>
             <% }
@@ -85,7 +85,7 @@
         </div>
 
         <div class="position-absolute px-3 pt-1">
-            <form action="<%= process.env.SELF_EJS_API_URL %>/student-login" method="post"> 
+            <form action="/student-login" method="post"> 
                 <label for="returnToStudentHomepage"><i class="fas fa-angle-left fs-3 crs"></i> </label>
                 <button type="submit" class="d-none" id="returnToStudentHomepage"></button>
             </form>
@@ -239,7 +239,7 @@
     // }
 const audio = new Audio();
 audio.src = "../audio/click.mp3";
-var pathNodejs = window.location.protocol + '//' + window.location.host;
+const pathNodejs = '<%= process.env.EJS_API_URL %>';
 </script>
 </body>
 </html>

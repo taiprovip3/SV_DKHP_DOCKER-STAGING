@@ -1,3 +1,5 @@
+const mysqldump = require('mysqldump');
+const fs = require('fs');
 const express = require('express');
 const employeeFeatureRouter = express.Router();
 const app = express();
@@ -21,6 +23,7 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
+const ejs = require('ejs');
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -74,12 +77,47 @@ const { addLopHocPhan } = require('./employee-functional');
 
 
 
-//----- CRUD Student Oriented -----\\
+employeeFeatureRouter.get("/employee2", async (req, res) => {
+    const LIST_STUDENT = await getListStudent();
+    return res.render('employee/index');
+});
+employeeFeatureRouter.get("/employee/getHtml", async (req, res) => {
+    const componentName = req.query.componentName;
+    res.render(`employee/${componentName}`, function (err, html) {
+        if(err){
+            console.log(err);
+            return res.status(500).send('Internal Server Error');
+        } else {
+            return res.status(200).send(html);
+        }
+    });
+});
+employeeFeatureRouter.get("/employee/student/getStudents", async (req, res) => {
+    const LIST_STUDENT = await getListStudent();
+    return res.send(LIST_STUDENT);
+});
+employeeFeatureRouter.post("/employee/student/saveStudent", async (req, res) => {
+    const LIST_STUDENT = await getListStudent();
+    try {
+        const student = {hoTen:req.body.ho_ten, gioiTinh:req.body.gioi_tinh, ngaySinh:req.body.ngay_sinh, noiSinh:req.body.noi_sinh, sdt:req.body.sdt, diaChi:req.body.dia_chi, cccd:req.body.cccd, ngayVaoTruong:req.body.ngay_vao_truong, totNghiep:req.body.tot_nghiep, maLopDanhNghia:req.body.ma_lop_danh_nghia,avatar:req.body.avatar, matKhau:bcrypt.hashSync(req.body.mat_khau, 10), bacDaoTao: req.body.bac_dao_tao, loaiHinhDaoTao: req.body.loaiHinhDaoTao, coSo:req.body.co_so, email:req.body.email};
+        const response = await axios.post(javaUrl+"/api/student/add", student, {headers: {"Authorization": req.session.employee_token}});
+        return res.render("employee/index", {LIST_STUDENT, signal: "INSERT_SUCCESS"});
+    } catch (error) {
+        console.error(error);
+        return res.render('employee/index', { LIST_STUDENT, signal: 'INTERNAL_SERVER_ERROR' });
+    }
+});
+
+
+//----- student routers -----\\
+employeeFeatureRouter.get('/employee-crud-student-get', async (req, res) => {
+    const LIST_STUDENT = await getListStudent();
+    return res.send(LIST_STUDENT);
+});
 employeeFeatureRouter.get("/employee-crud-student", async (req, res) => {
     if(req.session.employee) {
-        const limit = Number(req.query.limit) || 10;
-        const LIST_STUDENT_METADATA = await getListStudent(limit);
-        return res.render("employee-crud-student", {LIST_STUDENT_METADATA, signal: null});
+        const LIST_STUDENT = await getListStudent();
+        return res.render("employee-crud-student", {LIST_STUDENT, signal: null});
     } else {
         return res.redirect("/employee");
     }
@@ -88,25 +126,25 @@ employeeFeatureRouter.post("/employee-crud-add-student", upload.fields([]), asyn
     if(req.session.employee) {
         const student = {hoTen:req.body.ho_ten, gioiTinh:req.body.gioi_tinh, ngaySinh:req.body.ngay_sinh, noiSinh:req.body.noi_sinh, sdt:req.body.sdt, diaChi:req.body.dia_chi, cccd:req.body.cccd, ngayVaoTruong:req.body.ngay_vao_truong, totNghiep:req.body.tot_nghiep, maLopDanhNghia:req.body.ma_lop_danh_nghia,avatar:req.body.avatar, matKhau:bcrypt.hashSync(req.body.mat_khau, 10), bacDaoTao: req.body.bac_dao_tao, loaiHinhDaoTao: req.body.loaiHinhDaoTao, coSo:req.body.co_so, email:req.body.email};
         const response = await axios.post(javaUrl+"/api/student/add", student, {headers: {"Authorization": req.session.employee_token}});
-        const LIST_STUDENT_METADATA = await getListStudent();
+        const LIST_STUDENT = await getListStudent();
         if(response.data)
-            return res.render("employee-crud-student", {LIST_STUDENT_METADATA, signal: "INSERT_SUCCESS"});
-        return res.render("employee-crud-student", {LIST_STUDENT_METADATA, signal: "INTERNAL_SERVER_ERROR"});
+            return res.render("employee-crud-student", {LIST_STUDENT, signal: "INSERT_SUCCESS"});
+        return res.render("employee-crud-student", {LIST_STUDENT, signal: "INTERNAL_SERVER_ERROR"});
     }
     return res.redirect("/employee");
 });
 employeeFeatureRouter.post("/employee-crud-delete-student", upload.fields([]), async (req, res) => {
     if(req.session.employee) {
         const listCheckboxChecked = Object.keys(req.body);
-        const response = await axios.post(javaUrl+'/api/student/remove', listCheckboxChecked, {headers: {"Authorization": req.session.employee_token}});
-        const LIST_STUDENT_METADATA = await getListStudent();
+        const response = await axios.post('http://java:8080/api/student/remove', listCheckboxChecked, {headers: {"Authorization": req.session.employee_token}});
+        const LIST_STUDENT = await getListStudent();
         if(response.data)
-            return res.render("employee-crud-student", {LIST_STUDENT_METADATA, signal: "INSERT_SUCCESS"});
-        return res.render("employee-crud-student", {LIST_STUDENT_METADATA, signal: "INTERNAL_SERVER_ERROR"});
+            return res.render("employee-crud-student", {LIST_STUDENT, signal: "INSERT_SUCCESS"});
+        return res.render("employee-crud-student", {LIST_STUDENT, signal: "INTERNAL_SERVER_ERROR"});
     }
     return res.redirect("/employee");
 });
-    //----- CRUD Class Oriented -----\\
+    //----- class routers -----\\
 employeeFeatureRouter.get("/employee-crud-class", async (req, res) => {
     if(req.session.employee) {
         const LIST_CLASS = await getListClass();
@@ -125,48 +163,7 @@ employeeFeatureRouter.post("/employee-crud-add-class", upload.fields([]), async 
     }
     return res.redirect("/employee");
 });
-employeeFeatureRouter.post("/employee-crud-class-excel-import", upload.single("excel_file"), async (req, res, next) => {
-    if(req.session.employee) {
-        try {
-            let path = req.file.path;
-            var workbook = XLSX.readFile(path);
-            var sheet_name_list = workbook.SheetNames;
-            await Promise.all(sheet_name_list.map(async function (y) {
-                var worksheet = workbook.Sheets[y];
-                var headers = {};
-                var data = [];
-                for (z in worksheet) {
-                if (z[0] === "!") continue;
-                var col = z.substring(0, 1);
-                var row = parseInt(z.substring(1));
-                var value = worksheet[z].v;
-                if (row == 1) {
-                    headers[col] = value;
-                    continue;
-                }
-                if (!data[row]) data[row] = {};
-                data[row][headers[col]] = value;
-                }
-                data.shift();
-                data.shift();
-                for(let i=0;i<data.length;i++) {
-                    const e = data[i];
-                    const myClass = {tenLop: e.ten_lop, soLuong: e.so_luong, maGiaoVien:e.ma_giao_vien, maKhoaHoc: e.ma_khoa_hoc, maNganh: e.ma_nganh};
-                    const response = await axios.post(javaUrl+"/api/class/add", myClass, {headers: {"Authorization": req.session.employee_token}});
-                }
-            }));
-            const LIST_CLASS = await getListClass();
-            return res.render("employee-crud-class", {LIST_CLASS, signal: "INSERT_SUCCESS"});
-        } catch (err) {
-            // return res.status(500).json({ success: false, message: err.message });
-            console.error(err.message);
-            const LIST_CLASS = await getListClass();
-            return res.render("employee-crud-class", {LIST_CLASS, signal: "INTERNAL_SERVER_ERROR"});
-        }
-    }
-    return res.redirect("/employee");
-});
-    //----- CRUD Teacher Oriented -----\\
+    //----- teacher routers -----\\
 employeeFeatureRouter.get("/employee-crud-teacher", async (req, res) => {
     if(req.session.employee) {
         const LIST_TEACHER = await getListTeacher();
@@ -188,7 +185,7 @@ employeeFeatureRouter.post("/employee-crud-add-teacher", upload.fields([]), asyn
     }
     return res.redirect("/employee");
 });
-    //----- CRUD Course Oriented -----\\
+    //----- course routers -----\\
 employeeFeatureRouter.get("/employee-crud-course", async (req, res) => {
     if(req.session.employee) {
         const LIST_COURSE = await getListCourse();
@@ -208,7 +205,7 @@ employeeFeatureRouter.post("/employee-crud-add-course", upload.fields([]), async
     }
     return res.redirect("/employee");
 });
-    //----- CRUD Department Oriented -----\\
+    //----- department routers -----\\
 employeeFeatureRouter.get("/employee-crud-department", async (req, res) => {
     if(req.session.employee) {
         const LIST_DEPARTMENT = await getListDepartment();
@@ -216,7 +213,7 @@ employeeFeatureRouter.get("/employee-crud-department", async (req, res) => {
     }
     return res.redirect("/employee");
 });
-    //----- CRUD Majors Oriented -----\\
+    //----- majors routers -----\\
 employeeFeatureRouter.get("/employee-crud-majors", async (req, res) => {
     if(req.session.employee) {
         const LIST_MAJORS = await getListMajors();
@@ -224,7 +221,7 @@ employeeFeatureRouter.get("/employee-crud-majors", async (req, res) => {
     }
     return res.redirect("/employee");
 });
-    //----- CRUD Deparment Announcement Oriented -----\\
+    //----- deparment announcement routers -----\\
 employeeFeatureRouter.get("/employee-crud-department_announcement", async (req, res) => {
     if(req.session.employee) {
         const LIST_ANNOUNCEMENT = await getListAnnouncement();
@@ -232,7 +229,7 @@ employeeFeatureRouter.get("/employee-crud-department_announcement", async (req, 
     }
     return res.redirect("/employee");
 });
-    //----- CRUD Pattern Oriented -----\\
+    //----- pattern routers -----\\
 employeeFeatureRouter.get("/employee-crud-pattern", (req, res) => {
     return res.render("employee-crud-pattern", {signal: null});
 });
@@ -246,7 +243,7 @@ employeeFeatureRouter.post("/employee-crud-add-pattern", upload.fields([]), asyn
     }
     return res.redirect("/employee");
 });
-    //----- CRUD Unit_Class Oriented -----\\
+    //----- unitclass routers -----\\
 employeeFeatureRouter.get("/employee-crud-unit_class", async (req, res) => {
     if(req.session.employee) {
         const LIST_UNIT_CLASS = await getListUnitClass();
@@ -267,7 +264,7 @@ employeeFeatureRouter.post("/employee-crud-add-unit_class", upload.fields([]), a
     }
     return res.redirect("/employee");
 });
-    //----- CRUD TimeTable Oriented -----\\
+    //----- timetable routers -----\\
 employeeFeatureRouter.get("/employee-crud-time_table", async (req, res) => {
     if(req.session.employee) {
         const LIST_TIME_TABLE_LT = await getListTimeTable();
@@ -286,11 +283,11 @@ employeeFeatureRouter.post("/employee-crud-add-time_table", upload.fields([]), a
         const LIST_TIME_TABLE = LIST_TIME_TABLE_LT.concat(LIST_TIME_TABLE_TH);
         if(response.data)
             return res.render("employee-crud-time_table", {LIST_TIME_TABLE, signal: "INSERT_SUCCESS"});
-            return res.render("employee-crud-time_table", {LIST_TIME_TABLE, signal: "INTERNAL_SERVER_ERROR"});
+        return res.render("employee-crud-time_table", {LIST_TIME_TABLE, signal: "INTERNAL_SERVER_ERROR"});
     }
     return res.redirect("/employee");
 });
-    //----- CRUD Debt Oriented -----\\
+    //----- debt routers -----\\
 employeeFeatureRouter.get("/employee-crud-debt", async (req, res) => {
     if(req.session.employee) {
         const LIST_DEBT = await getListDebt();
@@ -322,33 +319,50 @@ employeeFeatureRouter.post("/employee-crud-update-order-detail", upload.fields([
         return res.redirect("/employee");
     }
 });
-employeeFeatureRouter.get("/employee-crud-export-student", async (req, res) => {
-    const LIST_STUDENT_METADATA = await getListStudent();
+
+    //----- common routers -----\\
+employeeFeatureRouter.get("/employee-crud-export", async (req, res) => {
+    const entityName = req.query.entityName;
+    let data = [];
+    switch (entityName) {
+        case "student":
+            data = await getListStudent();
+            break;
+        case "class":
+            data = await getListClass();
+        case "teacher":
+            data = await getListTeacher();
+        case "course":
+            data = await getListCourse();
+        case "department":
+            data = await getListDepartment();
+        case "major":
+            data = await getListMajors();
+        case "department_announcement":
+            data = await getListAnnouncement();
+        case "unit_class":
+            data = await getListUnitClass();
+        case "time_table":
+            data = await getListTimeTable();
+        case "debt":
+            data = await getListDebt();
+        case "order_detail":
+            data = await getListOrderDetail();
+        default:
+            break;
+    }
     const workbook = new exceljs.Workbook();
     const worksheet = workbook.addWorksheet('Data');
-    worksheet.columns = [
-        { header: "Mã sinh viên", key: "ma_sinh_vien", width: 20 },
-        { header: "Avatar", key: "avatar", width: 20 },
-        { header: "CCCD", key: "cccd", width: 20 },
-        { header: "Bậc đào tạo", key: "bac_dao_tao", width: 20 },
-        { header: "Cơ sở", key: "co_so", width: 20 },
-        { header: "Loại hình đào tạo", key: "loai_hinh_dao_tao", width: 20 },
-        { header: "Địa chỉ", key: "dia_chi", width: 20 },
-        { header: "Giới tính", key: "gioi_tinh", width: 20 },
-        { header: "Họ tên", key: "ho_ten", width: 20 },
-        { header: "Ngày sinh", key: "ngay_sinh", width: 20 },
-        { header: "Ngày vào trường", key: "ngay_vao_truong", width: 20 },
-        { header: "Nơi sinh", key: "noi_sinh", width: 20 },
-        { header: "Số điện thoại", key: "sdt", width: 20 },
-        { header: "Số dư", key: "so_du", width: 20 },
-        { header: "Tốt nghiệp", key: "tot_nghiep", width: 20 },
-        { header: "Mã lớp danh nghĩa", key: "ma_lop_danh_nghia", width: 20 },
-        { header: "Mã tài khoản", key: "ma_tai_khoan", width: 20 },
-    ];
-    LIST_STUDENT_METADATA.data.forEach(item => {
-        worksheet.addRow(item);
+    const keys = Object.keys(data[0]);
+    const sheetColumns = [];
+    keys.forEach(key => {
+        sheetColumns.push({ header: key, key: key, width: 20 });
     });
-    const fileName = 'danh-sach-sinh-vien.xlsx';
+    worksheet.columns = sheetColumns;
+    data.forEach(item => {
+      worksheet.addRow(item);
+    });
+    const fileName = `data-${entityName}.xlsx`;
     res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     return workbook.xlsx.write(res)
@@ -363,5 +377,237 @@ employeeFeatureRouter.get("/employee-crud-export-student", async (req, res) => {
             });
         });
 });
+employeeFeatureRouter.post("/employee-crud-import", upload.single("excel_file"), async (req, res, next) => {
+    if(req.session.employee) {
+        try {
+            let path = req.file.path;
+            var workbook = XLSX.readFile(path);
+            var sheet_name_list = workbook.SheetNames;
+            await Promise.all(sheet_name_list.map(async function (y) {
+                var worksheet = workbook.Sheets[y];
+                var headers = {};
+                var data = [];
+                for (z in worksheet) {
+                if (z[0] === "!") continue;
+                var col = z.substring(0, 1);
+                var row = parseInt(z.substring(1));
+                var value = worksheet[z].v;
+                if (row == 1) {
+                    headers[col] = value;
+                    continue;
+                }
+                if (!data[row]) data[row] = {};
+                    data[row][headers[col]] = value;
+                }
+                data.shift();
+                data.shift();
+                const emtityName = req.query.entityName;
+                switch (emtityName) {
+                    case "class":
+                        for(let i=0;i<data.length;i++) {
+                            const classData = data[i];
+                            const myClass = {tenLop: classData.ten_lop, soLuong: classData.so_luong, maGiaoVien:classData.ma_giao_vien, maKhoaHoc: classData.ma_khoa_hoc, maNganh: classData.ma_nganh};
+                            const response = await axios.post(javaUrl+"/api/class/add", myClass, {headers: {"Authorization": req.session.employee_token}});
+                            if(!response.data) {
+                                throw new Error();
+                            }
+                        }
+                        const LIST_CLASS = await getListClass();
+                        return res.render("employee-crud-class", {LIST_CLASS, signal: "INSERT_SUCCESS"});
+                        break;
+                    case "student":
+                        for(let i=0;i<data.length;i++) {
+                            const studentData = data[i];
+                            const myStudent = {
+                                hoTen: studentData.ho_ten,
+                                gioiTinh: studentData.gioi_tinh,
+                                ngaySinh: studentData.ngay_sinh,
+                                sdt: studentData.sdt,
+                                diaChi: studentData.dia_chi,
+                                cccd: studentData.cccd,
+                                ngayVaoTruong: studentData.ngay_vao_truong,
+                                totNghiep: studentData.tot_nghiep,
+                                maLopDanhNghia: studentData.ma_lop_danh_nghia,
+                                avatar: studentData.avatar,
+                                matKhau: bcrypt.hashSync(studentData.mat_khau, 10),
+                                bacDaoTao: studentData.bac_dao_tao,
+                                loaiHinhDaoTao: studentData.loai_hinh_dao_tao,
+                                coSo: studentData.co_so,
+                                email: studentData.email,
+                            };
+                            const response = await axios.post(javaUrl+"/api/student/add", myStudent, {headers: {"Authorization": req.session.employee_token}});
+                            if(!response.data) {
+                                throw new Error();
+                            }
+                        }
+                        const LIST_STUDENT = await getListStudent();
+                        return res.render("employee-crud-student", {LIST_STUDENT, signal: "INSERT_SUCCESS"});
+                    case "teacher":
+                        for(let i=0;i<data.length;i++) {
+                            const teacherData = data[i];
+                            const salt = bcrypt.genSaltSync(10);
+                            const hash = bcrypt.hashSync(teacherData.mat_khau, salt);
+                            const myTeacher = {
+                                tenGiaoVien:teacherData.ten_giao_vien,
+                                diaChi:teacherData.dia_chi,
+                                gioiTinh:teacherData.gioi_tinh,
+                                loaiGiaoVien:teacherData.loai_giao_vien,
+                                ngaySinh:teacherData.ngay_sinh,
+                                sdt:teacherData.sdt,
+                                password:hash
+                            };
+                            const response = await axios.post(javaUrl+"/api/teacher/add", myTeacher, {headers: {"Authorization": req.session.employee_token}});
+                            if(!response.data) {
+                                throw new Error();
+                            }
+                        }
+                        const LIST_TEACHER = await getListTeacher();
+                        return res.render("employee-crud-teacher", {LIST_TEACHER, signal: "INSERT_SUCCESS"});
+                    case "course":
+                        for(let i=0;i<data.length;i++) {
+                            const courseData = data[i];
+                            const myCourse = {
+                                tenKhoaHoc:courseData.ten_khoa_hoc,
+                                alias:courseData.ten_khoa_hoc,
+                                namBatDau: courseData.nam_bat_dau,
+                                namKetThuc: courseData.nam_ket_thuc,
+                                maHocKy: courseData.ma_hoc_ky,
+                            };
+                            const response = await axios.post(javaUrl+"/api/course/add", myCourse, {headers: {"Authorization": req.session.employee_token}});
+                            if(!response.data) {
+                                throw new Error();
+                            }
+                        }
+                        const LIST_COURSE = await getListCourse();
+                        return res.render("employee-crud-course", {LIST_COURSE, signal: "INSERT_SUCCESS"});
+                    case "unit_class":
+                        for(let i=0;i<data.length;i++) {
+                            const unitClassData = data[i];
+                            const myUnitClass = {
+                                hanNopHocPhi: unitClassData.hanNopHocPhi,
+                                ngayBatDau: unitClassData.ngayBatDau,
+                                ngayKetThuc: unitClassData.ngayKetThuc,
+                                tenLopHocPhan: unitClassData.tenLopHocPhan,
+                                loaiHoc: unitClassData.loaiHoc,
+                                maGiaoVien: unitClassData.maGiaoVien,
+                                maMonHoc: unitClassData.maMonHoc,
+                                maKhoaHoc: unitClassData.maKhoaHoc,
+                                soLuongMax: unitClassData.soLuongMax,
+                                trangThai: unitClassData.trangThai,
+                            };
+                            const response = await axios.post(javaUrl+"/api/unit_class/add", myUnitClass, {headers: {"Authorization": req.session.employee_token}});
+                            if(!response.data) {
+                                throw new Error();
+                            }
+                        }
+                        const LIST_UNIT_CLASS = await getListUnitClass();
+                        return res.render("employee-crud-unit_class", {LIST_UNIT_CLASS, signal: "INSERT_SUCCESS"});
+                    case "time_table":
+                        for(let i=0;i<data.length;i++) {
+                            const timeTableData = data[i];
+                            const myTimeTable = {
+                                maLopHocPhan: timeTableData.maLopHocPhan, 
+                                tuTietHoc: timeTableData.tuTietHoc,
+                                denTietHoc: timeTableData.denTietHoc,
+                                phongHoc: timeTableData.phongHoc,
+                                thuHoc: timeTableData.thuHoc,
+                                thi: timeTableData.thi,
+                                ghiChu: timeTableData.ghiChu,
+                                loaiBuoiHoc: timeTableData.loaiBuoiHoc,
+                                nhomHoc: timeTableData.nhomHoc,
+                                chungWithMaThoiKhoaBieu: timeTableData.chungWithMaThoiKhoaBieu,
+                                ngayBatDau: timeTableData.ngayBatDau,
+                                ngayKetThuc: timeTableData.ngayKetThuc,
+                                maGiaoVien: timeTableData.maGiaoVien,
+                            };
+                            const response = await axios.post(javaUrl+"/api/time_table/add", myTimeTable, {headers: {"Authorization": req.session.employee_token}});
+                            if(!response.data) {
+                                throw new Error();
+                            }
+                        }
+                        const LIST_TIME_TABLE_LT = await getListTimeTable();
+                        const LIST_TIME_TABLE_TH = await getListTimeTableCon();
+                        const LIST_TIME_TABLE = LIST_TIME_TABLE_LT.concat(LIST_TIME_TABLE_TH);
+                        return res.render("employee-crud-time_table", {LIST_TIME_TABLE, signal: "INSERT_SUCCESS"});
+                    default:
+                        break;
+                }
+            }));
+        } catch (err) {
+            // return res.status(500).json({ success: false, message: err.message });
+            console.error(err);
+            const LIST_CLASS = await getListClass();
+            return res.render("employee-crud-class", {LIST_CLASS, signal: "INTERNAL_SERVER_ERROR"});
+        }
+    }
+    return res.redirect("/employee");
+});
+employeeFeatureRouter.get('/employee-backup', (req, res) => {
+    if(!req.session.employee) {
+        return res.redirect("/employee");
+    }
+    try {
+        const options = {
+            host: process.env.MYSQL_HOST,
+            user: process.env.MYSQL_USER,
+            password: process.env.MYSQL_PASSWORD,
+            database: process.env.MYSQL_DATABASE,
+        };
+        mysqldump({
+            connection: options,
+            dumpToFile: './dump.sql',
+        }).then(() => {
+            console.log(`Backup complete. File saved as ./dump.sql`);
+            const backupFileName = `sv_dkhp_backup_${new Date().toISOString()}.sql`;
+            const backupFile = `./dump.sql`;
+            const fileContents = fs.readFileSync(backupFile, 'utf8');
+            res.setHeader('Content-disposition', `attachment; filename=${backupFileName}`);
+            res.setHeader('Content-type', 'application/sql');
+            return res.send(fileContents);
+        }).catch((err) => {
+            console.error('Backup failed:', err);
+            return res.status(500).send('Backup failed');
+        });
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+employeeFeatureRouter.get('/employee-getCourses', async (req, res) => {
+    if(!req.session.employee) {
+        return res.redirect("/employee");
+    }
+    try {
+        const coursesResponse = await axios.get(javaUrl+"/api/course/getCourses", {headers: {"Authorization": req.session.employee_token}});
+        return res.status(200).json(coursesResponse.data);
+    } catch (error) {
+        console.error(error);
+    }
+});
+employeeFeatureRouter.get('/employee-getCounterStudentsByCourseId/:courseId', async (req, res) => {
+    if(!req.session.employee) {
+        return res.redirect("/employee");
+    }
+    try {
+        const courseId = req.params.courseId;
+        const counterResponse = await axios.get(javaUrl+"/api/course/getCounterStudentsByCourseId/"+courseId, {headers: {"Authorization": req.session.employee_token}});
+        return res.status(200).send(counterResponse.data.toString());
+    } catch (error) {
+        console.error(error);
+    }
+});
+employeeFeatureRouter.get('/employee-getCounterByXepLoai/:xepLoaiString', async (req, res) => {
+    if(!req.session.employee) {
+        return res.redirect("/employee");
+    }
+    try {
+        const xepLoaiString = req.params.xepLoaiString;
+        const counterResponse = await axios.get(javaUrl+"/api/score/getCounterByXepLoai/"+xepLoaiString, {headers: {"Authorization": req.session.employee_token}});
+        return res.status(200).send(counterResponse.data.toString());
+    } catch (error) {
+        console.error(error);
+    }
+});
+
 
 module.exports = employeeFeatureRouter;

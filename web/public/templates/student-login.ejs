@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/student-login.css" type="text/css">
+    <link rel="stylesheet" href="../css/student-login.css" type="text/css">
     <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -89,7 +89,7 @@
                 <div id="AuthBox" class="p-3 text-primary text-center">
                     <p class="fw-bold fs-3">CỔNG THÔNG TIN SINH VIÊN</p>
                     <p class="fw-bold">ĐĂNG NHẬP HỆ THỐNG</p>
-                    <form action="<%= process.env.SELF_EJS_API_URL %>/student-login" method="post" enctype="multipart/form-data" id="myForm">
+                    <form action="/student-login" method="post" enctype="multipart/form-data" id="myForm">
                         <input type="text" name="ma_sinh_vien" id="ma_sinh_vien" placeholder="Nhập mã sinh viên.." class="my-1 p-2" autofocus required value="1">
                         <input type="password" name="mat_khau" id="mat_khau" placeholder="Nhập mật khẩu.." class="my-1 p-2" required value="123123az">
                         <div class="d-flex my-2" id="captcha-box">
@@ -138,6 +138,7 @@
 </body>
 <script>
 document.cookie = 'session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+const pathNodejs = '<%= process.env.EJS_API_URL %>';
 $(document).ready(function(){
     const row1_hei = $("#row1").height();
     const window_hei = $(window).height();
@@ -157,7 +158,7 @@ $(document).ready(function(){
     });
 
 });
-fetch("<%= process.env.SELF_EJS_API_URL %>/captcha")
+fetch(pathNodejs+"/captcha")
     .then(response => response.text())
     .then(response => {
         const holder = document.getElementById("captcha-container");

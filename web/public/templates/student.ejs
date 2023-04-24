@@ -9,8 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/student.css" type="text/css">
-    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+    <link rel="stylesheet" href="../css/student.css" type="text/css">
+    <link rel="stylesheet" href="../css/common.css" type="text/css">
     <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
@@ -141,7 +141,7 @@
                             </div>
                         </div>    
                     </div> 
-                    <div class="card-footer text-primary text-center text-decoration-underline"><a href="./student/details" class="crs">Xem chi tiết</a></div>
+                    <div class="card-footer text-primary text-center text-decoration-underline"><a href="/student/details" class="crs">Xem chi tiết</a></div>
                 </div>
             </div>
         </div>
@@ -182,7 +182,7 @@
                                 </li>
                             <% } %>
                             <li><hr class="dropdown-divider"></li>
-                            <li class="bg-light"><a class="dropdown-item text-danger" href="./student/clear-notifications">Xoá tất cả</a></li>
+                            <li class="bg-light"><a class="dropdown-item text-danger" href="/student/clear-notifications">Xoá tất cả</a></li>
                         </ul>
                         <div class="position-absolute fw-bold end-0 small"><%= LIST_NOTIFICATION.length %></div>
                     </div>
@@ -192,7 +192,7 @@
                             <li id="BtnChangeTheme" onclick="audio.play();"><a class="dropdown-item" href="javascript:void(0);">Giao diện</a></li>
                             <li onclick="audio.play();"><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#GioiThieuModal">Giới thiệu</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li class="bg-light"><a class="dropdown-item text-danger" href="./student-logout" onclick="delete_cookie('session');">Đăng xuất</a></li>
+                            <li class="bg-light"><a class="dropdown-item text-danger" href="/student-logout" onclick="delete_cookie('session');">Đăng xuất</a></li>
                         </ul>
                     </div>
                 </div>
@@ -238,56 +238,56 @@
         </div>
         <div class="col-lg-6 p-3">
             <div class="d-flex flex-wrap justify-content-center align-items-center border h-100 bg-white">
-                <a href="./student/timetable" class="text-decoration-none text-dark">
+                <a href="/student/timetable" class="text-decoration-none text-dark">
                 <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
                     <div><i class="fas fa-calendar-alt fa-2x text-primary"></i></div>
                     <div class="fw-light">Lịch học</div>
                     <div class="fw-light">theo tuần</div>
                 </div>
                 </a>
-                <a href="./student/score" class="text-decoration-none text-dark">
+                <a href="/student/score" class="text-decoration-none text-dark">
                 <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
                     <div><i class="fas fa-chart-bar fa-2x text-primary"></i></div>
                     <div class="fw-light">Kết quả</div>
                     <div class="fw-light">học tập</div>
                 </div>
                 </a>
-                <a href="./student/dkhp" class="text-decoration-none text-dark">
+                <a href="/student/dkhp" class="text-decoration-none text-dark">
                 <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
                     <div><i class="fab fa-uncharted fa-2x text-primary"></i></div>
                     <div class="fw-light">Đăng ký</div>
                     <div class="fw-light">học phần</div>
                 </div>
                 </a>
-                <a href="./student/pattern" class="text-decoration-none text-dark">
+                <a href="/student/pattern" class="text-decoration-none text-dark">
                 <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
                     <div><i class="fab fa-windows fa-2x text-primary"></i></div>
                     <div class="fw-light">Chương trình</div>
                     <div class="fw-light">khung</div>
                 </div>
                 </a>
-                <a href="./student/debt" class="text-decoration-none text-dark">
+                <a href="/student/debt" class="text-decoration-none text-dark">
                 <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
                     <div><i class="fas fa-sack-dollar fa-2x text-primary"></i></div>
                     <div class="fw-light">Tra cứu</div>
                     <div class="fw-light">công nợ</div>
                 </div>
                 </a>
-                <a href="./student/order-detail" class="text-decoration-none text-dark">
+                <a href="/student/order-detail" class="text-decoration-none text-dark">
                 <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
                     <div><i class="fas fa-file-invoice-dollar fa-2x text-primary"></i></div>
                     <div class="fw-light">Biên lai</div>
                     <div class="fw-light">tổng hợp</div>
                 </div>
                 </a>
-                <a href="./student/payment" class="text-decoration-none text-dark">
+                <a href="/student/payment" class="text-decoration-none text-dark">
                 <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
                     <div><i class="fab fa-cc-amazon-pay fa-2x text-primary"></i></div>
                     <div class="fw-light">Thanh toán</div>
                     <div class="fw-light">học phí</div>
                 </div>
                 </a>
-                <a href="./student/wallet" class="text-decoration-none text-dark">
+                <a href="/student/wallet" class="text-decoration-none text-dark">
                 <div id="OneItem" class="text-center border rounded p-3 mx-1 crs" onclick="audio.play();">
                     <div><i class="fas fa-hand-holding-usd fa-2x text-primary"></i></div>
                     <div class="fw-light">Số dư ví</div>
@@ -300,9 +300,10 @@
 </div>
 </body>
 <script>
+var myChartData;
 const audio = new Audio();
 audio.src = "../audio/click.mp3";
-var pathNodejs = window.location.protocol + '//' + window.location.host;
+const pathNodejs = '<%= process.env.EJS_API_URL %>';
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl){
     return new bootstrap.Tooltip(tooltipTriggerEl);
@@ -344,11 +345,11 @@ let myprogress = setInterval(() => {
     }
 }, speed);
 $(document).ready(function(){
-    renderChartScore();
+    renderChartScore([], []);
     var LIST_COURSE = '<%= LIST_COURSE.length %>';
     var theme = 'light';
     if(LIST_COURSE == 0 || LIST_COURSE == '0') {
-        const embedEmpty = '<tr><td>Bạn chưa có học phần nào cả.<br>Hãy chuyển đến trang</td><td><a href="./student/dkhp">Đăng ký<br>Học phần!</a></td></tr>'
+        const embedEmpty = '<tr><td>Bạn chưa có học phần nào cả.<br>Hãy chuyển đến trang</td><td><a href="/student/dkhp">Đăng ký<br>Học phần!</a></td></tr>'
         $("#tBodySubjectCourseSelected").html(embedEmpty);
     }
     $("#select_course").change(function(){
@@ -357,16 +358,22 @@ $(document).ready(function(){
         const data = { maSinhVien, maKhoaHoc };
         $.ajax({
             type: "POST",
-            url: "<%= process.env.SELF_EJS_API_URL %>/student/getSubjectByStudentIdAndCourseId",
+            url: pathNodejs+"/student/getSubjectByStudentIdAndCourseId",
             data: JSON.stringify(data),
             contentType: 'application/json',
             success: function(data) {
+                const arrays_id_subject = [];
+                const arrays_name_subject = [];
                 var myLoop = "";
-                for (let i = 0; i < data.length; i++) {
-                    myLoop += "<tr><td><span>"+data[i].maMonHoc+"</span><br><span>"+data[i].tenMonHoc+"</span></td><td>"+data[i].soTinChi+"</td></tr>";
+                if(data.length > 0) {
+                    for (let i = 0; i < data.length; i++) {
+                        myLoop += "<tr><td><span>"+data[i].maMonHoc+"</span><br><span>"+data[i].tenMonHoc+"</span></td><td>"+data[i].soTinChi+"</td></tr>";
+                        arrays_id_subject.push(data[i].maMonHoc);
+                        arrays_name_subject.push(data[i].tenMonHoc);
+                    }
                 }
                 $("#tBodySubjectCourseSelected").html(myLoop);
-                renderChartScore();
+                renderChartScore(arrays_id_subject, arrays_name_subject);
             },
             error: function(error) {
                 console.error(error);
@@ -398,7 +405,7 @@ $(document).ready(function(){
 function ShowDetailsNotification(notificationId) {
     $.ajax({
         type: "POST",
-        url: "<%= process.env.SELF_EJS_API_URL %>/student/getNotificationById",
+        url: pathNodejs+"/student/getNotificationById",
         data: JSON.stringify({maThongBao: notificationId}),
         contentType: 'application/json',
         success: function(data) {
@@ -421,7 +428,7 @@ function delete_cookie(name) {
 async function getScoreByStudentIdAndSubjectId(subjectId) {
     return $.ajax({
         type: "POST",
-        url: "<%= process.env.SELF_EJS_API_URL %>/student/score/getScoreByStudentIdAndSubjectId",
+        url: pathNodejs+"/student/score/getScoreByStudentIdAndSubjectId",
         data: JSON.stringify({subjectId}),
         contentType: 'application/json',
     }).then(data => data);
@@ -448,17 +455,17 @@ function diemTongKetCal(obj) {
 }
 </script>
 <script>
-    async function renderChartScore() {
+    async function renderChartScore(arrays_id_subject, arrays_name_subject) {
         //Giải thuật:
         // 1. Lấy list các môn học theo học phần đang học
         // 2. Chạy forEach mỗi môn coi môn nào có điểm thì đưa vào data vào mảng tí render chart
         // 3. Nếu array != rỗng thì render chart và ngược lại
-        let arrays_id_subject = [];
-        let arrays_name_subject = [];
-        <% for (let i=0;i<LIST_FIRST_UNIT_SUBJECT.length;i++) { %>
-            arrays_id_subject.push('<%= LIST_FIRST_UNIT_SUBJECT[i].maMonHoc %>');
-            arrays_name_subject.push('<%= LIST_FIRST_UNIT_SUBJECT[i].tenMonHoc %>');
-        <% } %>
+        if(arrays_id_subject.length <= 0) {
+            <% for (let i=0;i<LIST_FIRST_UNIT_SUBJECT.length;i++) { %>
+                arrays_id_subject.push('<%= LIST_FIRST_UNIT_SUBJECT[i].maMonHoc %>');
+                arrays_name_subject.push('<%= LIST_FIRST_UNIT_SUBJECT[i].tenMonHoc %>');
+            <% } %>
+        }
         let arrays_diem_subject = [];
         let arrays_colors = [];
         for(let i=0;i<arrays_id_subject.length;i++) {
@@ -482,7 +489,10 @@ function diemTongKetCal(obj) {
         }//sau hàm này thì đã có mảng điểm, có render char hay ko?
         if(arrays_diem_subject.length > 0) {
             const ctx = document.getElementById('myChart');
-            new Chart(ctx, {
+            if (myChartData) {
+                myChartData.destroy();
+            }
+            myChartData = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: arrays_name_subject,
@@ -501,6 +511,7 @@ function diemTongKetCal(obj) {
                     }
                 }
             });
+            myChartData.update('active');
         } else {//Nếu ko có chart thì render lại box3
             console.log("Student has now scores in choosed maKhoaHoc select");
             const element = 

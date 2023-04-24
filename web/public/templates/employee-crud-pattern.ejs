@@ -23,7 +23,7 @@
         } %>
     </div>
     <h5>Form:</h5>
-    <form action="<%= process.env.SELF_EJS_API_URL %>/employee-crud-add-pattern" method="post" enctype="multipart/form-data">
+    <form action="/employee-crud-add-pattern" method="post" enctype="multipart/form-data">
         <input type="text" name="maSinhVien" id="maSinhVien" placeholder="maSinhVien">
         <br>
         <input type="text" name="maMonHoc" id="maMonHoc" placeholder="maMonHoc">
@@ -37,7 +37,7 @@
         <br>
         <button type="submit">Submit</button>
     </form>
-    <a href="./employee">Back</a>
+    <a href="/employee">Back</a>
 </body>
 <script>
 // $(document).ready(function() {

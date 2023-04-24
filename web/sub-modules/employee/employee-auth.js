@@ -55,27 +55,52 @@ con.connect(function(err) {
 
 
 
-employeeAuthRouter.get('/employee', (req, res) => {
+employeeAuthRouter.get('/employee', async(req, res) => {
     if(req.session.employee) {
-        return res.render("employee", {signal: null});
+        const username = req.session.employee;
+        const token = req.session.employee_token;
+        const response = await axios.get(javaUrl+"/api/nhanvien/getEmployeeById/" + username, {headers: {"Authorization": token}});
+        if(response.data) {
+            return res.render("employee", {
+                EMPLOYEE_DATA: response.data,
+                error: null
+            });
+        }
+        return res.render("employee", {
+            EMPLOYEE_DATA: null,
+            error: "internal_server_error"
+        });
     }
-    return res.render('employee-login', {error: ""});
+    return res.render('employee-login', {error: "INVALID_SESSION"});
 });
 employeeAuthRouter.post('/employee-login', upload.fields([]), async (req, res) => {
-    const { username, password } = req.body;
-    const response = await axios.post(javaUrl+"/api/login", {username: "nv"+username, password});
-    if(response.data) {
-        req.session.employee = username;
-        req.session.employee_token = response.data;
-        return res.redirect('./employee');
+    try {
+        const { username, password } = req.body;
+        const response1 = await axios.post(javaUrl+"/api/login", {username: "nv"+username, password});
+        if(response1.data) {
+            req.session.employee = username;
+            req.session.employee_token = response1.data;
+        } else {
+            throw new Error('No token found!');
+        }
+        const response2 = await axios.get(javaUrl+"/api/nhanvien/getEmployeeById/" + username, {headers: {"Authorization": req.session.employee_token}});
+        if(response2.data) {
+            return res.render("employee", {
+                EMPLOYEE_DATA: response2.data,
+                error: null
+            });
+        } else {
+            throw new Error('No data employee found!'); 
+        }
+    } catch (error) {
+        return res.render("employee-login", { error: "WRONG_PASSWORD" });
     }
-    return res.render("employee-login", { error: "wrong_password" }); 
 });
 employeeAuthRouter.get("/employee-logout", (req, res) => {
     if(req.session.employee) {
         req.session.employee = "";
     }
-    return res.redirect("./employee");
+    return res.redirect("/employee");
 });
 
 module.exports = employeeAuthRouter;

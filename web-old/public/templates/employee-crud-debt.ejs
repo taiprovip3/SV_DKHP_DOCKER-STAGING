@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ErukaLearn | Employee CRUD | DEBT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/employee.css" type="text/css">
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+    <style>
+        button, input{
+            outline: none;
+        }
+        button{
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 styleline" style="background: #05091a;">
+                <a href="./employee-crud-student" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-user-graduate"></i>&ensp;Sinh viên</div>
+                </a>
+                <a href="./employee-crud-class" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-sign"></i></i>&ensp;Lớp danh Nghĩa</div>
+                </a>
+                <a href="./employee-crud-teacher" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
+                </a>
+                <a href="./employee-crud-course" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fab fa-discourse"></i>&ensp;Khoá học</div>
+                </a>
+                <a href="./employee-crud-department" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fab fa-shopware"></i>&ensp;Khoa</div>
+                </a>
+                <a href="./employee-crud-majors" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-wrench"></i>&ensp;Ngành</div>
+                </a>
+                <a href="./employee-crud-department_announcement" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-bell"></i>&ensp;Thông báo Khoa</div>
+                </a>
+                <a href="./employee-crud-unit_class" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-window-restore"></i>&ensp;Lớp học phần</div>
+                </a>
+                <a href="./employee-crud-time_table" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
+                </a>
+                <!-- <a href="./employee-crud-debt" class="text-decoration-none"> -->
+                <div class="p-3 navigation-item-active text-wrap"><i class="text-warning fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
+                <!-- </a> -->
+                <a href="./employee-logout" class="text-decoration-none d-flex justify-content-center align-items-center">
+                    <div class="p-3 navigation-item text-wrap text-secondary">Log out</div>
+                </a>
+            </div>
+            <div class="col-lg-9 position-relative overflow-auto" style="height: 100vh;">
+
+
+                
+                <div>
+                    <% if(signal) { %>
+                        <% if(signal == "INSERT_SUCCESS") { %>
+                            <script>swal({title: "Goob jobs!", text: "Thao tác dữ liệu thành công", icon: "success"})</script>
+                        <% } else {
+                            if(signal == "INTERNAL_SERVER_ERROR") { %>
+                                <script>swal({title: "Internal Server Error",text: "Undefined resolution!", icon: "warning", dangerMode: true});</script>
+                            <% }
+                        }
+                    } %>
+                </div>
+                <div class="d-flex">
+                    <div class="border-end me-1 pe-1" style="max-width: 50%;">
+                        <span class="fs-5">Danh sách công nợ:</span>
+                        <select name="" id="">
+                            <option value="">Tất cả</option>
+                            <option value="CHUA_NOP">Chưa nộp</option>
+                            <option value="DA_NOP">Đã nộp</option>
+                        </select>
+                        <input type="text" name="" id="" placeholder="MSSV xử lý (0)" readonly>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-sm text-center">
+                                <thead class="table-success text-nowrap">
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Số tiền</th>
+                                        <th>Miễn giảm</th>
+                                        <th>Đã nộp</th>
+                                        <th>Khấu trừ</th>
+                                        <th>Công nợ</th>
+                                        <th>Trạng thái</th>
+                                        <th>Mã môn</th>
+                                        <th>Mã LHP</th>
+                                        <th>Mã sinh viên</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="myTBody">
+                                    <% for(let i=0; i<LIST_DEBT.length ;i++) { %>
+                                        <tr class="small">
+                                            <td><%= i + 1 %></td>
+                                            <td><%= LIST_DEBT[i].so_tien %></td>
+                                            <td><%= LIST_DEBT[i].mien_giam %></td>
+                                            <td><%= LIST_DEBT[i].da_nop %></td>
+                                            <td><%= LIST_DEBT[i].khau_tru %></td>
+                                            <td><%= LIST_DEBT[i].cong_no %></td>
+                                            <td><%= LIST_DEBT[i].trang_thai %></td>
+                                            <td><%= LIST_DEBT[i].ma_mon_hoc %></td>
+                                            <td><%= LIST_DEBT[i].ma_lop_hoc_phan %></td>
+                                            <td><%= LIST_DEBT[i].ma_sinh_vien %></td>
+                                            <td>
+                                                <input type="radio" name="selectCongNo" id="<%= LIST_DEBT[i].id %>" onchange="handleSelectCongNo(<%= JSON.stringify(LIST_DEBT[i]) %>);">
+                                            </td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                            <a href="./employee">Back</a>
+                            <p>Xử lý công nợ <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Công nợ sinh ra khi sinh viên đăng ký học phần"></i></p>
+                            <form action="<%= process.env.SELF_EJS_API_URL %>/employee-crud-add-debt" method="post" enctype="multipart/form-data" class="border p-3 position-relative">
+                                <div class="position-absolute top-0 end-0 p-1">
+                                    <label for="excel_file1" class="text-primary text-decoration-underline fw-bold crs">Import excel</label>&emsp14;<i class="fas fa-file-excel text-success"></i>
+                                    <input type="file" name="excel_file1" id="excel_file1" class="d-none" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                                    <div>&emsp;</div>
+                                    <button class="d-none btn-primary" id="btn-import1" type="submit">Import</button>
+                                </div>
+                                <label for="maSinhVien">Mã sv</label>
+                                <input type="text" name="maSinhVien" id="maSinhVien" placeholder="maSinhVien">
+                                <br>
+                                <label for="maMonHoc">Mã môn học</label>
+                                <input type="text" name="maMonHoc" id="maMonHoc" placeholder="maMonHoc">
+                                <br>
+                                <label for="maLopHocPhan">Mã LHP</label>
+                                <input type="text" name="maLopHocPhan" id="maLopHocPhan" placeholder="maLopHocPhan">
+                                <br>
+                                <label for="khauTru">Khấu trừ</label>
+                                <input type="text" name="khauTru" id="khauTru" placeholder="khauTru">
+                                <div>
+                                    <input type="radio" name="trangThai" id="CHUA_NOP" value="CHUA_NOP">
+                                    <label for="CHUA_NOP">Chưa nộp</label>
+                                    <input type="radio" name="trangThai" id="DA_NOP" value="DA_NOP">
+                                    <label for="DA_NOP">Đã nộp</label>
+                                </div>
+                                <button type="submit">Gạch nợ</button>
+                            </form>
+                        </div>
+                    </div>
+            
+                    <div style="max-width: 50%;">
+                        <span class="fs-5">Danh sách phiếu thu:</span>
+                        <select name="" id="">
+                            <option value="">Tất cả</option>
+                            <option value="DANG_CHO_XU_LY">Đang chờ xử lý</option>
+                            <option value="DA_XU_LY">Đã xử lý</option>
+                        </select>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-sm text-center">
+                                <thead class="table-success text-nowrap">
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Mã phiếu thu</th>
+                                        <th>Ngày thu</th>
+                                        <th>Số tiền</th>
+                                        <th>Đơn vị thu</th>
+                                        <th>HĐĐT</th>
+                                        <th>Trạng thái</th>
+                                        <th>Ghi chú</th>
+                                        <th>Xử lý</th>
+                                    </tr>
+                                </thead>
+                                <% for(let i=0; i<LIST_ORDER_DETAIL.length ;i++) { %>
+                                    <tr class="small">
+                                        <td><%= i + 1 %></td>
+                                        <td><%= LIST_ORDER_DETAIL[i].ma_phieu_thu %></td>
+                                        <td class="text-truncate"><%= LIST_ORDER_DETAIL[i].ngay_thu %></td>
+                                        <td><%= new Intl.NumberFormat().format(LIST_ORDER_DETAIL[i].so_tien) %></td>
+                                        <td><%= LIST_ORDER_DETAIL[i].don_vi_thu %></td>
+                                        <td><button>Xem</button></td>
+                                        <td><%= LIST_ORDER_DETAIL[i].trang_thai %></td>
+                                        <td class="text-truncate"><%= LIST_ORDER_DETAIL[i].ghi_chu %></td>
+                                        <td>
+                                            <input type="radio" name="selectPhieuThu" id="<%= LIST_ORDER_DETAIL[i].ma_phieu_thu %>" onchange="handleSelectPhieuThu(<%= JSON.stringify(LIST_ORDER_DETAIL[i]) %>);">
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </table>
+                            <a href="./employee">Back</a>
+                            <p>Xử lý phiếu thu <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Phiếu thu sinh ra khi sinh viên chuyển khoản, đóng học phí, hoặc do printer của nhân viên export hoặc tự import tay!"></i></p>
+                            <form action="<%= process.env.SELF_EJS_API_URL %>/employee-crud-update-order-detail" method="post" enctype="multipart/form-data" class="border p-3 position-relative">
+                                <div class="position-absolute top-0 end-0 p-1">
+                                    <label for="excel_file2" class="text-primary text-decoration-underline fw-bold crs">Import excel</label>&emsp14;<i class="fas fa-file-excel text-success"></i>
+                                    <input type="file" name="excel_file2" id="excel_file2" class="d-none" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                                    <div>&emsp;</div>
+                                    <button class="d-none btn-primary" id="btn-import2" type="submit">Import</button>
+                                </div>
+                                <label for="maPhieuThu">Mã phiếu thu</label>
+                                <input type="text" name="maPhieuThu" id="maPhieuThu" placeholder="maPhieuThu">
+                                <br>
+                                <label for="ngayThu">Ngày thu</label>
+                                <input type="date" name="ngayThu" id="ngayThu" placeholder="ngayThu">
+                                <br>
+                                <label for="soTien">Số tiền</label>
+                                <input type="text" name="soTien" id="soTien" placeholder="soTien">
+                                <br>
+                                <label for="donViThu">Đơn vị thu</label>
+                                <input type="text" name="donViThu" id="donViThu" placeholder="donViThu">
+                                <div>
+                                    <input type="radio" name="trangThai" id="DANG_CHO_XU_LY" value="DANG_CHO_XU_LY">
+                                    <label for="DANG_CHO_XU_LY">Đang chờ xử lý công nợ</label>
+                                    <input type="radio" name="trangThai" id="DA_XU_LY" value="DA_XU_LY">
+                                    <label for="DA_XU_LY">Đã giải quyết công nợ</label>
+                                    <br>
+                                    <span class="fst-italic small text-secondary">(Đã giải quyết công nợ -> sẽ xuất HĐĐT & thêm tiền vào ví student)</span>
+                                </div>
+                                <input type="text" name="maSV" id="maSV" hidden>
+                                <button type="submit">Hoàn tất xử lý</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex pt-2">
+                    <div class="flex-fill"></div>
+                    <a href="./employee" class="text-decoration-none">
+                    <div class="p-3 border bg-secondary text-white"><i class="fas fa-angle-left"></i> Back</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="position-fixed bottom-0 text-secondary small fst-italic">
+        1997 - 2023
+        &ensp;
+        No.<i class="fas fa-copyright"></i><i class="fas fa-registered"></i>
+        &ensp;
+        IUH - Industrial University of Ho Chi Minh City Reserved
+    </div>
+</body>
+<script>
+var pathNodejs = window.location.protocol + '//' + window.location.host;
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+function handleSelectCongNo(debt) {
+    $("#maSinhVien").val(debt.sinhVien.maSinhVien);
+    $("#maMonHoc").val(debt.monHoc.maMonHoc);
+    $("#maLopHocPhan").val(debt.lopHocPhan.maLopHocPhan);
+    $("#khauTru").val(debt.khauTru);
+    if(debt.trangThai == "CHUA_NOP") {
+        $("#CHUA_NOP").prop("checked", true);
+    } else {
+        $("#DA_NOP").prop("checked", true);
+    }
+}
+async function handleSelectPhieuThu(order_detail) {
+    $("#maPhieuThu").val(order_detail.ma_phieu_thu);
+    const date = new Date(order_detail.ngay_thu);
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    var today = year + "-" + month + "-" + day;
+    $("#ngayThu").val(today);
+    $("#soTien").val(order_detail.so_tien);
+    $("#donViThu").val(order_detail.don_vi_thu);
+    if(order_detail.trang_thai == "DANG_CHO_XU_LY") {
+        $("#DANG_CHO_XU_LY").prop("checked", true);
+    } else {
+        $("#DA_XU_LY").prop("checked", true);
+    }
+    const maSinhVien = order_detail.ma_sinh_vien;
+    $("#maSV").val(maSinhVien);
+    const debts = await getDebtsByStudentId(maSinhVien);
+    let myLoop = "";
+    for(let i=0; i<debts.length; i++) {
+        let debt = JSON.stringify(debts[i]).replace(/\"/g,"'");
+        myLoop += 
+        '<tr class="bg-secondary text-white">'+
+            '<td>'+ parseInt(i+1) +'</td>'+
+            '<td>'+ debts[i].soTien +'</td>'+
+            '<td>'+ debts[i].mienGiam +'</td>'+
+            '<td>'+ debts[i].daNop +'</td>'+
+            '<td>'+ debts[i].khauTru +'</td>'+
+            '<td>'+ debts[i].congNo +'</td>'+
+            '<td>'+ debts[i].trangThai +'</td>'+
+            '<td>'+ debts[i].monHoc.maMonHoc +'</td>'+
+            '<td>'+ debts[i].lopHocPhan.maLopHocPhan +'</td> '+
+            '<td>'+ debts[i].sinhVien.maSinhVien +'</td>'+
+            '<td>'+
+                '<input type="radio" name="selectCongNo" id="'+ debts[i].id +'" onchange="handleSelectCongNo('+ debt +')">'+
+            '</td>'+
+        '</tr>';
+    }
+    $("#myTBody").html(myLoop);
+}
+async function getDebtsByStudentId(maSinhVien) {
+    return $.ajax({
+        type: "POST",
+        url: "<%= process.env.SELF_EJS_API_URL %>/employee/debt/getDebtsByStudentId",
+        data: JSON.stringify({maSinhVien}),
+        contentType: 'application/json',
+    })
+    .then(debts => debts);
+}
+$(document).ready(function() {
+    $("#excel_file1").on("change", function(){
+        $("#btn-import1").removeClass('d-none');
+    });
+    $("#excel_file2").on("change", function(){
+        $("#btn-import2").removeClass('d-none');
+    });
+});
+</script>
+</html>

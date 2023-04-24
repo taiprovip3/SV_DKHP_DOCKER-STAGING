@@ -91,4 +91,9 @@ public class NhanVienImpl implements NhanVienService{
 		return n;
 	}
 
+	@Override
+	public NhanVien getEmployeeById(long employeeId) {
+		return nhanVienRepository.findById(employeeId).orElse(null);
+	}
+
 }

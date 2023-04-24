@@ -1,0 +1,24 @@
+#AuthBox{
+    background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+}
+input:placeholder-shown {
+    font-style: italic;
+}
+#myForm input {
+    border: none;
+    outline: none;
+    width: 100%;
+}
+#myForm button {
+    border: none;
+    outline: none;
+    background: #FF5A00;
+    width: 100%;
+}
+#captcha_code:placeholder-shown {
+    font-style: unset;
+    width: 100%;
+}
+#refresh-icon:hover {
+    cursor: pointer;
+}

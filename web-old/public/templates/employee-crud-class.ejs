@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ErukaLearn | Employee CRUD | CLASS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/employee.css" type="text/css">
+    <link rel="stylesheet" href="<%= process.env.SELF_EJS_API_URL %>/css/common.css" type="text/css">
+    <style>
+        button, input{
+            outline: none;
+        }
+        button{
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+
+
+
+
+            <div class="col-lg-3 styleline" style="background: #05091a;">
+                <a href="./employee-crud-student" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-user-graduate"></i>&ensp;Sinh viên</div>
+                </a>
+                <!-- <a href="./employee-crud-class" class="text-decoration-none"> -->
+                <div class="p-3 navigation-item-active text-wrap"><i class="text-warning fas fa-sign"></i>&ensp;Lớp danh Nghĩa</div>
+                <!-- </a> -->
+                <a href="./employee-crud-teacher" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
+                </a>
+                <a href="./employee-crud-course" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fab fa-discourse"></i>&ensp;Khoá học</div>
+                </a>
+                <a href="./employee-crud-department" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fab fa-shopware"></i>&ensp;Khoa</div>
+                </a>
+                <a href="./employee-crud-majors" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-wrench"></i>&ensp;Ngành</div>
+                </a>
+                <a href="./employee-crud-department_announcement" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-bell"></i>&ensp;Thông báo Khoa</div>
+                </a>
+                <a href="./employee-crud-unit_class" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-window-restore"></i>&ensp;Lớp học phần</div>
+                </a>
+                <a href="./employee-crud-time_table" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
+                </a>
+                <a href="./employee-crud-debt" class="text-decoration-none">
+                <div class="p-3 navigation-item text-wrap"><i class="text-warning fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
+                </a>
+                <a href="./employee-logout" class="text-decoration-none d-flex justify-content-center align-items-center">
+                    <div class="p-3 navigation-item text-wrap text-secondary">Log out</div>
+                </a>
+            </div>
+            <div class="col-lg-9 position-relative">
+                <div>
+                    <% if(signal) { %>
+                        <% if(signal == "INSERT_SUCCESS") { %>
+                            <script>swal({title: "Goob jobs!", text: "Thao tác dữ liệu thành công", icon: "success"})</script>
+                        <% } else {
+                            if(signal == "INTERNAL_SERVER_ERROR") { %>
+                                <script>swal({title: "Internal Server Error",text: "Undefined resolution!", icon: "warning", dangerMode: true});</script>
+                            <% }
+                        }
+                    } %>
+                </div>
+                <p class="fw-bold"><a href="./employee">Home</a> > <a href="javascript:void(0)">Manage class</a></p>
+                <div class="d-flex">
+                    <form action="<%= process.env.SELF_EJS_API_URL %>/employee-crud-class-excel-import" enctype="multipart/form-data" method="POST">
+                    <div id="left_action"  class="d-flex align-items-center">
+                        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addModal">Thêm lớp mới <i class="fas fa-pen-square text-warning"></i></button>
+                        <div>&emsp;</div>
+                        <button class="btn btn-outline-dark" type="button"><label for="excel_file" class="crs">Nhập từ file excel</label> <i class="text-success fas fa-file-excel text-success"></i></button>
+                        <input type="file" name="excel_file" id="excel_file" class="d-none" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                        <div>&emsp;</div>
+                        <button class="d-none btn-primary" id="btn-import" type="submit">Import</button>
+                        <button class="btn btn-outline-dark">Xuất bảng excel <i class="fas fa-file-export text-danger"></i></button>
+                    </div>
+                    </form>
+                    <div id="right_action" style="position: absolute;">
+                        <button id="action_delete">Xoá</button>
+                        <button id="action_update">Sửa</button>
+                    </div>
+                </div>
+                <br>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table table-secondary text-nowrap">
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã lớp</th>
+                                <th>Tên lớp</th>
+                                <th>Số lượng</th>
+                                <th>Mã giáo viên</th>
+                                <th>Mã khóa học</th>
+                                <th>Mã ngành</th>
+                                <th>Chọn</th>
+                            </tr>
+                        </thead>
+                        <form id="myForm" method="post" enctype="multipart/form-data">
+                        <% for(let i=0; i<LIST_CLASS.length ;i++) { %>
+                            <tr class="small">
+                                <td><%= i + 1 %></td>
+                                <td><%= LIST_CLASS[i].ma_lop %></td>
+                                <td><%= LIST_CLASS[i].ten_lop %></td>
+                                <td><%= LIST_CLASS[i].so_luong %></td>
+                                <td><%= LIST_CLASS[i].ma_giao_vien %></td>
+                                <td><%= LIST_CLASS[i].ma_khoa_hoc %></td>
+                                <td><%= LIST_CLASS[i].ma_nganh %></td>
+                                <td>
+                                    <input type="checkbox" name="<%= LIST_CLASS[i].ma_lop %>" id="<%= LIST_CLASS[i].ma_lop %>" class="myCheckBoxClass">
+                                </td>
+                            </tr>
+                        <% } %>
+                        </form>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- The Modal -->
+<div class="modal" id="addModal">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <p>Thêm lớp mới</p>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="<%= process.env.SELF_EJS_API_URL %>/employee-crud-add-class" method="post" enctype="multipart/form-data" id="form_add_class">
+                    <label for="ten_lop" class="form-check-label fw-bold text-secondary">Tên lớp:</label>
+                    <input type="text" name="ten_lop" id="ten_lop" placeholder="Tên lớp (`ten_lop` in excel)" class="form-control">
+                    <label for="so_luong" class="form-check-label fw-bold text-secondary">Số lượng sinh viên:</label>
+                    <input type="number" name="so_luong" id="so_luong" placeholder="Số lượng (`so_luong` in excel)" class="form-control">
+                    <label for="ma_giao_vien" class="form-check-label fw-bold text-secondary">Mã giáo viên:</label>
+                    <input type="text" name="ma_giao_vien" id="ma_giao_vien" placeholder="Mã giáo viên (`ma_giao_vien` in excel)" class="form-control">
+                    <label for="ma_khoa_hoc" class="form-check-label fw-bold text-secondary">Mã khoá học:</label>
+                    <input type="text" name="ma_khoa_hoc" id="ma_khoa_hoc" placeholder="Mã khoá học (`ma_khoa_hoc` in excel)" class="form-control">
+                    <label for="ma_nganh" class="form-check-label fw-bold text-secondary">Mã ngành:</label>
+                    <input type="text" name="ma_nganh" id="ma_nganh" placeholder="Mã ngành (`ma_nganh` in excel)" class="form-control">
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="submit" id="btn_add_class">Thêm</button>
+                </form>
+                <button type="button" data-bs-dismiss="modal">Close</button>
+            </div>
+    
+        </div>
+    </div>
+</div>
+<div class="modal" id="editModal">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <p>Sửa thông tin</p>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+    
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="<%= process.env.SELF_EJS_API_URL %>/ad-crud-update-class" method="post" enctype="multipart/form-data" id="form_upadte_class">
+                    <input type="text" name="ma_hoc_ky" id="ma_hoc_ky" hidden>
+                    <div>
+                        <label for="ten_khoa_hoc2">Học kỳ</label>
+                        <select name="ten_khoa_hoc2" id="ten_khoa_hoc2">
+                            <option value="HOC_KY_I">HỌC KỲ I</option>
+                            <option value="HOC_KY_II">HỌC KỲ II</option>
+                            <option value="HOC_KY_III">HỌC KỲ III</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="nam_bat_dau2">Năm bắt đầu</label>
+                        <select name="nam_bat_dau2" id="nam_bat_dau2">
+                            <% for(var i=parseInt(new Date().getFullYear()); i<2100; i++) { %>
+                                <option value="<%= i %>"><%= i %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="nam_ket_thuc2">Năm kết thúc</label>
+                        <select name="nam_ket_thuc2" id="nam_ket_thuc2">
+                            <% for(var i=parseInt(new Date().getFullYear()) + 1; i<2100; i++) { %>
+                                <option value="<%= i %>"><%= i %></option>
+                            <% } %>
+                        </select>
+                    </div>
+            </div>
+    
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="submit" id="btn_update_class">Cập nhật</button>
+                </form>
+                <button type="button" data-bs-dismiss="modal">Close</button>
+            </div>
+    
+        </div>
+    </div>
+</div>
+<div class="position-fixed bottom-0 text-secondary small">
+    1997 - 2023
+    &ensp;
+    |
+    &ensp;
+    IUH - Industrial University of Ho Chi Minh City Reserved
+    &ensp;
+    |
+    &ensp;
+    Secure
+    <i class="fas fa-shield-alt"></i>
+</div>
+
+</body>
+<script>
+$(document).ready(function() {
+    const tab_length = $(".col-lg-9").width();
+    const right_action_length = $("#right_action").width();
+    const minus = tab_length - right_action_length;
+    $("#right_action").css("left", minus);
+    $("#excel_file").on("change", function(){
+        $("#btn-import").removeClass('d-none');
+    });
+});
+</script>
+</html>

@@ -80,30 +80,18 @@ async function getListUnitClass() {
         return LIST_UNIT_CLASS;
     }
 }
-async function getListStudent(limit = 9999999){
-    let LIST_STUDENT_METADATA = null;
+async function getListStudent(){
+    const LIST_STUDENT = [];
     try {
-        const LIST_STUDENT = [];
-        const result = await query("SELECT * FROM sinh_vien ORDER BY ma_sinh_vien DESC LIMIT ?", [limit]);
+        const result = await query("SELECT * FROM sinh_vien ORDER BY ma_sinh_vien");
         Object.keys(result).forEach(function(key) {
             var row = result[key];
             LIST_STUDENT.push(row);
         });
-        const count = await query("SELECT COUNT(*) AS total_records FROM sinh_vien");
-        const totalRecords = count[0].total_records;
-        LIST_STUDENT_METADATA = {
-            data: LIST_STUDENT,
-            pagination: {
-              pageNumber: 1,
-              pageSize: limit,
-              totalRecords: totalRecords,
-              totalPages: Math.ceil(totalRecords / limit),
-            }
-        };
     } catch (error) {
         console.error(error);
     } finally{
-        return LIST_STUDENT_METADATA;
+        return LIST_STUDENT;
     }
 }
 async function getListClass() {

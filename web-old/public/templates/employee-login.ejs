@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ErukaLearn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            background-image: url("https://hsb.edu.vn/wp-content/uploads/2014/07/university-background-04.jpg");
+            /* background-repeat: no-repeat; */
+            background-size: cover;
+            background-position: center;
+        }
+        #testbg{
+            box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+            font-size: larger;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <% if(error == "wrong_password") { %>
+            <script>swal({title: "Invalid",text: "Username or password",icon: "warning", dangerMode: true});</script>
+        <% } %>   
+    </div>
+    <div class="position-fixed top-50 start-50 translate-middle justify-content-center align-items-center text-center p-5 w-100">
+        <div class="d-flex">
+            <div class="col-8">
+                <img src="https://gv.iuh.edu.vn/Content/login2/img/slide1.png" alt="employee-iuh-background-logo" width="100%" height="100%">
+            </div>
+            <div id="testbg" class="bg-white p-3 col-4">
+                <img src="https://media.iuh.edu.vn/Media/1/Images/logo-loginb2c44cab-5.png" alt="logo-iuh">
+                <h3>EMPLOYEE <i class="far fa-address-card"></i> - Cổng quản lý thông tin</h3>
+                <hp class="fs-4 text-warning">ĐĂNG NHẬP TÀI KHOẢN</hp>
+                <hr>
+                <form action="employee-login" method="post" enctype="multipart/form-data">
+                    <input type="text" placeholder="Nhập mã số nhân viên" class="my-1 form-control p-3" name="username" required autofocus>
+                    <input type="password" placeholder="Nhập mật khẩu" class="my-1 form-control p-3" name="password" required>
+                    <div><button type="submit" class="btn-lg btn-light w-100 text-white p-3" style="background-color: rgba(249, 149, 26, 0.9);">Đăng nhập</button></div>
+                </form>
+                <a href="#" class="text-secondary">Quên mật khẩu?</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
