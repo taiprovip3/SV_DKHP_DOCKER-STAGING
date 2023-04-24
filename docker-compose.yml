@@ -27,7 +27,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: ""
     networks:
-      sv-dkhp-network
+      - sv-dkhp-network
   mysql:
     image: taiproduaxe/sv_dkhp_mysql:latest
     command: --default-authentication-plugin=mysql_native_password
@@ -44,7 +44,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      sv-dkhp-network
+      - sv-dkhp-network
 networks:
   sv-dkhp-network:
     driver: bridge
