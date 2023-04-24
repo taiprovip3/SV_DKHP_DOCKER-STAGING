@@ -158,7 +158,7 @@ $(document).ready(function(){
     });
 
 });
-fetch("http://172.20.0.11:4000/captcha")
+fetch(pathNodejs+"/captcha")
     .then(response => response.text())
     .then(response => {
         const holder = document.getElementById("captcha-container");

@@ -7,8 +7,7 @@ services:
     depends_on:
       - mysql
     networks:
-      sv-dkhp-network:
-        ipv4_address: 172.20.0.10
+      - sv-dkhp-network
   web:
     image: taiproduaxe/sv_dkhp_web:latest
     ports:
@@ -16,8 +15,7 @@ services:
     depends_on:
       - mysql
     networks:
-      sv-dkhp-network:
-        ipv4_address: 172.20.0.11
+      - sv-dkhp-network
   java:
     image: taiproduaxe/sv_dkhp_java:latest
     ports:
@@ -29,8 +27,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: ""
     networks:
-      sv-dkhp-network:
-        ipv4_address: 172.20.0.12
+      sv-dkhp-network
   mysql:
     image: taiproduaxe/sv_dkhp_mysql:latest
     command: --default-authentication-plugin=mysql_native_password
@@ -47,15 +44,9 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      sv-dkhp-network:
-        ipv4_address: 172.20.0.13
-      
+      sv-dkhp-network
 networks:
   sv-dkhp-network:
     driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: "172.20.0.0/16"
 volumes:
   mysql_data:
