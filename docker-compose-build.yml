@@ -9,8 +9,7 @@ services:
     depends_on:
       - mysql
     networks:
-      sv-dkhp-network:
-        ipv4_address: 172.20.0.10
+      - sv-dkhp-network
   web:
     build: 
       context: ./web
@@ -20,8 +19,7 @@ services:
     depends_on:
       - mysql
     networks:
-      sv-dkhp-network:
-        ipv4_address: 172.20.0.11
+      - sv-dkhp-network
   java:
     build: 
       context: ./java
@@ -35,8 +33,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: ""
     networks:
-      sv-dkhp-network:
-        ipv4_address: 172.20.0.12
+      - sv-dkhp-network
   mysql:
     build: 
       context: ./mysql
@@ -55,15 +52,10 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      sv-dkhp-network:
-        ipv4_address: 172.20.0.13
+      - sv-dkhp-network
       
 networks:
   sv-dkhp-network:
     driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: "172.20.0.0/16"
 volumes:
   mysql_data:
