@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2023 at 05:41 PM
+-- Generation Time: Apr 24, 2023 at 05:53 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -492,7 +492,7 @@ CREATE TABLE `nhan_vien` (
 --
 
 INSERT INTO `nhan_vien` (`ma_nhan_vien`, `chuc_vu`, `dia_chi`, `sdt`, `ten_nhan_vien`, `ma_tai_khoan`, `avatar`, `gioi_tinh`, `last_backup`, `nam_sinh`, `ngay_vao_lam`) VALUES
-(1, 'THO_DIEN', '60/122 To 10 KP8 Phuong TCH Q12 TP.HCM, Đường Huỳnh Thị Hai', '0338188506', 'Nhân Viên A', 2, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv-iuh-avatar-pattern_oyubmc.jpg', 'NAM', NULL, 2001, '2023-04-01');
+(2, 'THO_DIEN', '60/122 To 10 KP8 Phuong TCH Q12 TP.HCM, Đường Huỳnh Thị Hai', '0338188506', 'Nhân Viên A', 2, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv-iuh-avatar-pattern_oyubmc.jpg', 'NAM', NULL, 2001, '2023-04-01');
 
 -- --------------------------------------------------------
 
@@ -989,7 +989,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `password`, `username`) VALUES
 (1, '$2a$10$b4fPmnLkxcV4Y4MBDp05WeBhR8cIVizWbsjdpgvcztLPhSQBXNiF6', 'gv1'),
-(2, '$2a$10$b4fPmnLkxcV4Y4MBDp05WeBhR8cIVizWbsjdpgvcztLPhSQBXNiF6', 'nv1'),
+(2, '$2a$10$b4fPmnLkxcV4Y4MBDp05WeBhR8cIVizWbsjdpgvcztLPhSQBXNiF6', 'nv2'),
 (3, '$2a$10$b4fPmnLkxcV4Y4MBDp05WeBhR8cIVizWbsjdpgvcztLPhSQBXNiF6', 'sa'),
 (4, '$2a$10$b4fPmnLkxcV4Y4MBDp05WeBhR8cIVizWbsjdpgvcztLPhSQBXNiF6', 'sv1'),
 (5, '$2a$10$b4fPmnLkxcV4Y4MBDp05WeBhR8cIVizWbsjdpgvcztLPhSQBXNiF6', 'sv2'),

@@ -33,7 +33,6 @@
             <script>swal({title: "Invalid",text: "Username or password",icon: "warning", dangerMode: true});</script>
         <% } else {
             if(error == "INVALID_SESSION") { %>
-                <script>swal({title: "End session",text: "Refresh new authorization",icon: "success"});</script>
             <% } 
             if(error == "INTERNAL_SERVER_ERROR") { %>
                 <script>swal({title: "Internal Server Error",text: "Something went wrong",icon: "warning", dangerMode: true});</script>

@@ -93,6 +93,7 @@ employeeAuthRouter.post('/employee-login', upload.fields([]), async (req, res) =
             throw new Error('No data employee found!'); 
         }
     } catch (error) {
+        console.log('error=',error);
         return res.render("employee-login", { error: "WRONG_PASSWORD" });
     }
 });
