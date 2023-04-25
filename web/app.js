@@ -196,7 +196,7 @@ app.get("/captcha", (req, res) => {
     req.session.captcha = captcha.text;
     res.type('svg');
     return res.status(200).send(captcha.data);
-})
+});
 app.get("/student", async (req,res) => {
     if(req.session.student && req.session.jwt_token) { //Đã session
         renderStudentHomepage(req,res);

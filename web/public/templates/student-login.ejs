@@ -158,12 +158,17 @@ $(document).ready(function(){
     });
 
 });
-fetch(pathNodejs+"/captcha")
-    .then(response => response.text())
-    .then(response => {
-        const holder = document.getElementById("captcha-container");
-        holder.innerHTML = response;
-    });
+
+let xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    const holder = document.getElementById("captcha-container");
+    holder.innerHTML = this.responseText;
+  }
+};
+xhttp.open("GET", pathNodejs+"/captcha", true);
+xhttp.send();
+
 document.getElementById("toastbtn").onclick = function() {
     var toastElList = [].slice.call(document.querySelectorAll('.toast'))
     var toastList = toastElList.map(function(toastEl) {
