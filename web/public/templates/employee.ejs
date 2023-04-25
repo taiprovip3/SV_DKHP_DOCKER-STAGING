@@ -48,8 +48,8 @@
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="import-button" data-bs-dismiss="modal" >Close</button>
-                <button type="button" class="import-button" data-bs-dismiss="modal" onclick="window.location.href='./employee-logout';">Log out</button>
+                <button type="button" class="teal-button" data-bs-dismiss="modal" >Close</button>
+                <button type="button" class="teal-button" data-bs-dismiss="modal" onclick="window.location.href='./employee-logout';">Log out</button>
             </div>
         </div>
     </div>
@@ -203,7 +203,7 @@
             <label class="form-check-label" for="backupTypeAuto">Tự động nhắc nhở Backup</label>
         </div>
         <div class="text-center">
-            <button class="import-button" onclick="backUp();">Sao lưu ngay <i class="text-white fas fa-cloud-download-alt"></i></button>
+            <button class="teal-button" onclick="backUp();">Sao lưu ngay <i class="text-white fas fa-cloud-download-alt"></i></button>
             <p>Hệ thống sẽ export ra file .bak tương ứng!</p>
         </div>
     </div>
@@ -233,7 +233,7 @@
             <label class="form-check-label" for="backupTypeAuto">Tự động nhắc nhở Backup</label>
         </div>
         <div class="text-center">
-            <button class="import-button" onclick="backUp();">Sao lưu ngay <i class="text-white fas fa-cloud-download-alt"></i></button>
+            <button class="teal-button" onclick="backUp();">Sao lưu ngay <i class="text-white fas fa-cloud-download-alt"></i></button>
             <p>Hệ thống sẽ export ra file .bak tương ứng!</p>
         </div>
     </div>
@@ -430,6 +430,9 @@
 
     async function renderClassifyChart() {
         const xepLoais = ['KEM', 'YEU', 'TRUNG_BINH_YEU', 'TRUNG_BINH', 'TRUNG_BINH_KHA', 'KHA', 'KHA_GIOI', 'GIOI'];
+        const xepLoaiShortcut = {KEM: 'Kém', YEU: 'Yếu', TRUNG_BINH_YEU: 'Trung bình yếu', TRUNG_BINH: 'Trung bình', TRUNG_BINH_KHA: 'Trung bình khá', KHA: 'Khá', KHA_GIOI: 'Khá giỏi', GIOI: 'Giỏi'};
+        const xepLoaiAlias = xepLoais.map((xepLoai) => xepLoaiShortcut[xepLoai]);
+        console.log('xepLoaiAlias=',xepLoaiAlias);
         const counterXepLoais = [];
         for(const xepLoai of xepLoais) {
             const counter = await getCounterByXepLoai(xepLoai);
@@ -443,7 +446,7 @@
             classifyChartData = new Chart(ctx, {
                 type: 'polarArea',
                 data: {
-                    labels: xepLoais,
+                    labels: xepLoaiAlias,
                     datasets: [{
                         label: '# Mực độ năng lực học tập của toàn sinh viên',
                         data: counterXepLoais,

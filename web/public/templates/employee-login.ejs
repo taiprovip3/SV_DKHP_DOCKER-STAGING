@@ -22,8 +22,9 @@
         }
         #testbg{
             font-size: larger;
-            background-image: url('https://img.freepik.com/premium-vector/halftone-dots-white-background-gray-dots-halftone-texture_47243-1127.jpg');
+            background-image: url('https://png.pngtree.com/png-clipart/20190920/original/pngtree-color-creative-texture-glitter-dots-elements-png-image_4609964.jpg');
             background-size: contain;
+            box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
         }
     </style>
 </head>
@@ -46,20 +47,20 @@
             </div>
             <div id="testbg" class="col-4 p-3 align-self-center">
                 <img src="https://media.iuh.edu.vn/Media/1/Images/logo-loginb2c44cab-5.png" alt="logo-iuh">
-                <h3 style="color: rgb(7, 73, 73);">Cổng quản lý thông tin</h3>
+                <p style="color: rgb(13, 204, 204);">Cổng quản lý thông tin</p>
                 <i class="fab fa-leanpub text-danger"></i>
                 <p class="fs-4" style="color: rgb(13, 204, 204);">ĐĂNG NHẬP TÀI KHOẢN</p>
                 <hr>
                 <form action="employee-login" method="post" enctype="multipart/form-data">
                     <input type="text" placeholder="Nhập mã số nhân viên" class="my-1 form-control p-3" name="username" required autofocus>
-                    <input type="password" placeholder="Nhập mật khẩu" class="my-1 form-control p-3" name="password" required>
-                    <div><button type="submit" class="w-100 text-white p-3 fw-bold import-button" style="background-color: rgb(13, 204, 204);">Đăng nhập</button></div>
+                    <input type="password" placeholder="Nhập mật khẩu" class="my-1 form-control p-3" name="password" minlength="8" required>
+                    <div><button type="submit" class="w-100 text-white p-3 fw-bold import-button" style="background-color: #3CBCBC;">Đăng nhập</button></div>
                 </form>
+                <div class="text-primary p-2 text-center" style="font-size: small;">
+                    Secure <i class="fas fa-shield-alt"></i>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="position-fixed bottom-0 text-success small p-2">
-        Secure <i class="fas fa-shield-alt"></i>
     </div>
 </body>
 <script>

@@ -36,12 +36,10 @@ async function getScores(req) {
         return response.data;
     return [];
 }
-async function getListTimeTable(limit = 100){
+async function getListTimeTable(){
     let LIST_TIME_TABLE = [];
     try {
-        console.log('page=',page);
-        console.log('limit=',limit);
-        const result = await query("SELECT * FROM thoi_khoa_bieu ORDER BY ma_thoi_khoa_bieu DESC LIMIT ?", [limit]);
+        const result = await query("SELECT * FROM thoi_khoa_bieu ORDER BY ma_thoi_khoa_bieu DESC");
         Object.keys(result).forEach(function(key) {
             var row = result[key];
             LIST_TIME_TABLE.push(row);
@@ -52,10 +50,10 @@ async function getListTimeTable(limit = 100){
         return LIST_TIME_TABLE;
     }
 }
-async function getListTimeTableCon(limit = 100){
+async function getListTimeTableCon(){
     let LIST_TIME_TABLE = [];
     try {
-        const result = await query("SELECT * FROM thoi_khoa_bieu_con ORDER BY ma_thoi_khoa_bieu_con DESC LIMIT ?", [limit]);
+        const result = await query("SELECT * FROM thoi_khoa_bieu_con ORDER BY ma_thoi_khoa_bieu_con DESC");
         Object.keys(result).forEach(function(key) {
             var row = result[key];
             LIST_TIME_TABLE.push(row);

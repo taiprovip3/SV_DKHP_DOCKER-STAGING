@@ -91,12 +91,12 @@
                     <p class="fw-bold">ĐĂNG NHẬP HỆ THỐNG</p>
                     <form action="/student-login" method="post" enctype="multipart/form-data" id="myForm">
                         <input type="text" name="ma_sinh_vien" id="ma_sinh_vien" placeholder="Nhập mã sinh viên.." class="my-1 p-2" autofocus required value="1">
-                        <input type="password" name="mat_khau" id="mat_khau" placeholder="Nhập mật khẩu.." class="my-1 p-2" required value="123123az">
-                        <div class="d-flex my-2" id="captcha-box">
+                        <input type="password" name="mat_khau" id="mat_khau" placeholder="Nhập mật khẩu.." class="my-1 p-2" minlength="8" required value="123123az">
+                        <!-- <div class="d-flex my-2" id="captcha-box">
                             <div><input type="text" name="captcha_code" id="captcha_code" placeholder="Nhập mã" class="p-2 m-1" required></div>
                             <div class="d-flex justify-content-center align-items-center"><i class="fa-solid fa-sync fa-spin fa-2x text-dark" onclick="location.reload()" id="refresh-icon"></i></div>
-                            <div id="captcha-container" class="captcha-container"></div>    
-                        </div>
+                            <div id="captcha-container" class="captcha-container"></div>  
+                        </div> -->
                         <button type="submit" class="p-3 my-1 text-white">Đăng nhập</button>
                     </form>
                     <a href="javascript:void(0);" id="toastbtn" >Quên mật khẩu?</a>
@@ -159,15 +159,15 @@ $(document).ready(function(){
 
 });
 
-let xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function() {
-  if (this.readyState == 4 && this.status == 200) {
-    const holder = document.getElementById("captcha-container");
-    holder.innerHTML = this.responseText;
-  }
-};
-xhttp.open("GET", pathNodejs+"/captcha", true);
-xhttp.send();
+// let xhttp = new XMLHttpRequest();
+// xhttp.onreadystatechange = function() {
+//   if (this.readyState == 4 && this.status == 200) {
+//     const holder = document.getElementById("captcha-container");
+//     holder.innerHTML = this.responseText;
+//   }
+// };
+// xhttp.open("GET", pathNodejs+"/captcha", true);
+// xhttp.send();
 
 document.getElementById("toastbtn").onclick = function() {
     var toastElList = [].slice.call(document.querySelectorAll('.toast'))

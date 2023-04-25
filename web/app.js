@@ -38,8 +38,9 @@ app.set('views', './public/templates');
 app.use(session({
     secret: process.env.APP_SECRET_KEY,
     proxy: true,
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
 }));
 const path = require('path');
 const fileName = path.basename(__filename);
@@ -191,7 +192,7 @@ app.use('/', adminRouter);
 **      ******              ****                ****        ****        ****        ****        ****
    *****                    ****                    ********            ************            ********************
 */
-app.get("/captcha", (req, res) => {
+app.get("/captcha", async (req, res) => {
     var captcha = svgCaptcha.create({size:1, color: true, background: 'white'});
     req.session.captcha = captcha.text;
     res.type('svg');
@@ -202,7 +203,7 @@ app.get("/student", async (req,res) => {
         renderStudentHomepage(req,res);
     } else {
         const LIST_ANNOUNCEMENT = await getListAnnouncement();
-        return res.render("student-login", {LIST_ANNOUNCEMENT, error: null});
+        return res.render("student-login", {LIST_ANNOUNCEMENT, error: null, captchaRoute: process.env.EJS_API_URL+'/captcha'});
     }
 });
 app.get("/student-logout", (req, res) => {
@@ -231,20 +232,16 @@ app.post("/student-login", upload.fields([]), async (req, res) => {
     if(req.session.student && req.session.jwt_token) { //Đã session
         return res.redirect("/student");
     } else { //First try
-        const {ma_sinh_vien, mat_khau, captcha_code} = req.body;
+        const {ma_sinh_vien, mat_khau} = req.body;
         const LIST_ANNOUNCEMENT = await getListAnnouncement();
-        if(captcha_code !== req.session.captcha) {//Sai captcha
-            return res.render("student-login", {LIST_ANNOUNCEMENT, error: "wrong_captcha"});
+        const response = await axios.post(javaUrl+"/api/login", {username: "sv"+ma_sinh_vien, password: mat_khau});
+        if(response.data) {
+            const token = response.data;
+            req.session.jwt_token = token;
+            req.session.student = ma_sinh_vien;
+            renderStudentHomepage(req,res,"SUCCESS_LOGON");
         } else {
-            const response = await axios.post(javaUrl+"/api/login", {username: "sv"+ma_sinh_vien, password: mat_khau});
-            if(response.data) {
-                const token = response.data;
-                req.session.jwt_token = token;
-                req.session.student = ma_sinh_vien;
-                renderStudentHomepage(req,res,"SUCCESS_LOGON");
-            } else {
-                return res.render("student-login", {LIST_ANNOUNCEMENT, error: "wrong_password"});
-            }
+            return res.render("student-login", {LIST_ANNOUNCEMENT, error: "wrong_password"});
         }
     }
 });
