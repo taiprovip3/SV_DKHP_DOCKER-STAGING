@@ -9,6 +9,7 @@ const multer = require('multer');
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
+const util = require("util");
 const session = require("express-session");
 const XLSX = require("xlsx");
 const dotenv = require('dotenv');
@@ -53,6 +54,7 @@ con.connect(function(err) {
     }
     console.log(fileName + ' connected as id ' + con.threadId);
 });
+const query = util.promisify(con.query).bind(con);
 const { getListStudent } = require('./employee-functional');
 const { getListClass } = require('./employee-functional');
 const { getListTeacher } = require('./employee-functional');
@@ -136,7 +138,7 @@ employeeFeatureRouter.post("/employee-crud-add-student", upload.fields([]), asyn
 employeeFeatureRouter.post("/employee-crud-delete-student", upload.fields([]), async (req, res) => {
     if(req.session.employee) {
         const listCheckboxChecked = Object.keys(req.body);
-        const response = await axios.post('http://java:8080/api/student/remove', listCheckboxChecked, {headers: {"Authorization": req.session.employee_token}});
+        const response = await axios.post('http://localhost:8080/api/student/remove', listCheckboxChecked, {headers: {"Authorization": req.session.employee_token}});
         const LIST_STUDENT = await getListStudent();
         if(response.data)
             return res.render("employee-crud-student", {LIST_STUDENT, signal: "INSERT_SUCCESS"});
@@ -542,7 +544,7 @@ employeeFeatureRouter.post("/employee-crud-import", upload.single("excel_file"),
     }
     return res.redirect("/employee");
 });
-employeeFeatureRouter.get('/employee-backup', (req, res) => {
+employeeFeatureRouter.get('/employee-backup-sql', (req, res) => {
     if(!req.session.employee) {
         return res.redirect("/employee");
     }
@@ -608,6 +610,67 @@ employeeFeatureRouter.get('/employee-getCounterByXepLoai/:xepLoaiString', async 
         console.error(error);
     }
 });
+async function getDataTable(tableName){// Hàm cho backup excel type
+    let LIST_DATA = [];
+    try {
+        const result = await query(`SELECT * FROM ${tableName}`);
+        Object.keys(result).forEach(function(key) {
+            var row = result[key];
+            LIST_DATA.push(row);
+        });
+    } catch (error) {
+        console.error(error);
+    } finally{
+        return LIST_DATA;
+    }
+}
+employeeFeatureRouter.get('/employee-getMetaDatasetsInputChart', async(req, res) => {
+    try {
+        const response = await axios.get(javaUrl+'/api/getMetaDatasetsInputChart', {headers: {"Authorization": req.session.employee_token}});
+        return res.send(response.data);
+    } catch (error) {
+        console.error(error);
+        throw new Error();
+    }
+});
+employeeFeatureRouter.get('/employee-backup-excel', (req, res) => {
+    // Lấy danh sách tên bảng trong cơ sở dữ liệu
+    con.query("SELECT TABLE_NAME FROM information_schema.tables WHERE TABLE_SCHEMA = 'sv_dkhp'", async (error, results, fields) => {
+        if (error) throw error;
+        // Tạo một workbook mới
+        const workbook = new exceljs.Workbook();
+        // Lặp qua từng bảng và thêm dữ liệu vào worksheet
+        for(const table of results) {
+            const tableName = table.TABLE_NAME;
+            const data = await getDataTable(tableName);
+            const worksheet = workbook.addWorksheet(tableName);
+            const keys = Object.keys(data[0]);
+            const sheetColumns = [];
+            for (const key of keys) {
+                sheetColumns.push({ header: key, key: key, width: 20 });
+            }
+            worksheet.columns = sheetColumns;
+            for(const row of data) {
+                worksheet.addRow(Object.values(row));
+            }
+        }
+        // Khi đã thêm dữ liệu vào các worksheet, ghi workbook vào file Excel và gửi về client
+        const fileName = 'backup.xlsx';
+        res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        try {
+            await workbook.xlsx.write(res);
+            res.status(200).end();
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({
+                message: 'Error exporting data',
+                error: err
+            });
+        }
+    });
+});
+
 
 
 module.exports = employeeFeatureRouter;

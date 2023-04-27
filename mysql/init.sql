@@ -39,8 +39,8 @@ CREATE TABLE `chuong_trinh_khung` (
 --
 
 INSERT INTO `chuong_trinh_khung` (`id`, `done`, `ma_mon_hoc`, `ma_sinh_vien`) VALUES
-(3, b'1', 1000081, 1),
-(6, b'1', 1000082, 1);
+(3, b'1', 1000081, 19524791),
+(6, b'1', 1000082, 19524791);
 
 -- --------------------------------------------------------
 
@@ -66,8 +66,8 @@ CREATE TABLE `cong_no` (
 --
 
 INSERT INTO `cong_no` (`id`, `cong_no`, `da_nop`, `khau_tru`, `mien_giam`, `so_tien`, `trang_thai`, `ma_lop_hoc_phan`, `ma_mon_hoc`, `ma_sinh_vien`) VALUES
-(1, 0, 4250000, 0, 0, 0, 'DA_NOP', 1, 1000081, 1),
-(2, 0, 4250000, 0, 0, 0, 'DA_NOP', 2, 1000082, 1);
+(1, 0, 4250000, 0, 0, 0, 'DA_NOP', 1, 1000081, 19524791),
+(2, 0, 4250000, 0, 0, 0, 'DA_NOP', 2, 1000082, 19524791);
 
 -- --------------------------------------------------------
 
@@ -100,8 +100,8 @@ CREATE TABLE `diem` (
 --
 
 INSERT INTO `diem` (`ma_diem`, `diem4`, `diemck`, `diem_chu`, `diemgk`, `diemlt1`, `diemlt2`, `diemlt3`, `diemth1`, `diemth2`, `diemth3`, `diem_tong_ket`, `ghi_chu`, `pass`, `xep_loai`, `ma_lop_hoc_phan`, `ma_sinh_vien`) VALUES
-(2, 2.6, 7.2, 'B', 5, 6, 7, 8, 0, 0, 0, 6.5, 'Đạt', b'1', 'TRUNG_BINH_KHA', 1, 1),
-(4, 1.86667, 5.5, 'C', 5, 6, 7, 7, 6, 4, 4, 4.66667, 'Đạt', b'1', 'YEU', 2, 1);
+(2, 2.6, 7.2, 'B', 5, 6, 7, 8, 0, 0, 0, 6.5, 'Đạt', b'1', 'TRUNG_BINH_KHA', 1, 19524791),
+(4, 1.86667, 5.5, 'C', 5, 6, 7, 7, 6, 4, 4, 4.66667, 'Đạt', b'1', 'YEU', 2, 19524791);
 
 -- --------------------------------------------------------
 
@@ -541,26 +541,26 @@ CREATE TABLE `phieu_thu` (
 --
 
 INSERT INTO `phieu_thu` (`ma_phieu_thu`, `don_vi_thu`, `ghi_chu`, `ngay_thu`, `so_tien`, `trang_thai`, `ma_sinh_vien`, `ma_giao_dich`, `loai_phieu_thu`) VALUES
-(1, 'Ngân hàng Agribank', 'Giao dich truc tiep tai QGD GoVap', '2023-02-04', 15300000, 'DANG_CHO_XU_LY', 1, 'znUfmIVh', 'OUT'),
-(2, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 0 ₫', '2023-03-05', 4250000, 'DA_XU_LY', 1, 'NSvb1geq', 'OUT'),
-(15, 'SỐ DƯ VÍ', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 12.450.000 ₫. Số tiến đã thanh toán thành công: 850.000 ₫. Số tiền thanh toán dư còn lại: 11.600.000 ₫', '2023-03-25', 850000, 'DA_XU_LY', 1, 'km1wA95q', 'IN'),
-(16, '\'PAYPAL - WALLET\'', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 50.000 ₫. Số tiến đã thanh toán thành công: 50.000 ₫. Số tiền dư thanh toán còn lại: 11.650.000 ₫', '2023-03-26', 50000, 'DA_XU_LY', 1, 'EperQQpK', 'IN'),
-(17, '\'PAYPAL - WALLET\'', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 50.000 ₫. Số tiến đã thanh toán thành công: 50.000 ₫. Số tiền dư thanh toán còn lại: 11.700.000 ₫', '2023-03-26', 50000, 'DA_XU_LY', 1, 'tAPsTH0j', 'IN'),
-(18, '\'PAYPAL - WALLET\'', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 50.000 ₫. Số tiến đã thanh toán thành công: 50.000 ₫. Số tiền dư thanh toán còn lại: 11.750.000 ₫', '2023-03-26', 50000, 'DA_XU_LY', 1, '1b8M39Ap', 'IN'),
-(19, '\'PAYPAL - WALLET\'', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 500.000 ₫. Số tiến đã thanh toán thành công: 500.000 ₫. Số tiền dư thanh toán còn lại: 12.250.000 ₫', '2023-03-28', 500000, 'DA_XU_LY', 1, 'vxx5lT26', 'IN'),
-(20, NULL, 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.226.550 ₫', '2023-04-01', 23450, 'DA_XU_LY', 1, 'ZlUaDWXP', 'OUT'),
-(21, NULL, 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.203.100 ₫', '2023-04-01', 23450, 'DA_XU_LY', 1, 'iBy5Bftn', 'OUT'),
-(22, NULL, 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.179.650 ₫', '2023-04-02', 23450, 'DA_XU_LY', 1, 'Vd3jiQPP', 'OUT'),
-(23, NULL, 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.156.200 ₫', '2023-04-02', 23450, 'DA_XU_LY', 1, 'lMFP434j', 'OUT'),
-(24, NULL, 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.132.750 ₫', '2023-04-02', 23450, 'DA_XU_LY', 1, 'NE2ZMJX6', 'OUT'),
-(25, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.156.200 ₫', '2023-04-02', 23450, 'DA_XU_LY', 1, '0tYr3oi3', 'IN'),
-(26, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.179.650 ₫', '2023-04-02', 23450, 'DA_XU_LY', 1, '0tYr3oi3', 'IN'),
-(27, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.203.100 ₫', '2023-04-02', 23450, 'DA_XU_LY', 1, '0tYr3oi3', 'IN'),
-(28, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.226.550 ₫', '2023-04-02', 23450, 'DA_XU_LY', 1, '0tYr3oi3', 'IN'),
-(29, 'STUDENT - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 28.760.550 ₫', '2023-04-09', 4250000, 'DA_XU_LY', 1, 'Gr48LnkU', 'OUT'),
-(30, 'STUDENT - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 24.510.550 ₫', '2023-04-09', 4250000, 'DA_XU_LY', 1, 'LJNLEdnM', 'OUT'),
-(31, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 49.949 ₫. Số tiến đã thanh toán thành công: 49.949 ₫. Số tiền dư thanh toán còn lại: 24.560.499 ₫', '2023-04-15', 49948.5, 'DA_XU_LY', 1, 'E8ohiFLJ', 'IN'),
-(32, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 49.949 ₫. Số tiến đã thanh toán thành công: 49.949 ₫. Số tiền dư thanh toán còn lại: 24.610.447 ₫', '2023-04-15', 49948.5, 'DA_XU_LY', 1, 'G4Ib1daZ', 'IN');
+(1, 'Ngân hàng Agribank', 'Giao dich truc tiep tai QGD GoVap', '2023-02-04', 15300000, 'DANG_CHO_XU_LY', 19524791, 'znUfmIVh', 'OUT'),
+(2, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 0 ₫', '2023-03-05', 4250000, 'DA_XU_LY', 19524791, 'NSvb1geq', 'OUT'),
+(15, 'SỐ DƯ VÍ', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 12.450.000 ₫. Số tiến đã thanh toán thành công: 850.000 ₫. Số tiền thanh toán dư còn lại: 11.600.000 ₫', '2023-03-25', 850000, 'DA_XU_LY', 19524791, 'km1wA95q', 'IN'),
+(16, '\'PAYPAL - WALLET\'', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 50.000 ₫. Số tiến đã thanh toán thành công: 50.000 ₫. Số tiền dư thanh toán còn lại: 11.650.000 ₫', '2023-03-26', 50000, 'DA_XU_LY', 19524791, 'EperQQpK', 'IN'),
+(17, '\'PAYPAL - WALLET\'', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 50.000 ₫. Số tiến đã thanh toán thành công: 50.000 ₫. Số tiền dư thanh toán còn lại: 11.700.000 ₫', '2023-03-26', 50000, 'DA_XU_LY', 19524791, 'tAPsTH0j', 'IN'),
+(18, '\'PAYPAL - WALLET\'', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 50.000 ₫. Số tiến đã thanh toán thành công: 50.000 ₫. Số tiền dư thanh toán còn lại: 11.750.000 ₫', '2023-03-26', 50000, 'DA_XU_LY', 19524791, '1b8M39Ap', 'IN'),
+(19, '\'PAYPAL - WALLET\'', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 500.000 ₫. Số tiến đã thanh toán thành công: 500.000 ₫. Số tiền dư thanh toán còn lại: 12.250.000 ₫', '2023-03-28', 500000, 'DA_XU_LY', 19524791, 'vxx5lT26', 'IN'),
+(20, NULL, 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.226.550 ₫', '2023-04-01', 23450, 'DA_XU_LY', 19524791, 'ZlUaDWXP', 'OUT'),
+(21, NULL, 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.203.100 ₫', '2023-04-01', 23450, 'DA_XU_LY', 19524791, 'iBy5Bftn', 'OUT'),
+(22, NULL, 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.179.650 ₫', '2023-04-02', 23450, 'DA_XU_LY', 19524791, 'Vd3jiQPP', 'OUT'),
+(23, NULL, 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.156.200 ₫', '2023-04-02', 23450, 'DA_XU_LY', 19524791, 'lMFP434j', 'OUT'),
+(24, NULL, 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.132.750 ₫', '2023-04-02', 23450, 'DA_XU_LY', 19524791, 'NE2ZMJX6', 'OUT'),
+(25, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.156.200 ₫', '2023-04-02', 23450, 'DA_XU_LY', 19524791, '0tYr3oi3', 'IN'),
+(26, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.179.650 ₫', '2023-04-02', 23450, 'DA_XU_LY', 19524791, '0tYr3oi3', 'IN'),
+(27, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.203.100 ₫', '2023-04-02', 23450, 'DA_XU_LY', 19524791, '0tYr3oi3', 'IN'),
+(28, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.226.550 ₫', '2023-04-02', 23450, 'DA_XU_LY', 19524791, '0tYr3oi3', 'IN'),
+(29, 'STUDENT - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 28.760.550 ₫', '2023-04-09', 4250000, 'DA_XU_LY', 19524791, 'Gr48LnkU', 'OUT'),
+(30, 'STUDENT - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 24.510.550 ₫', '2023-04-09', 4250000, 'DA_XU_LY', 19524791, 'LJNLEdnM', 'OUT'),
+(31, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 49.949 ₫. Số tiến đã thanh toán thành công: 49.949 ₫. Số tiền dư thanh toán còn lại: 24.560.499 ₫', '2023-04-15', 49948.5, 'DA_XU_LY', 19524791, 'E8ohiFLJ', 'IN'),
+(32, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 49.949 ₫. Số tiến đã thanh toán thành công: 49.949 ₫. Số tiền dư thanh toán còn lại: 24.610.447 ₫', '2023-04-15', 49948.5, 'DA_XU_LY', 19524791, 'G4Ib1daZ', 'IN');
 
 -- --------------------------------------------------------
 
@@ -638,7 +638,7 @@ CREATE TABLE `sinh_vien` (
 --
 
 INSERT INTO `sinh_vien` (`ma_sinh_vien`, `avatar`, `cccd`, `bac_dao_tao`, `co_so`, `loai_hinh_dao_tao`, `dia_chi`, `gioi_tinh`, `ho_ten`, `ngay_sinh`, `ngay_vao_truong`, `noi_sinh`, `sdt`, `so_du`, `tot_nghiep`, `ma_lop_danh_nghia`, `ma_tai_khoan`) VALUES
-(1, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh A', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 4),
+(19524791, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Phan Tấn Tài', '2001-05-25', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 4),
 (2, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh B', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 5),
 (3, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh C', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 6),
 (4, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh D', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 7),
@@ -671,8 +671,8 @@ CREATE TABLE `sinh_vien_lop_hoc_phan` (
 --
 
 INSERT INTO `sinh_vien_lop_hoc_phan` (`id`, `da_thu_hoc_phi`, `ngay_dang_ky`, `ma_lop_hoc_phan`, `ma_sinh_vien`, `ma_thoi_khoa_bieu`, `ma_thoi_khoa_bieu_con`) VALUES
-(3, b'1', '2023-03-12', 2, 1, 6, 4),
-(7, b'1', '2023-03-12', 1, 1, 1, NULL);
+(3, b'1', '2023-03-12', 2, 19524791, 6, 4),
+(7, b'1', '2023-03-12', 1, 19524791, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -728,107 +728,107 @@ CREATE TABLE `thanh_toan_giao_dich` (
 --
 
 INSERT INTO `thanh_toan_giao_dich` (`ma_giao_dich`, `balance`, `expired_time`, `ghi_chu`, `status`, `un_debt_ids`, `ma_sinh_vien`) VALUES
-('02Ywivl5', 256000000, '2023-03-25 22:40:02', '', b'0', 'Array', 1),
-('0aKjahwP', 256000000, '2023-03-25 22:39:50', '', b'0', 'Array', 1),
-('0blvHhlX', 0, '2023-04-09 00:22:27', '', b'0', '1', 1),
-('0dq4zfIB', 200000, '2023-03-26 14:49:45', '', b'0', 'Array', 1),
-('0e0Y9F7P', 0, '2023-04-15 11:56:54', '', b'0', 'Array', 1),
-('0tYr3oi3', 23450, '2023-04-09 09:50:51', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.226.550 ₫', b'0', 'Array', 1),
-('15CyF2xg', 500000, '2023-03-26 14:35:34', '', b'0', 'Array', 1),
-('1b8M39Ap', 50000, '2023-03-26 15:33:07', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 50.000 ₫. Số tiến đã thanh toán thành công: 50.000 ₫. Số tiền dư thanh toán còn lại: 11.750.000 ₫', b'1', 'Array', 1),
-('1OhJJLU4', 4250000, '2023-03-05 10:26:16', '', b'0', '1', 1),
-('3CGkOmkK', 850000, '2023-03-26 11:29:29', '', b'0', '27', 1),
-('3KPwstnm', 0, '2023-04-01 22:39:19', '', b'0', 'Array', 1),
-('5vjRPFPX', 500000, '2023-03-26 10:39:53', '', b'0', 'Array', 1),
-('6mnpFmW4', 0, '2023-04-15 11:54:13', '', b'0', 'Array', 1),
-('8vN6Bbut', 50000, '2023-03-26 10:35:19', '', b'0', 'Array', 1),
-('9AfwpN22', 0, '2023-04-01 23:13:05', '', b'0', 'Array', 1),
-('9D4HGJd4', 0, '2023-04-09 00:27:45', '', b'0', '1', 1),
-('AoAK8Stw', 0, '2023-04-09 10:14:21', '', b'0', 'Array', 1),
-('av1GhOOD', 0, '2023-04-09 00:24:53', '', b'0', '1', 1),
-('awHwoGtw', 0, '2023-04-09 00:28:19', '', b'0', '1', 1),
-('BuLE6Bb7', 200000, '2023-03-26 15:03:14', '', b'0', 'Array', 1),
-('C15BLpfB', 0, '2023-04-02 09:01:09', '', b'0', 'Array', 1),
-('CJLBPhmE', 0, '2023-04-01 22:40:29', '', b'0', 'Array', 1),
-('cLaqkt63', 850000, '2023-03-26 11:29:00', '', b'0', '27', 1),
-('CxY5zLco', 0, '2023-04-01 23:12:11', '', b'0', 'Array', 1),
-('D82nKueS', 0, '2023-04-01 23:14:12', '', b'0', 'Array', 1),
-('dE16BWRh', 0, '2023-04-01 23:17:55', '', b'0', 'Array', 1),
-('drp4t0F1', 200000, '2023-03-26 14:55:33', '', b'0', 'Array', 1),
-('e1Lbdd47', 0, '2023-04-02 08:22:26', '', b'0', 'Array', 1),
-('E8ohiFLJ', 49948.5, '2023-04-15 11:57:38', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 49.949 ₫. Số tiến đã thanh toán thành công: 49.949 ₫. Số tiền dư thanh toán còn lại: 24.560.499 ₫', b'1', 'Array', 1),
-('EagoJ5P4', 0, '2023-04-01 22:46:44', '', b'0', 'Array', 1),
-('EperQQpK', 50000, '2023-03-26 15:26:19', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 50.000 ₫. Số tiến đã thanh toán thành công: 50.000 ₫. Số tiền dư thanh toán còn lại: 11.650.000 ₫', b'1', 'Array', 1),
-('ERQIzVaL', 0, '2023-04-01 22:45:59', '', b'0', 'Array', 1),
-('EUBEPyVa', 0, '2023-04-09 00:26:26', '', b'0', '1', 1),
-('EyvoHogQ', 0, '2023-04-01 22:53:20', '', b'0', 'Array', 1),
-('fOVX7FvY', 200000, '2023-03-26 14:46:54', '', b'0', 'Array', 1),
-('FTwnc5P6', 200000, '2023-03-26 15:01:46', '', b'0', 'Array', 1),
-('G4Ib1daZ', 49948.5, '2023-04-15 12:11:19', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 49.949 ₫. Số tiến đã thanh toán thành công: 49.949 ₫. Số tiền dư thanh toán còn lại: 24.610.447 ₫', b'1', 'Array', 1),
-('GH8ZhWvp', 200000, '2023-03-26 14:51:30', '', b'0', 'Array', 1),
-('gIv6uBEf', 200000, '2023-03-26 14:59:55', '', b'0', 'Array', 1),
-('gPeE4gW9', 500000, '2023-04-02 19:25:34', '', b'0', 'Array', 1),
-('Gr48LnkU', 4250000, '2023-04-09 00:30:03', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 28.760.550 ₫', b'1', '1', 1),
-('gvfNJcFe', 0, '2023-04-01 22:37:15', '', b'0', 'Array', 1),
-('gvmbq2io', 200000, '2023-03-26 14:55:41', '', b'0', 'Array', 1),
-('Hh5M8VN2', 0, '2023-04-01 22:44:24', '', b'0', 'Array', 1),
-('HN01CROR', 200000, '2023-03-26 15:05:04', '', b'0', 'Array', 1),
-('Hx51pu1P', 0, '2023-04-01 23:00:48', '', b'0', 'Array', 1),
-('i76NDGgL', 25600000, '2023-03-25 22:36:58', '', b'0', 'Array', 1),
-('iBy5Bftn', 23450, '2023-04-01 23:56:38', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.203.100 ₫', b'1', '1', 1),
-('isI22gPX', 0, '2023-04-09 10:15:08', '', b'0', '1', 1),
-('JnqTQg3F', 0, '2023-04-01 23:52:30', '', b'0', 'Array', 1),
-('KFCQV4KF', 0, '2023-04-01 23:49:44', '', b'0', 'Array', 1),
-('ki6qZsJG', 0, '2023-04-09 00:23:37', '', b'0', '1', 1),
-('km1wA95q', 850000, '2023-03-25 12:13:33', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 12.450.000 ₫. Số tiến đã thanh toán thành công: 850.000 ₫. Số tiền thanh toán dư còn lại: 11.600.000 ₫', b'1', '26', 1),
-('KP2np9BE', 0, '2023-04-01 22:57:01', '', b'0', 'Array', 1),
-('kxnmPorw', 200000, '2023-03-26 14:51:02', '', b'0', 'Array', 1),
-('lASxcHYr', 200000, '2023-03-26 14:59:43', '', b'0', 'Array', 1),
-('lgSpoWuG', 500000, '2023-03-26 11:24:13', '', b'0', 'Array', 1),
-('LJNLEdnM', 4250000, '2023-04-09 00:20:48', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 24.510.550 ₫', b'1', '1', 1),
-('LKVPGDf8', 0, '2023-04-02 09:02:00', '', b'0', 'Array', 1),
-('llCknOhp', 0, '2023-04-09 10:02:52', '', b'0', 'Array', 1),
-('llrmg44i', 200000, '2023-03-26 14:53:35', '', b'0', 'Array', 1),
-('lmClucMq', 0, '2023-04-01 23:44:34', '', b'0', 'Array', 1),
-('lMFP434j', 23450, '2023-04-02 09:07:36', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.156.200 ₫', b'1', '1', 1),
-('lmQV9rYv', 256000000, '2023-03-25 22:39:23', '', b'0', 'Array', 1),
-('LxguS2V5', 500000, '2023-04-09 17:29:06', '', b'0', 'Array', 1),
-('NE2ZMJX6', 23450, '2023-04-02 09:08:57', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.132.750 ₫', b'1', '1', 1),
-('NSvb1geq', 4250000, '2023-03-05 10:37:37', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 0 ₫', b'1', '1', 1),
-('nZE4mzti', 0, '2023-04-01 22:42:00', '', b'0', 'Array', 1),
-('o1YXk30b', 500000, '2023-03-25 21:29:45', '', b'0', 'Array', 1),
-('OR34ZN8T', 200000, '2023-03-26 14:58:14', '', b'0', 'Array', 1),
-('Oz03fdmB', 200000, '2023-03-26 14:58:53', '', b'0', 'Array', 1),
-('PQNZicK1', 0, '2023-04-15 11:55:55', '', b'0', 'Array', 1),
-('pS1yg8O1', 2566000000, '2023-03-25 22:40:27', '', b'0', 'Array', 1),
-('QdCJYh5z', 50000, '2023-03-26 10:39:36', '', b'0', 'Array', 1),
-('qlwqELku', 850000, '2023-03-26 10:53:56', '', b'0', '27', 1),
-('qSaAkSQR', 0, '2023-04-15 11:46:11', '', b'0', 'Array', 1),
-('QxwszJyV', 850000, '2023-03-26 14:23:13', '', b'0', '27', 1),
-('RtOWV9in', 200000, '2023-03-26 14:50:56', '', b'0', 'Array', 1),
-('S2uEPytI', 256000000, '2023-03-25 22:39:39', '', b'0', 'Array', 1),
-('SAFFSisu', 200000, '2023-03-26 14:48:55', '', b'0', '1,2', 1),
-('siPt4mjt', 0, '2023-04-09 00:23:27', '', b'0', '1', 1),
-('SydUIMie', 0, '2023-04-01 22:47:30', '', b'0', 'Array', 1),
-('sYps8YDf', 0, '2023-04-01 22:42:39', '', b'0', 'Array', 1),
-('tAPsTH0j', 50000, '2023-03-26 15:30:17', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 50.000 ₫. Số tiến đã thanh toán thành công: 50.000 ₫. Số tiền dư thanh toán còn lại: 11.700.000 ₫', b'1', 'Array', 1),
-('Vd3jiQPP', 23450, '2023-04-02 08:22:44', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.179.650 ₫', b'1', '1', 1),
-('vlFD3JjK', 0, '2023-04-01 23:17:52', '', b'0', 'Array', 1),
-('vMYpOi63', 200000, '2023-03-26 14:54:22', '', b'0', 'Array', 1),
-('VpL9Rr0D', 200000, '2023-03-26 14:58:25', '', b'0', 'Array', 1),
-('vxx5lT26', 500000, '2023-03-28 20:48:08', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 500.000 ₫. Số tiến đã thanh toán thành công: 500.000 ₫. Số tiền dư thanh toán còn lại: 12.250.000 ₫', b'1', 'Array', 1),
-('wEBTEe3d', 0, '2023-04-01 23:51:04', '', b'0', 'Array', 1),
-('wKSn5ghV', 0, '2023-04-02 09:11:50', '', b'0', 'Array', 1),
-('XDbv6DOj', 0, '2023-04-02 09:06:52', '', b'0', 'Array', 1),
-('XjujA9Qt', 0, '2023-04-15 11:52:01', '', b'0', 'Array', 1),
-('xXCUNm0a', 0, '2023-04-01 23:04:16', '', b'0', 'Array', 1),
-('Y3Kmwt5X', 0, '2023-04-09 10:04:53', '', b'0', 'Array', 1),
-('YeIUhK1I', 200000, '2023-03-26 14:54:11', '', b'0', 'Array', 1),
-('zjDp1W3A', 256000000, '2023-03-25 22:40:13', '', b'0', 'Array', 1),
-('ZlUaDWXP', 23450, '2023-04-01 23:55:39', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.226.550 ₫', b'1', '1', 1),
-('znL5J7tk', 0, '2023-04-01 23:46:39', '', b'0', 'Array', 1),
-('znUfmIVh', 1700000, '2023-02-04 09:56:48', '', b'0', NULL, 1),
-('ZRczboRF', 4250000, '2023-04-09 00:29:14', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 33.010.550 ₫', b'1', '1', 1);
+('02Ywivl5', 256000000, '2023-03-25 22:40:02', '', b'0', 'Array', 19524791),
+('0aKjahwP', 256000000, '2023-03-25 22:39:50', '', b'0', 'Array', 19524791),
+('0blvHhlX', 0, '2023-04-09 00:22:27', '', b'0', '1', 19524791),
+('0dq4zfIB', 200000, '2023-03-26 14:49:45', '', b'0', 'Array', 19524791),
+('0e0Y9F7P', 0, '2023-04-15 11:56:54', '', b'0', 'Array', 19524791),
+('0tYr3oi3', 23450, '2023-04-09 09:50:51', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.226.550 ₫', b'0', 'Array', 19524791),
+('15CyF2xg', 500000, '2023-03-26 14:35:34', '', b'0', 'Array', 19524791),
+('1b8M39Ap', 50000, '2023-03-26 15:33:07', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 50.000 ₫. Số tiến đã thanh toán thành công: 50.000 ₫. Số tiền dư thanh toán còn lại: 11.750.000 ₫', b'1', 'Array', 19524791),
+('1OhJJLU4', 4250000, '2023-03-05 10:26:16', '', b'0', '1', 19524791),
+('3CGkOmkK', 850000, '2023-03-26 11:29:29', '', b'0', '27', 19524791),
+('3KPwstnm', 0, '2023-04-01 22:39:19', '', b'0', 'Array', 19524791),
+('5vjRPFPX', 500000, '2023-03-26 10:39:53', '', b'0', 'Array', 19524791),
+('6mnpFmW4', 0, '2023-04-15 11:54:13', '', b'0', 'Array', 19524791),
+('8vN6Bbut', 50000, '2023-03-26 10:35:19', '', b'0', 'Array', 19524791),
+('9AfwpN22', 0, '2023-04-01 23:13:05', '', b'0', 'Array', 19524791),
+('9D4HGJd4', 0, '2023-04-09 00:27:45', '', b'0', '1', 19524791),
+('AoAK8Stw', 0, '2023-04-09 10:14:21', '', b'0', 'Array', 19524791),
+('av1GhOOD', 0, '2023-04-09 00:24:53', '', b'0', '1', 19524791),
+('awHwoGtw', 0, '2023-04-09 00:28:19', '', b'0', '1', 19524791),
+('BuLE6Bb7', 200000, '2023-03-26 15:03:14', '', b'0', 'Array', 19524791),
+('C15BLpfB', 0, '2023-04-02 09:01:09', '', b'0', 'Array', 19524791),
+('CJLBPhmE', 0, '2023-04-01 22:40:29', '', b'0', 'Array', 19524791),
+('cLaqkt63', 850000, '2023-03-26 11:29:00', '', b'0', '27', 19524791),
+('CxY5zLco', 0, '2023-04-01 23:12:11', '', b'0', 'Array', 19524791),
+('D82nKueS', 0, '2023-04-01 23:14:12', '', b'0', 'Array', 19524791),
+('dE16BWRh', 0, '2023-04-01 23:17:55', '', b'0', 'Array', 19524791),
+('drp4t0F1', 200000, '2023-03-26 14:55:33', '', b'0', 'Array', 19524791),
+('e1Lbdd47', 0, '2023-04-02 08:22:26', '', b'0', 'Array', 19524791),
+('E8ohiFLJ', 49948.5, '2023-04-15 11:57:38', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 49.949 ₫. Số tiến đã thanh toán thành công: 49.949 ₫. Số tiền dư thanh toán còn lại: 24.560.499 ₫', b'1', 'Array', 19524791),
+('EagoJ5P4', 0, '2023-04-01 22:46:44', '', b'0', 'Array', 19524791),
+('EperQQpK', 50000, '2023-03-26 15:26:19', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 50.000 ₫. Số tiến đã thanh toán thành công: 50.000 ₫. Số tiền dư thanh toán còn lại: 11.650.000 ₫', b'1', 'Array', 19524791),
+('ERQIzVaL', 0, '2023-04-01 22:45:59', '', b'0', 'Array', 19524791),
+('EUBEPyVa', 0, '2023-04-09 00:26:26', '', b'0', '1', 19524791),
+('EyvoHogQ', 0, '2023-04-01 22:53:20', '', b'0', 'Array', 19524791),
+('fOVX7FvY', 200000, '2023-03-26 14:46:54', '', b'0', 'Array', 19524791),
+('FTwnc5P6', 200000, '2023-03-26 15:01:46', '', b'0', 'Array', 19524791),
+('G4Ib1daZ', 49948.5, '2023-04-15 12:11:19', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 49.949 ₫. Số tiến đã thanh toán thành công: 49.949 ₫. Số tiền dư thanh toán còn lại: 24.610.447 ₫', b'1', 'Array', 19524791),
+('GH8ZhWvp', 200000, '2023-03-26 14:51:30', '', b'0', 'Array', 19524791),
+('gIv6uBEf', 200000, '2023-03-26 14:59:55', '', b'0', 'Array', 19524791),
+('gPeE4gW9', 500000, '2023-04-02 19:25:34', '', b'0', 'Array', 19524791),
+('Gr48LnkU', 4250000, '2023-04-09 00:30:03', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 28.760.550 ₫', b'1', '1', 19524791),
+('gvfNJcFe', 0, '2023-04-01 22:37:15', '', b'0', 'Array', 19524791),
+('gvmbq2io', 200000, '2023-03-26 14:55:41', '', b'0', 'Array', 19524791),
+('Hh5M8VN2', 0, '2023-04-01 22:44:24', '', b'0', 'Array', 19524791),
+('HN01CROR', 200000, '2023-03-26 15:05:04', '', b'0', 'Array', 19524791),
+('Hx51pu1P', 0, '2023-04-01 23:00:48', '', b'0', 'Array', 19524791),
+('i76NDGgL', 25600000, '2023-03-25 22:36:58', '', b'0', 'Array', 19524791),
+('iBy5Bftn', 23450, '2023-04-01 23:56:38', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.203.100 ₫', b'1', '1', 19524791),
+('isI22gPX', 0, '2023-04-09 10:15:08', '', b'0', '1', 19524791),
+('JnqTQg3F', 0, '2023-04-01 23:52:30', '', b'0', 'Array', 19524791),
+('KFCQV4KF', 0, '2023-04-01 23:49:44', '', b'0', 'Array', 19524791),
+('ki6qZsJG', 0, '2023-04-09 00:23:37', '', b'0', '1', 19524791),
+('km1wA95q', 850000, '2023-03-25 12:13:33', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 12.450.000 ₫. Số tiến đã thanh toán thành công: 850.000 ₫. Số tiền thanh toán dư còn lại: 11.600.000 ₫', b'1', '26', 19524791),
+('KP2np9BE', 0, '2023-04-01 22:57:01', '', b'0', 'Array', 19524791),
+('kxnmPorw', 200000, '2023-03-26 14:51:02', '', b'0', 'Array', 19524791),
+('lASxcHYr', 200000, '2023-03-26 14:59:43', '', b'0', 'Array', 19524791),
+('lgSpoWuG', 500000, '2023-03-26 11:24:13', '', b'0', 'Array', 19524791),
+('LJNLEdnM', 4250000, '2023-04-09 00:20:48', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 24.510.550 ₫', b'1', '1', 19524791),
+('LKVPGDf8', 0, '2023-04-02 09:02:00', '', b'0', 'Array', 19524791),
+('llCknOhp', 0, '2023-04-09 10:02:52', '', b'0', 'Array', 19524791),
+('llrmg44i', 200000, '2023-03-26 14:53:35', '', b'0', 'Array', 19524791),
+('lmClucMq', 0, '2023-04-01 23:44:34', '', b'0', 'Array', 19524791),
+('lMFP434j', 23450, '2023-04-02 09:07:36', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.156.200 ₫', b'1', '1', 19524791),
+('lmQV9rYv', 256000000, '2023-03-25 22:39:23', '', b'0', 'Array', 19524791),
+('LxguS2V5', 500000, '2023-04-09 17:29:06', '', b'0', 'Array', 19524791),
+('NE2ZMJX6', 23450, '2023-04-02 09:08:57', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.132.750 ₫', b'1', '1', 19524791),
+('NSvb1geq', 4250000, '2023-03-05 10:37:37', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 0 ₫', b'1', '1', 19524791),
+('nZE4mzti', 0, '2023-04-01 22:42:00', '', b'0', 'Array', 19524791),
+('o1YXk30b', 500000, '2023-03-25 21:29:45', '', b'0', 'Array', 19524791),
+('OR34ZN8T', 200000, '2023-03-26 14:58:14', '', b'0', 'Array', 19524791),
+('Oz03fdmB', 200000, '2023-03-26 14:58:53', '', b'0', 'Array', 19524791),
+('PQNZicK1', 0, '2023-04-15 11:55:55', '', b'0', 'Array', 19524791),
+('pS1yg8O1', 2566000000, '2023-03-25 22:40:27', '', b'0', 'Array', 19524791),
+('QdCJYh5z', 50000, '2023-03-26 10:39:36', '', b'0', 'Array', 19524791),
+('qlwqELku', 850000, '2023-03-26 10:53:56', '', b'0', '27', 19524791),
+('qSaAkSQR', 0, '2023-04-15 11:46:11', '', b'0', 'Array', 19524791),
+('QxwszJyV', 850000, '2023-03-26 14:23:13', '', b'0', '27', 19524791),
+('RtOWV9in', 200000, '2023-03-26 14:50:56', '', b'0', 'Array', 19524791),
+('S2uEPytI', 256000000, '2023-03-25 22:39:39', '', b'0', 'Array', 19524791),
+('SAFFSisu', 200000, '2023-03-26 14:48:55', '', b'0', '1,2', 19524791),
+('siPt4mjt', 0, '2023-04-09 00:23:27', '', b'0', '1', 19524791),
+('SydUIMie', 0, '2023-04-01 22:47:30', '', b'0', 'Array', 19524791),
+('sYps8YDf', 0, '2023-04-01 22:42:39', '', b'0', 'Array', 19524791),
+('tAPsTH0j', 50000, '2023-03-26 15:30:17', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 50.000 ₫. Số tiến đã thanh toán thành công: 50.000 ₫. Số tiền dư thanh toán còn lại: 11.700.000 ₫', b'1', 'Array', 19524791),
+('Vd3jiQPP', 23450, '2023-04-02 08:22:44', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.179.650 ₫', b'1', '1', 19524791),
+('vlFD3JjK', 0, '2023-04-01 23:17:52', '', b'0', 'Array', 19524791),
+('vMYpOi63', 200000, '2023-03-26 14:54:22', '', b'0', 'Array', 19524791),
+('VpL9Rr0D', 200000, '2023-03-26 14:58:25', '', b'0', 'Array', 19524791),
+('vxx5lT26', 500000, '2023-03-28 20:48:08', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 500.000 ₫. Số tiến đã thanh toán thành công: 500.000 ₫. Số tiền dư thanh toán còn lại: 12.250.000 ₫', b'1', 'Array', 19524791),
+('wEBTEe3d', 0, '2023-04-01 23:51:04', '', b'0', 'Array', 19524791),
+('wKSn5ghV', 0, '2023-04-02 09:11:50', '', b'0', 'Array', 19524791),
+('XDbv6DOj', 0, '2023-04-02 09:06:52', '', b'0', 'Array', 19524791),
+('XjujA9Qt', 0, '2023-04-15 11:52:01', '', b'0', 'Array', 19524791),
+('xXCUNm0a', 0, '2023-04-01 23:04:16', '', b'0', 'Array', 19524791),
+('Y3Kmwt5X', 0, '2023-04-09 10:04:53', '', b'0', 'Array', 19524791),
+('YeIUhK1I', 200000, '2023-03-26 14:54:11', '', b'0', 'Array', 19524791),
+('zjDp1W3A', 256000000, '2023-03-25 22:40:13', '', b'0', 'Array', 19524791),
+('ZlUaDWXP', 23450, '2023-04-01 23:55:39', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.226.550 ₫', b'1', '1', 19524791),
+('znL5J7tk', 0, '2023-04-01 23:46:39', '', b'0', 'Array', 19524791),
+('znUfmIVh', 1700000, '2023-02-04 09:56:48', '', b'0', NULL, 19524791),
+('ZRczboRF', 4250000, '2023-04-09 00:29:14', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 33.010.550 ₫', b'1', '1', 19524791);
 
 -- --------------------------------------------------------
 
@@ -925,7 +925,7 @@ CREATE TABLE `thong_bao` (
 --
 
 INSERT INTO `thong_bao` (`id`, `create_at`, `is_read`, `linking`, `message`, `title`, `ma_sinh_vien`) VALUES
-(1, NULL, b'0', 'aaa', 'aa', 'aaaa', 1);
+(1, NULL, b'0', 'aaa', 'aa', 'aaaa', 19524791);
 
 -- --------------------------------------------------------
 

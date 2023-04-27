@@ -5,3 +5,9 @@
 .dropdown-toggle::after {
     content: none;
 }
+.teal-color {
+    color: #50D0D0;
+}
+.teal-color2 {
+    color: #0A8A8A;
+}

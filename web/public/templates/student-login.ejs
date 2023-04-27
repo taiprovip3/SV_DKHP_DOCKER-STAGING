@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="../images/favicon.ico">
     <title>ErukaLearn</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -30,7 +31,7 @@
     </div>
     <div class="container-fluid">
         <div class="row" id="row1">
-            <img src="https://media.iuh.edu.vn/Media/2_sviuh/Images/logo-svd516f114-e-e.png" alt="sv-iuh-logo" width="100%" height="100%" class="img-thumbnail">
+            <img src="https://res.cloudinary.com/dopzctbyo/image/upload/v1682547903/sv_dkhp/logo-svd516f114-e-e_ervaxd.png" alt="sv-iuh-logo" width="100%" height="100%" class="img-thumbnail" loading="lazy" onerror="this.onerror=null;this.src='https://via.placeholder.com/500x200.png?text=Image+not+available';">
         </div>
         <div class="row" id="row2">
             <div class="col-lg-8 p-3 overflow-auto" id="pane-left">
@@ -90,13 +91,13 @@
                     <p class="fw-bold fs-3">CỔNG THÔNG TIN SINH VIÊN</p>
                     <p class="fw-bold">ĐĂNG NHẬP HỆ THỐNG</p>
                     <form action="/student-login" method="post" enctype="multipart/form-data" id="myForm">
-                        <input type="text" name="ma_sinh_vien" id="ma_sinh_vien" placeholder="Nhập mã sinh viên.." class="my-1 p-2" autofocus required value="1">
+                        <input type="text" name="ma_sinh_vien" id="ma_sinh_vien" placeholder="Nhập mã sinh viên.." class="my-1 p-2" autofocus required value="19524791">
                         <input type="password" name="mat_khau" id="mat_khau" placeholder="Nhập mật khẩu.." class="my-1 p-2" minlength="8" required value="123123az">
-                        <!-- <div class="d-flex my-2" id="captcha-box">
+                        <div class="d-flex my-2" id="captcha-box">
                             <div><input type="text" name="captcha_code" id="captcha_code" placeholder="Nhập mã" class="p-2 m-1" required></div>
                             <div class="d-flex justify-content-center align-items-center"><i class="fa-solid fa-sync fa-spin fa-2x text-dark" onclick="location.reload()" id="refresh-icon"></i></div>
                             <div id="captcha-container" class="captcha-container"></div>  
-                        </div> -->
+                        </div>
                         <button type="submit" class="p-3 my-1 text-white">Đăng nhập</button>
                     </form>
                     <a href="javascript:void(0);" id="toastbtn" >Quên mật khẩu?</a>
@@ -125,7 +126,7 @@
             </div>
 
             <div class="modal-body">
-                <img src="https://media.iuh.edu.vn/Media/2_sviuh/Images/e8efd98f-1/hinh-1.png" alt="iuh-gio-hoc" width="100%" height="100%">
+                <img src="https://res.cloudinary.com/dopzctbyo/image/upload/v1682548482/sv_dkhp/hinh-1_cy3z1q.png" alt="iuh-gio-hoc" width="100%" height="100%">
             </div>
 
             <div class="modal-footer">
@@ -159,15 +160,15 @@ $(document).ready(function(){
 
 });
 
-// let xhttp = new XMLHttpRequest();
-// xhttp.onreadystatechange = function() {
-//   if (this.readyState == 4 && this.status == 200) {
-//     const holder = document.getElementById("captcha-container");
-//     holder.innerHTML = this.responseText;
-//   }
-// };
-// xhttp.open("GET", pathNodejs+"/captcha", true);
-// xhttp.send();
+let xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    const holder = document.getElementById("captcha-container");
+    holder.innerHTML = this.responseText;
+  }
+};
+xhttp.open("GET", pathNodejs+"/captcha", true);
+xhttp.send();
 
 document.getElementById("toastbtn").onclick = function() {
     var toastElList = [].slice.call(document.querySelectorAll('.toast'))

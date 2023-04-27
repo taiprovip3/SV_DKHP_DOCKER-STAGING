@@ -1,18 +1,24 @@
 package com.se.dao;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.se.dto.DatasetChart;
+import com.se.dto.MetaDatasetChart;
 import com.se.dto.SinhVienAddBalanceDTO;
 import com.se.dto.SinhVienDTO;
 import com.se.entity.DaoTao;
 import com.se.entity.LopHocDanhNghia;
+import com.se.entity.Nganh;
 import com.se.entity.SinhVien;
 import com.se.entity.TaiKhoan;
 import com.se.entity.security.Role;
@@ -23,6 +29,7 @@ import com.se.enums.GioiTinh;
 import com.se.enums.LoaiHinhDaoTao;
 import com.se.enums.LoaiTaiKhoan;
 import com.se.repo.LopHocDanhNghiaRepository;
+import com.se.repo.NganhRepository;
 import com.se.repo.SinhVienRepository;
 import com.se.repo.TaiKhoanRepository;
 import com.se.service.SinhVienService;
@@ -42,6 +49,8 @@ public class SinhVienImpl implements SinhVienService {
 	private RoleService roleService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private NganhRepository nganhRepository;
 	
 	@Override
 	public SinhVien addStudent(SinhVienDTO sinhVien) {
@@ -151,5 +160,69 @@ public class SinhVienImpl implements SinhVienService {
 		sinhVienRepository.save(sv);
 		return newBalance;
 	}
+
+	@Override
+	public List<Integer> findAllYearsStudent() {
+		return sinhVienRepository.findAllYearsStudent();
+	}
+
+	@Override
+	public Integer getCounterStudentByYearAndMajorId(int year, long majorId) {
+		try {
+			return sinhVienRepository.getCounterStudentByYearAndMajorId(year, majorId);
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	@Override
+	public MetaDatasetChart getMetaDatasetsInputChart() {
+		List<Integer> listYear = sinhVienRepository.findAllYearsStudent();
+		Iterable<Nganh> listMajor = nganhRepository.findAll();
+		List<DatasetChart> datasets = new ArrayList<>();
+		for (Nganh major : listMajor) {
+            CompletableFuture<List<Integer>> dataListCounterFuture = getListCounterStudentByYearAndMajorId(listYear, major.getMaNganh());
+            List<Integer> dataListCounter = dataListCounterFuture.join();
+			DatasetChart datasetChart = DatasetChart
+			.builder()
+			.label(major.getTenNganh())
+			.data(dataListCounter)
+			.borderColor(getRandomColor())
+			.fill(false)
+			.build();
+			datasets.add(datasetChart);
+        }
+		MetaDatasetChart metaDatasetChart = MetaDatasetChart
+			.builder()
+			.listYear(listYear)
+			.datasets(datasets)
+			.build();
+		return metaDatasetChart;
+	}
+
+	private CompletableFuture<List<Integer>> getListCounterStudentByYearAndMajorId(List<Integer> listYear, long majorId) {
+        return CompletableFuture.supplyAsync(() -> {
+            List<Integer> data = new ArrayList<>();
+            for (Integer year : listYear) {
+                try {
+                    Integer counter = getCounterStudentByYearAndMajorId(year, majorId);
+                    data.add(counter);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return data;
+        });
+    }
+
+	private String getRandomColor() {
+        String letters = "0123456789ABCDEF";
+        String color = "#";
+        Random random = new Random();
+        for (int i = 0; i < 6; i++) {
+            color += letters.charAt(random.nextInt(letters.length()));
+        }
+        return color;
+    }
 
 }

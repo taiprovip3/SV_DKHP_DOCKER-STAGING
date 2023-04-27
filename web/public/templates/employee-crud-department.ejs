@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ErukaLearn | Department CRUD | DEPARTMENT</title>
+    <link rel="icon" type="image/png" href="../images/favicon.ico">
+    <title>ErukaLearn</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -17,42 +18,42 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <a href="/employee" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="fas fa-sign"></i></i>&ensp;Trang chủ</div>
+                <div class="py-3 navigation-item text-wrap"><i class="fas fa-fire"></i>&ensp;Trang chủ</div>
                 </a>
                 <a href="/employee-crud-student" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="fas fa-user-graduate"></i>&ensp;Sinh viên</div>
+                <div class="py-3 navigation-item text-wrap"><i class="fas fa-user-graduate"></i>&ensp;Sinh viên</div>
                 </a>
                 <a href="/employee-crud-class" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="fas fa-sign"></i></i>&ensp;Lớp danh Nghĩa</div>
+                <div class="py-3 navigation-item text-wrap"><i class="fas fa-users"></i>&ensp;Lớp danh Nghĩa</div>
                 </a>
                 <a href="/employee-crud-teacher" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
+                <div class="py-3 navigation-item text-wrap"><i class="fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
                 </a>
                 <a href="/employee-crud-course" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="fab fa-discourse"></i>&ensp;Khoá học</div>
+                <div class="py-3 navigation-item text-wrap"><i class="fab fa-discourse"></i>&ensp;Khoá học</div>
                 </a>
                 <!-- <a href="/employee-crud-department" class="text-decoration-none"> -->
-                <div class="p-3 navigation-item-active text-wrap"><i class="fab fa-shopware"></i>&ensp;Khoa</div>
+                <div class="py-3 navigation-item-active text-wrap"><i class="fab fa-shopware"></i>&ensp;Khoa</div>
                 <!-- </a> -->
                 <a href="/employee-crud-majors" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="fas fa-wrench"></i>&ensp;Ngành</div>
+                <div class="py-3 navigation-item text-wrap"><i class="fas fa-wrench"></i>&ensp;Ngành</div>
                 </a>
                 <a href="/employee-crud-department_announcement" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="fas fa-bell"></i>&ensp;Thông báo Khoa</div>
+                <div class="py-3 navigation-item text-wrap"><i class="fas fa-bell"></i>&ensp;Thông báo Khoa</div>
                 </a>
                 <a href="/employee-crud-unit_class" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="fas fa-window-restore"></i>&ensp;Lớp học phần</div>
+                <div class="py-3 navigation-item text-wrap"><i class="fas fa-window-restore"></i>&ensp;Lớp học phần</div>
                 </a>
                 <a href="/employee-crud-time_table" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
+                <div class="py-3 navigation-item text-wrap"><i class="fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
                 </a>
                 <a href="/employee-crud-debt" class="text-decoration-none">
-                <div class="p-3 navigation-item text-wrap"><i class="fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
+                <div class="py-3 navigation-item text-wrap"><i class="fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
                 </a>
             </div>
-            <div class="col-lg-9 position-relative overflow-auto" style="max-height: 100vh;">
+            <div class="col-lg-10 position-relative overflow-auto" style="max-height: 100vh;">
                 <div>
                     <% if(signal) { %>
                         <% if(signal == "INSERT_SUCCESS") { %>

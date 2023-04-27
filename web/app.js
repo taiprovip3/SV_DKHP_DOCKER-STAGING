@@ -10,6 +10,7 @@ const axios = require("axios");
 const util = require("util");
 const nodemailer = require("nodemailer");
 const easyinvoice = require('easyinvoice');
+const https = require('https');
 const fs = require('fs');
 const paypal = require("paypal-rest-sdk");
 const svgCaptcha = require('svg-captcha');
@@ -200,11 +201,15 @@ app.get("/captcha", async (req, res) => {
 });
 app.get("/student", async (req,res) => {
     if(req.session.student && req.session.jwt_token) { //Đã session
-        renderStudentHomepage(req,res);
+        const signalParam = req.query.signal;
+        renderStudentHomepage(req,res, signalParam);
     } else {
         const LIST_ANNOUNCEMENT = await getListAnnouncement();
-        return res.render("student-login", {LIST_ANNOUNCEMENT, error: null, captchaRoute: process.env.EJS_API_URL+'/captcha'});
+        return res.render("student-login", {LIST_ANNOUNCEMENT, error: null});
     }
+});
+app.get("/student-login", async (req,res) => {
+    return res.redirect("/student");
 });
 app.get("/student-logout", (req, res) => {
     if(req.session.student) {
@@ -215,33 +220,43 @@ app.get("/student-logout", (req, res) => {
 async function renderStudentHomepage(req,res,signal){
     if(!signal)
         signal = null;
-    const ma_sinh_vien = req.session.student;
-    const token = req.session.jwt_token;
-    const response1 = await axios.get(javaUrl+"/api/student/getStudentById/" + ma_sinh_vien, {headers: {"Authorization": token}});//Sử lý cookie mã sv
-    const response2 = await axios.get(javaUrl+"/api/pattern/getSoTinChiDoneByStudentId/" + ma_sinh_vien, {headers: {"Authorization": token}});//Sử lý số tín chỉ đã đạt của sv
-    const response3 = await axios.get(javaUrl+"/api/semester/getTongSoTinChiByMaNganh/" + response1.data.lopHocDanhNghia.nganh.maNganh, {headers: {"Authorization": token}});//Sử lý tổng tín chỉ của sv
-    const response4 = await axios.get(javaUrl+"/api/course/getCoursesByStudentId/" + ma_sinh_vien, {headers: {"Authorization": token}});//Lay ds ma KhoaHoc DESC
-    var ma_first_khoa_hoc = 0;
-    if(response4.data.length > 0)
-        ma_first_khoa_hoc = response4.data[0].maKhoaHoc;
-    const response5 = await axios.get(javaUrl+"/api/subject/getListSinhVienDangKyHocPhanByMaSinhVienAndMaKhoaHoc/"+ma_sinh_vien+"/"+ma_first_khoa_hoc, {headers: {"Authorization": token}});
-    const response6 = await axios.get(javaUrl+"/api/department_announcement/getNotificationsByStudentId/"+ma_sinh_vien, {headers: {"Authorization": token}});
-    return res.render("student", { STUDENT_DATA: response1.data, currentTinChi: response2.data, requireTinChi: response3.data, LIST_COURSE: response4.data, LIST_FIRST_UNIT_SUBJECT: response5.data, LIST_NOTIFICATION: response6.data, signal: signal });
+    try {
+        const ma_sinh_vien = req.session.student;
+        const token = req.session.jwt_token;
+        const response1 = await axios.get(javaUrl+"/api/student/getStudentById/" + ma_sinh_vien, {headers: {"Authorization": token}});//Sử lý cookie mã sv
+        const response2 = await axios.get(javaUrl+"/api/pattern/getSoTinChiDoneByStudentId/" + ma_sinh_vien, {headers: {"Authorization": token}});//Sử lý số tín chỉ đã đạt của sv
+        const response3 = await axios.get(javaUrl+"/api/semester/getTongSoTinChiByMaNganh/" + response1.data.lopHocDanhNghia.nganh.maNganh, {headers: {"Authorization": token}});//Sử lý tổng tín chỉ của sv
+        const response4 = await axios.get(javaUrl+"/api/course/getCoursesByStudentId/" + ma_sinh_vien, {headers: {"Authorization": token}});//Lay ds ma KhoaHoc DESC
+        var ma_first_khoa_hoc = 0;
+        if(response4.data.length > 0)
+            ma_first_khoa_hoc = response4.data[0].maKhoaHoc;
+        const response5 = await axios.get(javaUrl+"/api/subject/getListSinhVienDangKyHocPhanByMaSinhVienAndMaKhoaHoc/"+ma_sinh_vien+"/"+ma_first_khoa_hoc, {headers: {"Authorization": token}});
+        const response6 = await axios.get(javaUrl+"/api/department_announcement/getNotificationsByStudentId/"+ma_sinh_vien, {headers: {"Authorization": token}});
+        return res.render("student", { STUDENT_DATA: response1.data, currentTinChi: response2.data, requireTinChi: response3.data, LIST_COURSE: response4.data, LIST_FIRST_UNIT_SUBJECT: response5.data, LIST_NOTIFICATION: response6.data, signal: signal });
+    } catch (error) {
+        console.error(error);
+        const LIST_ANNOUNCEMENT = await getListAnnouncement();
+        return res.render("student-login", {LIST_ANNOUNCEMENT, error: "internal_server_error"});
+    }
 }
 app.post("/student-login", upload.fields([]), async (req, res) => {
     if(req.session.student && req.session.jwt_token) { //Đã session
-        return res.redirect("/student");
+        return res.redirect("./student");
     } else { //First try
-        const {ma_sinh_vien, mat_khau} = req.body;
+        const {ma_sinh_vien, mat_khau, captcha_code} = req.body;
         const LIST_ANNOUNCEMENT = await getListAnnouncement();
-        const response = await axios.post(javaUrl+"/api/login", {username: "sv"+ma_sinh_vien, password: mat_khau});
-        if(response.data) {
-            const token = response.data;
-            req.session.jwt_token = token;
-            req.session.student = ma_sinh_vien;
-            renderStudentHomepage(req,res,"SUCCESS_LOGON");
+        if(captcha_code !== req.session.captcha) {//Sai captcha
+            return res.render("student-login", {LIST_ANNOUNCEMENT, error: "wrong_captcha"});
         } else {
-            return res.render("student-login", {LIST_ANNOUNCEMENT, error: "wrong_password"});
+            const response = await axios.post(javaUrl+"/api/login", {username: "sv"+ma_sinh_vien, password: mat_khau});
+            if(response.data) {
+                const token = response.data;
+                req.session.jwt_token = token;
+                req.session.student = ma_sinh_vien;
+                return res.redirect("/student?signal=SUCCESS_LOGON");
+            } else {
+                return res.render("student-login", {LIST_ANNOUNCEMENT, error: "wrong_password"});
+            }
         }
     }
 });
@@ -1637,7 +1652,12 @@ app.get("/paypal/topup/cancel", async (req, res) => {
 ****        ****    ****                ****               ****         ****            ****
 ****        ****    ****                ****               ****     ****        ************
  */
-const server = app.listen(4000, () => {
+const options = {
+    key: fs.readFileSync('./ssl/privkey.pem'),
+    cert: fs.readFileSync('./ssl/fullchain.pem'),
+};
+const server = https.createServer(options, app);
+server.listen(4000, () => {
     console.log('Server is running in 4000....');
 });
 const io = socket(server);
