@@ -16,58 +16,57 @@
     <link rel="stylesheet" href="../css/button.css" type="text/css">
 </head>
 <body>
-
+    <% if(signal) { %>
+        <% if(signal == "INSERT_SUCCESS") { %>
+            <script>swal({title: "Goob jobs!", text: "Thao tác dữ liệu thành công", icon: "success"})</script>
+        <% } else {
+            if(signal == "INTERNAL_SERVER_ERROR") { %>
+                <script>swal({title: "Internal Server Error",text: "Undefined resolution!", icon: "warning", dangerMode: true});</script>
+            <% }
+        }
+    } %>
+    <%
+        const trangThaiShorcut = {DANG_CHO_SINH_VIEN_DANG_KY: 'Đang chờ sinh viên đăng ký', CHAP_NHAN_MO_LOP: 'Chấp nhận mở lớp', DA_KHOA: 'Đã khóa', DA_HUY: 'Đã hủy', DANG_LEN_KE_HOACH: 'Đang lên kế hoạch'};
+        const loaiHocShortcut = { HOC_MOI: 'Học mới', HOC_LAI: 'Học lại', HOC_CAI_THIEN: 'Học cải thiện' };
+    %>
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-2">
                 <a href="/employee" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-fire"></i>&ensp;Trang chủ</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-fire"></i>&ensp;Trang chủ</div>
                 </a>
                 <a href="/employee-crud-student" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-user-graduate"></i>&ensp;Sinh viên</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-user-graduate"></i>&ensp;Sinh viên</div>
                 </a>
                 <a href="/employee-crud-class" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-users"></i>&ensp;Lớp danh Nghĩa</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-users"></i>&ensp;Lớp danh Nghĩa</div>
                 </a>
                 <a href="/employee-crud-teacher" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
                 </a>
                 <a href="/employee-crud-course" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fab fa-discourse"></i>&ensp;Khoá học</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fab fa-discourse"></i>&ensp;Khoá học</div>
                 </a>
                 <a href="/employee-crud-department" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fab fa-shopware"></i>&ensp;Khoa</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fab fa-shopware"></i>&ensp;Khoa</div>
                 </a>
                 <a href="/employee-crud-majors" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-wrench"></i>&ensp;Ngành</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-wrench"></i>&ensp;Ngành</div>
                 </a>
                 <a href="/employee-crud-department_announcement" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-bell"></i>&ensp;Thông báo Khoa</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-bell"></i>&ensp;Thông báo Khoa</div>
                 </a>
                 <!-- <a href="/employee-crud-unit_class" class="text-decoration-none"> -->
-                <div class="py-3 navigation-item-active text-wrap"><i class="fas fa-window-restore"></i>&ensp;Lớp học phần</div>
+                <div class="py-3 px-1 navigation-item-active text-wrap"><i class="fas fa-window-restore"></i>&ensp;Lớp học phần</div>
                 <!-- </a> -->
                 <a href="/employee-crud-time_table" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
                 </a>
                 <a href="/employee-crud-debt" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
                 </a>
             </div>
             <div class="col-lg-10 position-relative overflow-auto" style="height: 100vh;">
-
-
-                <div>
-                    <% if(signal) { %>
-                        <% if(signal == "INSERT_SUCCESS") { %>
-                            <script>swal({title: "Goob jobs!", text: "Thao tác dữ liệu thành công", icon: "success"})</script>
-                        <% } else {
-                            if(signal == "INTERNAL_SERVER_ERROR") { %>
-                                <script>swal({title: "Internal Server Error",text: "Undefined resolution!", icon: "warning", dangerMode: true});</script>
-                            <% }
-                        }
-                    } %>
-                </div>
                 <p class="fw-bold"><a href="/employee">Home</a> / <a href="javascript:void(0)">Manage unit classe</a></p>
                 <p class="fw-bold">Mở lớp lớp học phần:</p>
                 <form action="/employee-crud-add-unit_class" method="post" enctype="multipart/form-data" class="border p-3 position-relative">
@@ -78,47 +77,61 @@
                         <button class="d-none import-button" id="btn-import" type="submit">Import <i class="fas fa-cloud-upload"></i></button>
                         <button class="import-button" type="button" id="btn-export-excel">Export excel <i class="fas fa-cloud-download"></i></button>
                     </div>
-                    <label for="hanNopHocPhi">Hạn nộp học phí</label>
-                    <input type="date" name="hanNopHocPhi" id="hanNopHocPhi">
-                    <br>
-                    <label for="ngayBatDau">Ngày bắt đầu</label>
-                    <input type="date" name="ngayBatDau" id="ngayBatDau">
-                    <br>
-                    <label for="ngayKetThuc">Ngày kết thúc</label>
-                    <input type="date" name="ngayKetThuc" id="ngayKetThuc">
-                    <br>
-                    <label for="tenLopHocPhan">Tên lớp đại diện</label>
-                    <input type="text" name="tenLopHocPhan" id="tenLopHocPhan" placeholder="Tên lớp đại diện">
-                    <br>
-                    <label for="loaiHoc">Chọn loại học</label>
-                    <select name="loaiHoc" id="loaiHoc">
-                        <option value="HOC_MOI">Loại học mới</option>
-                        <option value="HOC_LAI">Loại học lại</option>
-                        <option value="HOC_CAI_THIEN">Loại học cải thiện</option>
-                    </select>
-                    <br>
-                    <label for="maGiaoVien">Mã giáo viên</label>
-                    <input type="text" name="maGiaoVien" id="maGiaoVien" placeholder="Mã giáo viên">
-                    <br>
-                    <label for="maMonHoc">Mã môn học</label>
-                    <input type="text" name="maMonHoc" id="maMonHoc" placeholder="Mã môn học">
-                    <br>
-                    <label for="maKhoaHoc">Mã khoá học</label>
-                    <input type="text" name="maKhoaHoc" id="maKhoaHoc" placeholder="Mã khóa học">
-                    <br>
-                    <label for="soLuongMax">Nhập số lượng tối đa sinh viên</label>
-                    <input type="number" name="soLuongMax" id="soLuongMax" placeholder="Số lượng max sinh viên">
-                    <br>
-                    <label for="trangThai">Chọn trạng thái lớp học phần</label>
-                    <select name="trangThai" id="trangThai">
-                        <option value="DANG_CHO_SINH_VIEN_DANG_KY">DANG_CHO_SINH_VIEN_DANG_KY</option>
-                        <option value="CHAP_NHAN_MO_LOP">CHAP_NHAN_MO_LOP</option>
-                        <option value="DA_KHOA">DA_KHOA</option>
-                        <option value="DA_HUY">DA_HUY</option>
-                        <option value="DANG_LEN_KE_HOACH">DANG_LEN_KE_HOACH</option>
-                    </select>
-                    <br>
-                    <button type="submit" class="btn btn-lg px-5 text-white" style="background: rgb(121, 250, 164);">Xác nhận</button>
+                    <div class="input-group w-50 mw-50">
+                        <div>
+                            <label for="hanNopHocPhi" class="form-label">Hạn nộp học phí</label>
+                            <input type="date" name="hanNopHocPhi" id="hanNopHocPhi" class="form-control">
+                        </div>
+                        <div>
+                            <label for="ngayBatDau" class="form-label">Ngày bắt đầu</label>
+                            <input type="date" name="ngayBatDau" id="ngayBatDau" class="form-control">
+                        </div>
+                        <div>
+                            <label for="ngayKetThuc" class="form-label">Ngày kết thúc</label>
+                            <input type="date" name="ngayKetThuc" id="ngayKetThuc" class="form-control">
+                        </div>
+                    </div>
+                    <div class="input-group w-50 mw-50">
+                        <label for="tenLopHocPhan" class="input-group-text">Tên lớp đại diện</label>
+                        <input type="text" name="tenLopHocPhan" id="tenLopHocPhan" placeholder="Tên lớp đại diện" class="form-control">
+                    </div>
+                    <div class="input-group w-50 mw-50">
+                        <label for="loaiHoc" class="input-group-text">Chọn loại học</label>
+                        <select name="loaiHoc" id="loaiHoc" class="form-select">
+                            <option value="HOC_MOI">Loại học mới</option>
+                            <option value="HOC_LAI">Loại học lại</option>
+                            <option value="HOC_CAI_THIEN">Loại học cải thiện</option>
+                        </select>
+                    </div>
+                    <div class="d-flex w-50 mw-50">
+                        <div class="input-group">
+                            <label for="maGiaoVien" class="input-group-text">Mã giáo viên</label>
+                            <input type="text" name="maGiaoVien" id="maGiaoVien" placeholder="Nhập mã giáo viên" class="form-control">
+                        </div>
+                        <div class="input-group">
+                            <label for="maMonHoc" class="input-group-text">Mã môn học</label>
+                            <input type="text" name="maMonHoc" id="maMonHoc" placeholder="Mã môn học" class="form-control">
+                        </div>
+                        <div class="input-group">
+                            <label for="maKhoaHoc" class="input-group-text">Mã khoá học</label>
+                            <input type="text" name="maKhoaHoc" id="maKhoaHoc" placeholder="Mã khóa học" class="form-control">
+                        </div>
+                    </div>
+                    <div class="input-group w-50 mw-50">
+                        <label for="soLuongMax" class="input-group-text">Số lượng sinh viên tối đa</label>
+                        <input type="number" name="soLuongMax" id="soLuongMax" placeholder="Nhập số lượng max sinh viên..." class="form-control">
+                    </div>
+                    <div class="input-group w-50 mw-50">
+                        <label for="trangThai" class="input-group-text">Chọn trạng thái lớp học phần</label>
+                        <select name="trangThai" id="trangThai" class="form-select">
+                            <option value="DANG_CHO_SINH_VIEN_DANG_KY">Đang chờ sinh viên đăng ký</option>
+                            <option value="CHAP_NHAN_MO_LOP">Chấp nhận mở lớp</option>
+                            <option value="DA_KHOA">Đã khóa</option>
+                            <option value="DA_HUY">Đã hủy</option>
+                            <option value="DANG_LEN_KE_HOACH">Đang lên kế hoạch</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-lg px-5 text-white mt-1" style="background: rgb(121, 250, 164);">Xác nhận</button>
                 </form>
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
@@ -149,8 +162,8 @@
                                 <td><%= LIST_UNIT_CLASS[i].ngay_ket_thuc %></td>
                                 <td><%= LIST_UNIT_CLASS[i].so_luong %>/<%= LIST_UNIT_CLASS[i].so_luong_max %></td>
                                 <td><%= LIST_UNIT_CLASS[i].ten_lop_hoc_phan %></td>
-                                <td><%= LIST_UNIT_CLASS[i].trang_thai %></td>
-                                <td><%= LIST_UNIT_CLASS[i].loai_hoc %></td>
+                                <td><%= trangThaiShorcut[LIST_UNIT_CLASS[i].trang_thai] %></td>
+                                <td><%= loaiHocShortcut[LIST_UNIT_CLASS[i].loai_hoc] %></td>
                                 <td><%= LIST_UNIT_CLASS[i].ma_giao_vien %></td>
                                 <td><%= LIST_UNIT_CLASS[i].ma_mon_hoc %></td>
                                 <td><%= LIST_UNIT_CLASS[i].ma_khoa_hoc %></td>

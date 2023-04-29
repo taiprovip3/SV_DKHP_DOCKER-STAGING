@@ -8,7 +8,6 @@ import Toast from 'react-native-toast-message';
 import { VND_TRANSACTION_LIMIT } from '@env';
 import axios from 'axios';
 import { LOCAL_JAVA_API_URL } from '@env';
-import { JAVA_PORT } from '@env';
 import { Alert } from 'react-native';
 import { formatCurrency } from '../Utilities/formatCurrency';
 
@@ -19,7 +18,6 @@ const RechargePage = ({ navigation }) => {
   const [ service, setService ] = React.useState("");
   const [ momoMethodModalVisible, setMomoMethodModalVisible ] = React.useState(false);
   const [ momoMethod, setMomoMethod] = React.useState('MOMO_QR');
-  const JAVA_API_URL = LOCAL_JAVA_API_URL + ":" + JAVA_PORT;
   const inputRef = React.useRef(null);
   
   const handleBalanceToRechargeChange = (text) => {
@@ -90,7 +88,7 @@ const RechargePage = ({ navigation }) => {
           onPress: async () => {
             console.log('OK Pressed');
             const maSinhVien = currentUser.maSinhVien;
-            const maThanhToanGiaoDichReponse = await axios.get(JAVA_API_URL+"/api/payment/createTransaction/"+currentUser.maSinhVien+"/"+0+"/Array", {headers: {"Authorization": token}});
+            const maThanhToanGiaoDichReponse = await axios.get(LOCAL_JAVA_API_URL+"/api/payment/createTransaction/"+currentUser.maSinhVien+"/"+0+"/Array", {headers: {"Authorization": token}});
             const maThanhToanGiaoDich = maThanhToanGiaoDichReponse.data;
             // const maThanhToanGiaoDich = "0tYr3oi3";
             const rechargeData = {service,momoMethod,balanceGiaoDich,maSinhVien,maThanhToanGiaoDich};

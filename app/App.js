@@ -12,6 +12,7 @@ import DebtPage from './Components/Screens/DebtPage';
 import { LogBox } from 'react-native';
 import RechargePage from './Components/Screens/RechargePage';
 import TopupPage from './Components/Screens/TopupPage';
+import TestA from './Components/Screens/TestA';
 
 LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
 
@@ -147,6 +148,20 @@ const App = () => {
                         component={TopupPage}
                         options={{ 
                             title: 'Thanh toán Giao dịch', 
+                            headerStyle: {
+                                backgroundColor: '#dcddde',
+                            },
+                            headerTintColor: 'black',
+                            headerTitleStyle: {
+                                fontWeight: 'bold',
+                            }
+                        }}
+                    />
+                    <Stack.Screen
+                        name='TestA'
+                        component={TestA}
+                        options={{ 
+                            title: 'TestA', 
                             headerStyle: {
                                 backgroundColor: '#dcddde',
                             },

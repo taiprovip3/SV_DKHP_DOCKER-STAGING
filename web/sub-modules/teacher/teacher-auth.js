@@ -90,5 +90,23 @@ teacherAuthRouter.get("/teacher-logout", (req, res) => {
     }
     return res.redirect("/teacher");
 });
+teacherAuthRouter.post("/teacher-changepassword", async (req, res) => {
+    if(!req.session.teacher || !req.session.teacher_token) {
+        return res.redirect("/teacher");
+    }
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+    const changePasswordRequestDTO = {
+        oldPassword,
+        newPassword,
+    }
+    try {
+        const response = await axios.post(javaUrl+"/api/change-password", changePasswordRequestDTO, {headers: {"Authorization": req.session.teacher_token}});
+        return res.send(response.data);
+    } catch (error) {
+        const status = error.response.status;   
+        return res.status(status).send(error.message);
+    }
+});
 
 module.exports = teacherAuthRouter;

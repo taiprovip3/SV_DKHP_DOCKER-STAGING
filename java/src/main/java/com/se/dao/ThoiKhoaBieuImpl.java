@@ -3,8 +3,10 @@ package com.se.dao;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import com.se.dto.ThoiKhoaBieu2DTO;
 import com.se.dto.ThoiKhoaBieuDTO;
 import com.se.entity.GiaoVien;
 import com.se.entity.LopHocPhan;
+import com.se.entity.SinhVien_LopHocPhan;
 import com.se.entity.ThoiKhoaBieu;
 import com.se.entity.ThoiKhoaBieuCon;
 import com.se.enums.LoaiBuoiHoc;
@@ -23,6 +26,7 @@ import com.se.repo.LopHocPhanRepository;
 import com.se.repo.ThoiKhoaBieuConRepository;
 import com.se.repo.ThoiKhoaBieuRepository;
 import com.se.service.ThoiKhoaBieuService;
+import com.se.util.ThoiKhoaBieuComparator;
 
 @Service
 public class ThoiKhoaBieuImpl implements ThoiKhoaBieuService {
@@ -136,11 +140,22 @@ public class ThoiKhoaBieuImpl implements ThoiKhoaBieuService {
 		String filterLoaiLich = thoiKhoaBieu2DTO.getFilterLoaiLich();
 		if(thoiKhoaBieu2DTO.getMaGiaoVien() == 0) {
 			long maSinhVien = thoiKhoaBieu2DTO.getMaSinhVien();
-			if(filterLoaiLich.equalsIgnoreCase("lich_hoc"))
-				return thoiKhoaBieuRepository.getTimeTablesBy7DaysWithoutThiForStudent(currentDate, datePrev1, datePrev2, datePrev3, datePrev4, datePrev5, datePrev6, maSinhVien);
-			if(filterLoaiLich.equalsIgnoreCase("lich_thi"))
-				return thoiKhoaBieuRepository.getTimeTablesBy7DaysOnlyThiForStudent(currentDate, datePrev1, datePrev2, datePrev3, datePrev4, datePrev5, datePrev6, maSinhVien);
-			return thoiKhoaBieuRepository.getTimeTablesBy7DaysForStudent(currentDate,datePrev1,datePrev2,datePrev3,datePrev4,datePrev5,datePrev6, maSinhVien);			
+			if(filterLoaiLich.equalsIgnoreCase("lich_hoc")) {
+				List<ThoiKhoaBieu> listThoiKhoaBieu = thoiKhoaBieuRepository.getTimeTablesBy7DaysWithoutThiForStudent(currentDate, datePrev1, datePrev2, datePrev3, datePrev4, datePrev5, datePrev6, maSinhVien);
+				List<ThoiKhoaBieuCon> listTHoBieuCon = thoiKhoaBieuConRepository.getTimeTablesBy7DaysWithoutThiForStudent(currentDate, datePrev1, datePrev2, datePrev3, datePrev4, datePrev5, datePrev6, maSinhVien);
+				List<ThoiKhoaBieu> ls = this.mixTimeTable(listThoiKhoaBieu, listTHoBieuCon);
+				return ls;
+			}
+			if(filterLoaiLich.equalsIgnoreCase("lich_thi")) {
+				List<ThoiKhoaBieu> listThoiKhoaBieu = thoiKhoaBieuRepository.getTimeTablesBy7DaysOnlyThiForStudent(currentDate, datePrev1, datePrev2, datePrev3, datePrev4, datePrev5, datePrev6, maSinhVien);
+				List<ThoiKhoaBieuCon> listTHoBieuCon = thoiKhoaBieuConRepository.getTimeTablesBy7DaysOnlyThiForStudent(currentDate, datePrev1, datePrev2, datePrev3, datePrev4, datePrev5, datePrev6, maSinhVien);
+				List<ThoiKhoaBieu> ls = this.mixTimeTable(listThoiKhoaBieu, listTHoBieuCon);
+				return ls;
+			}
+			List<ThoiKhoaBieu> listThoiKhoaBieu = thoiKhoaBieuRepository.getTimeTablesBy7DaysForStudent(currentDate,datePrev1,datePrev2,datePrev3,datePrev4,datePrev5,datePrev6, maSinhVien);
+			List<ThoiKhoaBieuCon> listTHoBieuCon = thoiKhoaBieuConRepository.getTimeTablesBy7DaysForStudent(currentDate,datePrev1,datePrev2,datePrev3,datePrev4,datePrev5,datePrev6, maSinhVien);
+			List<ThoiKhoaBieu> ls = this.mixTimeTable(listThoiKhoaBieu, listTHoBieuCon);
+			return ls;
 		}
 		long maGiaoVien = thoiKhoaBieu2DTO.getMaGiaoVien();
 		if(filterLoaiLich.equalsIgnoreCase("lich_hoc"))
@@ -157,7 +172,11 @@ public class ThoiKhoaBieuImpl implements ThoiKhoaBieuService {
 
 	@Override
 	public List<ThoiKhoaBieu> getStudentTimeTableByDay(long maSinhVien, String theDate) {
-		return thoiKhoaBieuRepository.getStudentTimeTableByDay(maSinhVien, theDate);
+		String dayOfWeek = this.getDayOfWeek(theDate);
+		List<ThoiKhoaBieu> listThoiKhoaBieu = thoiKhoaBieuRepository.getStudentTimeTableByDay(maSinhVien, theDate, dayOfWeek);
+		List<ThoiKhoaBieuCon> listThoiKhoaBieuCon = thoiKhoaBieuConRepository.getStudentTimeTableByDay(maSinhVien, theDate, dayOfWeek);
+		List<ThoiKhoaBieu> ls = this.mixTimeTable(listThoiKhoaBieu, listThoiKhoaBieuCon);
+		return ls;
 	}
 
 	@Override
@@ -170,7 +189,50 @@ public class ThoiKhoaBieuImpl implements ThoiKhoaBieuService {
 		String datePrev5 = thoiKhoaBieu2DTO.getDatePrev5();
 		String datePrev6 = thoiKhoaBieu2DTO.getDatePrev6();
 		long maSinhVien = thoiKhoaBieu2DTO.getMaSinhVien();
-		System.out.println("eees="+thoiKhoaBieuRepository.getIdsThoiKhoaBieuCon(currentDate,datePrev1,datePrev2,datePrev3,datePrev4,datePrev5,datePrev6, maSinhVien));
 		return thoiKhoaBieuRepository.getIdsThoiKhoaBieuCon(currentDate,datePrev1,datePrev2,datePrev3,datePrev4,datePrev5,datePrev6, maSinhVien);
+	}
+
+	private String getDayOfWeek(String theDate) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            java.util.Date date = format.parse(theDate);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            String[] daysOfWeek = new String[] {"CN", "T2", "T3", "T4", "T5", "T6", "T7"};
+            return daysOfWeek[dayOfWeek-1];
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+	private List<ThoiKhoaBieu> mixTimeTable(List<ThoiKhoaBieu> listThoiKhoaBieu, List<ThoiKhoaBieuCon> listThoiKhoaBieuCon) {
+		List<ThoiKhoaBieu> ls = new ArrayList<ThoiKhoaBieu>();
+		ls.addAll(listThoiKhoaBieu);
+		for (ThoiKhoaBieuCon thoiKhoaBieuCon : listThoiKhoaBieuCon) {
+			ThoiKhoaBieu thoiKhoaBieuConvert = ThoiKhoaBieu
+				.builder()
+				.maThoiKhoaBieu(thoiKhoaBieuCon.getMaThoiKhoaBieuCon())
+				.thuHoc(thoiKhoaBieuCon.getThuHoc())
+				.tuTietHoc(thoiKhoaBieuCon.getTuTietHoc())
+				.denTietHoc(thoiKhoaBieuCon.getDenTietHoc())
+				.phongHoc(thoiKhoaBieuCon.getPhongHoc())
+				.ghiChu(thoiKhoaBieuCon.getGhiChu())
+				.thi(thoiKhoaBieuCon.isThi())
+				.loaiBuoiHoc(thoiKhoaBieuCon.getLoaiBuoiHoc())
+				.nhomHoc(thoiKhoaBieuCon.getNhomHoc())
+				.ngayBatDau(thoiKhoaBieuCon.getNgayBatDau())
+				.ngayKetThuc(thoiKhoaBieuCon.getNgayKetThuc())
+				.soLuongDaDangKy(thoiKhoaBieuCon.getSoLuongDaDangKy())
+				.lopHocPhan(thoiKhoaBieuCon.getThoiKhoaBieu().getLopHocPhan())
+				.thoiKhoaBieuCons(new ArrayList<ThoiKhoaBieuCon>())
+				.giaoVien(thoiKhoaBieuCon.getGiaoVien())
+				.sinhVien_LopHocPhans(new HashSet<SinhVien_LopHocPhan>())
+				.build();
+			ls.add(thoiKhoaBieuConvert);
+		}
+		Collections.sort(ls, new ThoiKhoaBieuComparator());
+		return ls;
 	}
 }

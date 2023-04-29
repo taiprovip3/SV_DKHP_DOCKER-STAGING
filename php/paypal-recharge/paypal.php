@@ -34,10 +34,10 @@ if(!isset($_POST['maSinhVien'])) {
             $total_payment = $_POST['total_payment'];
             $maSinhVien = $_POST['maSinhVien'];
             $unDebtIds = [];
-            $url = "http://java:8080/api/payment/createTransaction/".$maSinhVien."/".$total_payment."/".$unDebtIds."";
+            $url = "http://localhost:8080/api/payment/createTransaction/".$maSinhVien."/".$total_payment."/".$unDebtIds."";
             $maGiaoDich = file_get_contents($url);
             $orderType = 'PAYPAL - WALLET';
-            $callBackUrl = 'http://web:4000/student/payment/callback?extraData='.$maGiaoDich.'&resultCode=0&amount='.$total_payment.'&orderType='.$orderType.'';    
+            $callBackUrl = 'http://localhost:4000/student/payment/callback?extraData='.$maGiaoDich.'&resultCode=0&amount='.$total_payment.'&orderType='.$orderType.'';    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -104,12 +104,12 @@ paypal.Buttons({
         });
     },
     onApprove: (data, actions) => {
-        let callbackUrl = "http://web:4000/student/payment/callback?resultCode=1006";
+        let callbackUrl = "http://localhost:4000/student/payment/callback?resultCode=1006";
         callbackUrl = '<?php echo $callBackUrl ?>';
         return actions.redirect();
     },
     onCancel: function(data) {
-        window.location.href = "http://web:4000/student/payment/callback?resultCode=1006";
+        window.location.href = "http://localhost:4000/student/payment/callback?resultCode=1006";
     }
 }).render('#paypal-button-container');
 </script>

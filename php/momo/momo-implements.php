@@ -19,7 +19,7 @@ function execPostRequest($url, $data) {
     return $result;
 }
 function execGetDebtBalanceById($debtId) {
-    $content = file_get_contents("http://java:8080/api/debt/getSoTienByDebtId/".$debtId);
+    $content = file_get_contents("http://localhost:8080/api/debt/getSoTienByDebtId/".$debtId);
     $result  = json_decode($content);
     return (int) $result;
 
@@ -79,7 +79,7 @@ if(!isset($_POST['lengthDebt'])) {
     $unDebtIds = implode(",", $total_debt);
 
     $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, "http://java:8080/api/payment/createTransaction/".$maSinhVien."/".$total."/".$unDebtIds."");
+    curl_setopt($curl, CURLOPT_URL, "http://localhost:8080/api/payment/createTransaction/".$maSinhVien."/".$total."/".$unDebtIds."");
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     $output = curl_exec($curl);
     curl_close($curl);

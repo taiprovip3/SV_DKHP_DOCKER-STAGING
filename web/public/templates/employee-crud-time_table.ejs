@@ -20,37 +20,37 @@
         <div class="row">
             <div class="col-lg-2">
                 <a href="/employee" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-fire"></i>&ensp;Trang chủ</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-fire"></i>&ensp;Trang chủ</div>
                 </a>
                 <a href="/employee-crud-student" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-user-graduate"></i>&ensp;Sinh viên</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-user-graduate"></i>&ensp;Sinh viên</div>
                 </a>
                 <a href="/employee-crud-class" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-users"></i>&ensp;Lớp danh Nghĩa</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-users"></i>&ensp;Lớp danh Nghĩa</div>
                 </a>
                 <a href="/employee-crud-teacher" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
                 </a>
                 <a href="/employee-crud-course" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fab fa-discourse"></i>&ensp;Khoá học</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fab fa-discourse"></i>&ensp;Khoá học</div>
                 </a>
                 <a href="/employee-crud-department" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fab fa-shopware"></i>&ensp;Khoa</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fab fa-shopware"></i>&ensp;Khoa</div>
                 </a>
                 <a href="/employee-crud-majors" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-wrench"></i>&ensp;Ngành</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-wrench"></i>&ensp;Ngành</div>
                 </a>
                 <a href="/employee-crud-department_announcement" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-bell"></i>&ensp;Thông báo Khoa</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-bell"></i>&ensp;Thông báo Khoa</div>
                 </a>
                 <a href="/employee-crud-unit_class" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-window-restore"></i>&ensp;Lớp học phần</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-window-restore"></i>&ensp;Lớp học phần</div>
                 </a>
                 <!-- <a href="/employee-crud-time_table" class="text-decoration-none"> -->
-                <div class="py-3 navigation-item-active text-wrap"><i class="fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
+                <div class="py-3 px-1 navigation-item-active text-wrap"><i class="fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
                 <!-- </a> -->
                 <a href="/employee-crud-debt" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
                 </a>
             </div>
             <div class="col-lg-10 position-relative overflow-auto" style="max-height: 100vh;">
@@ -75,86 +75,105 @@
                         <button class="d-none import-button" id="btn-import" type="submit">Import <i class="fas fa-cloud-upload"></i></button>
                         <button class="import-button" type="button" id="btn-export-excel">Export excel <i class="fas fa-cloud-download"></i></button>
                     </div>
-                    <label for="maLopHocPhan">Mã LHP:</label>
-                    <input type="text" name="maLopHocPhan" id="maLopHocPhan" placeholder="maLopHocPhan">
-                    <br>
-                    <label for="tuTietHoc">Từ tiết học</label>
-                    <select name="tuTietHoc" id="tuTietHoc">
-                        <option value="T1">Tiết 1</option>
-                        <option value="T2">Tiết 2</option>
-                        <option value="T3">Tiết 3</option>
-                        <option value="T4">Tiết 4</option>
-                        <option value="T5">Tiết 5</option>
-                        <option value="T6">Tiết 6</option>
-                        <option value="T7">Tiết 7</option>
-                        <option value="T8">Tiết 8</option>
-                        <option value="T9">Tiết 9</option>
-                        <option value="T10">Tiết 10</option>
-                        <option value="T11">Tiết 11</option>
-                        <option value="T12">Tiết 12</option>
-                        <option value="T13">Tiết 13</option>
-                        <option value="T14">Tiết 14</option>
-                        <option value="T15">Tiết 15</option>    
-                    </select>
-                    <br>
-                    <label for="denTietHoc">Đến tiết học</label>
-                    <select name="denTietHoc" id="denTietHoc">
-                        <option value="T1">Tiết 1</option>
-                        <option value="T2">Tiết 2</option>
-                        <option value="T3">Tiết 3</option>
-                        <option value="T4">Tiết 4</option>
-                        <option value="T5">Tiết 5</option>
-                        <option value="T6">Tiết 6</option>
-                        <option value="T7">Tiết 7</option>
-                        <option value="T8">Tiết 8</option>
-                        <option value="T9">Tiết 9</option>
-                        <option value="T10">Tiết 10</option>
-                        <option value="T11">Tiết 11</option>
-                        <option value="T12">Tiết 12</option>
-                        <option value="T13">Tiết 13</option>
-                        <option value="T14">Tiết 14</option>
-                        <option value="T15">Tiết 15</option>    
-                    </select>
-                    <br>
-                    <input type="text" name="phongHoc" id="phongHoc" placeholder="phongHoc">
-                    <br>
-                    <label for="thuHoc">Thứ học</label>
-                    <select name="thuHoc" id="thuHoc">
-                        <option value="T2">Thứ 2</option>
-                        <option value="T3">Thứ 3</option>
-                        <option value="T4">Thứ 4</option>
-                        <option value="T5">Thứ 5</option>
-                        <option value="T6">Thứ 6</option>
-                        <option value="T7">Thứ 7</option>
-                        <option value="CN">Chủ nhật</option>    
-                    </select>
-                    <br>
-                    <input type="checkbox" name="thi" id="thi">
-                    <label for="thi">Là lịch Thi</label>
-                    <br>
-                    <textarea name="ghiChu" id="ghiChu" rows="4" placeholder="ghiChu"></textarea>
-                    <br>
-                    <label for="loaiBuoiHoc">Buổi TH/LT:</label>
-                    <select name="loaiBuoiHoc" id="loaiBuoiHoc">
-                        <option value="LT">Lý thuyết</option>
-                        <option value="TH">Thực hành</option>    
-                    </select>
-                    <br>
-                    <label for="nhomHoc">Nhóm số</label>
-                    <input type="number" name="nhomHoc" id="nhomHoc" placeholder="nhomHoc" value="0">
-                    <br>
-                    <label for="chungWithMaThoiKhoaBieu">Kim với mã TKB:</label>
-                    <input type="number" name="chungWithMaThoiKhoaBieu" id="chungWithMaThoiKhoaBieu" value="0" placeholder="0 Nghĩa là TKB độc lập chỉ có LT ko có TH">
-                    <br>
-                    <label for="ngayBatDau">ngayBatDau</label>
-                    <input type="date" name="ngayBatDau" id="ngayBatDau">
-                    <br>
-                    <label for="ngayKetThuc">ngayKetThuc</label>
-                    <input type="date" name="ngayKetThuc" id="ngayKetThuc">
-                    <br>
-                    <label for="maGiaoVien">maGiaoVien</label>
-                    <input type="number" name="maGiaoVien" id="maGiaoVien" value="0">
-                    <br>
+                    <div class="input-group w-50 mw-50">
+                        <label for="maLopHocPhan" class="input-group-text">Mã LHP:</label>
+                        <input type="text" name="maLopHocPhan" id="maLopHocPhan" placeholder="Nhập mã lớp học phần" class="form-control">
+                    </div>
+                    <div class="input-group w-50 mw-50">
+                        <div class="input-group w-50 mw-50">
+                            <label for="tuTietHoc" class="input-group-text">Từ tiết học</label>
+                            <select name="tuTietHoc" id="tuTietHoc" class="form-select">
+                                <option value="T1">Tiết 1</option>
+                                <option value="T2">Tiết 2</option>
+                                <option value="T3">Tiết 3</option>
+                                <option value="T4">Tiết 4</option>
+                                <option value="T5">Tiết 5</option>
+                                <option value="T6">Tiết 6</option>
+                                <option value="T7">Tiết 7</option>
+                                <option value="T8">Tiết 8</option>
+                                <option value="T9">Tiết 9</option>
+                                <option value="T10">Tiết 10</option>
+                                <option value="T11">Tiết 11</option>
+                                <option value="T12">Tiết 12</option>
+                                <option value="T13">Tiết 13</option>
+                                <option value="T14">Tiết 14</option>
+                                <option value="T15">Tiết 15</option>    
+                            </select>
+                        </div>
+                        <div class="input-group w-50 mw-50">
+                            <label for="denTietHoc" class="input-group-text">Đến tiết học</label>
+                            <select name="denTietHoc" id="denTietHoc" class="form-select">
+                                <option value="T1">Tiết 1</option>
+                                <option value="T2">Tiết 2</option>
+                                <option value="T3">Tiết 3</option>
+                                <option value="T4">Tiết 4</option>
+                                <option value="T5">Tiết 5</option>
+                                <option value="T6">Tiết 6</option>
+                                <option value="T7">Tiết 7</option>
+                                <option value="T8">Tiết 8</option>
+                                <option value="T9">Tiết 9</option>
+                                <option value="T10">Tiết 10</option>
+                                <option value="T11">Tiết 11</option>
+                                <option value="T12">Tiết 12</option>
+                                <option value="T13">Tiết 13</option>
+                                <option value="T14">Tiết 14</option>
+                                <option value="T15">Tiết 15</option>    
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group w-50 mw-50">
+                        <label for="phongHoc" class="input-group-text">Phòng học</label>
+                        <input type="text" name="phongHoc" id="phongHoc" placeholder="Nhập phòng học / dãy nhà / tầng học.." class="form-control">
+                    </div>
+                    <div class="input-group w-50 mw-50">
+                        <label for="thuHoc" class="input-group-text">Thứ học</label>
+                        <select name="thuHoc" id="thuHoc" class="form-select">
+                            <option value="T2">Thứ 2</option>
+                            <option value="T3">Thứ 3</option>
+                            <option value="T4">Thứ 4</option>
+                            <option value="T5">Thứ 5</option>
+                            <option value="T6">Thứ 6</option>
+                            <option value="T7">Thứ 7</option>
+                            <option value="CN">Chủ nhật</option>    
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="thi" id="thi">
+                        <label class="form-check-label">Là lịch Thi</label>
+                    </div>
+                    <div class="input-group w-50 mw-50">
+                        <label for="ghiChu" class="input-group-text">Comments:</label>
+                        <textarea name="ghiChu" id="ghiChu" rows="4" placeholder="Thêm ghi chú, nhắc nhở sinh viên có lịch học" class="w-100 form-control"></textarea>
+                    </div>
+                    <div class="input-group w-50 mw-50">
+                        <label for="loaiBuoiHoc" class="input-group-text">Buổi TH/LT:</label>
+                        <select name="loaiBuoiHoc" id="loaiBuoiHoc" class="form-select">
+                            <option value="LT">Lý thuyết</option>
+                            <option value="TH">Thực hành</option>    
+                        </select>
+                    </div>
+                    <div class="input-group w-50 mw-50">
+                        <label for="nhomHoc" class="input-group-text">Phân nhóm:</label>
+                        <input type="number" name="nhomHoc" id="nhomHoc" placeholder="Nhập nhóm là một con số (0/1/2..)" value="0" class="form-control">
+                    </div>
+                    <div class="input-group w-50 mw-50">
+                        <label for="chungWithMaThoiKhoaBieu" class="input-group-text">Kim với mã TKB:</label>
+                        <input type="number" name="chungWithMaThoiKhoaBieu" id="chungWithMaThoiKhoaBieu" value="0" placeholder="0 Nghĩa là TKB độc lập chỉ có LT ko có TH" class="form-control">
+                    </div>
+                    <div class="input-group w-50 mw-50">
+                        <label for="maGiaoVien" class="input-group-text">Mã giáo viên:</label>
+                        <input type="number" name="maGiaoVien" id="maGiaoVien" placeholder="Nhập mã giáo viên phân vào lịch" value="0" class="form-control">
+                    </div>
+                    <div class="input-group w-50 mw-50">
+                        <div class="input-group w-50 mw-50">
+                            <label for="ngayBatDau" class="input-group-text">ngayBatDau</label>
+                            <input type="date" name="ngayBatDau" id="ngayBatDau" class="form-control">
+                        </div>
+                        <div class="input-group w-50 mw-50">
+                            <label for="ngayKetThuc" class="input-group-text">ngayKetThuc</label>
+                            <input type="date" name="ngayKetThuc" id="ngayKetThuc" class="form-control">
+                        </div>
+                    </div>
                     <button type="submit" class="btn btn-lg px-5 my-1 text-white" style="background: rgb(121, 250, 164);">Xác nhận</button>
                 </form>
                 <div class="table-responsive">

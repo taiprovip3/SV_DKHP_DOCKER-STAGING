@@ -35,7 +35,7 @@
     $maThanhToanGiaoDich = $_POST['maThanhToanGiaoDich'];
     $maSinhVien = $_POST['maSinhVien'];
     $balanceGiaoDich = $_POST['amount'];
-    $url = "http://java:8080/api/payment/getTokenByPaymentAndStudentId/".$maThanhToanGiaoDich."/".$maSinhVien;
+    $url = "http://localhost:8080/api/payment/getTokenByPaymentAndStudentId/".$maThanhToanGiaoDich."/".$maSinhVien;
     $response = file_get_contents($url);
     if ($response === false) {
         // xảy ra lỗi kết nối đến API
@@ -51,7 +51,7 @@
                 'header' => "Authorization: $token\r\n"
             )
         );
-        $url = "http://java:8080/api/payment/getPaymentById/".$maThanhToanGiaoDich;
+        $url = "http://localhost:8080/api/payment/getPaymentById/".$maThanhToanGiaoDich;
         $context = stream_context_create($options);
         $response = file_get_contents($url, false, $context);
         $response_parse = json_decode($response);

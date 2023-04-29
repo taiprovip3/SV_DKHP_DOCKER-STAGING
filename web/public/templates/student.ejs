@@ -12,15 +12,11 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="../css/student.css" type="text/css">
     <link rel="stylesheet" href="../css/common.css" type="text/css">
+    <link rel="stylesheet" href="../css/button.css" type="text/css">
     <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        .dropdown-toggle::after {
-            content: none;
-        }
-    </style>
 </head>
 <body>
     <%
@@ -58,6 +54,12 @@
                 <% }
                 if(signal == "OUT_SESSION") { %>
                     <script>swal({title: "Phiên đăng nhập",text: "đã hết hạn",icon: "warning", dangerMode: true});</script>
+                }
+                if(signal == "CHANGE_PASSWORD_SUCCESS") { %>
+                    <script>swal({title: "Đổi  mật khẩu",text: "thành công",icon: "success"});</script>
+                }
+                if(signal == "CHANGE_WRONG_PASSWORD") { %>
+                    <script>swal({title: "Đổi  mật khẩu",text: "Mật khẩu cũ không đúng",icon: "warning", dangerMode: true});</script>
                 <% }
             }
         } %>
@@ -72,40 +74,40 @@
         </div>
         <!-- Modal body -->
         <div class="modal-body">
-            <span class="d-block">- Chương trình đào tạo sinh viên của trường đại học IUH xây dựng hệ thống website mở dành cho 3 đối tượng như sau và 3 website tương dương:</span>
+            <span class="d-block">Chương trình đào tạo sinh viên của trường đại học IUH xây dựng hệ thống website mở dành cho 3 đối tượng như sau và 3 website tương dương:</span>
             <ul>
-                <li>- Nhân viên (Trang nv.el.com)</li>
-                <li>- Giảng viên (Trang gv.el.com)</li>
-                <li>- Sinh viên (Trang <span class="text-decoration-underline">sv.el.com</span>)</li>
+                <li>Nhân viên (Trang nv.el.com)</li>
+                <li>Giảng viên (Trang gv.el.com)</li>
+                <li>Sinh viên (Trang <span class="text-decoration-underline">sv.el.com</span>)</li>
             </ul>
             <span class="d-block">
-                Trang sinh viên nhằm giúp đỡ sinh viên trong việc hoàn thành tốt hơn chương trình đào tạo tại trường đại học IUH với các tính năng như: xem lịch học, kết quả học tập, chương trình khung, tra cứu công nợ, tổng hợp biên lai, cập nhật tin tức, thông báo mới nhất từ nhà trường và đặc biệt là tiện ích giúp <span class="fw-bold">`Đăng ký học phần`</span>...vv
+                Trang sinh viên nhằm giúp đỡ sinh viên trong việc hoàn thành tốt hơn chương trình đào tạo tại trường đại học IUH với các tính năng như: xem lịch học, kết quả học tập, chương trình khung, tra cứu công nợ, tổng hợp biên lai, cập nhật tin tức, thông báo mới nhất từ nhà trường và đặc biệt là tiện ích giúp <span class="teal-color">Đăng ký học phần</span>...vv
             </span>
             <span class="d-block">Dưới đây là một vài thuật ngữ/chi tiết nếu bạn là tân sinh viên cần biết đến:</span>
-            <span class="fw-bold text-secondary d-block">1. Học phần</span>
+            <span class="teal-color d-block">1. Học phần</span>
             <span>Hay còn gọi là môn học. Mỗi môn học được quy định trong chương trình khung tương ứng với khoa, ngành mà sinh viên đã chọn theo học ở trường. Mỗi môn học được đăng ký trong tính năng `Đăng ký học phần` được gọi là một học phần. Mỗi học phần có mã riêng, ví dụ: học phần `Nhập môn tin học` - 10000001</span>
-            <span class="fw-bold text-secondary d-block">2. Tín chỉ</span>
+            <span class="teal-color d-block">2. Tín chỉ</span>
             <span>Mỗi học phần được đăng ký học bởi sinh viên sẽ có số tín chỉ quy định riêng. Hiểu đơn giản là nếu bạn muốn tăng thanh tiến độ học tập (progress bar) thì bạn phải học & thi môn học phần đó để nhận được điểm tín chỉ. Ví dụ: `Nhập môn tin học` có số tín chỉ quy định là 3 TC. 1 tín chỉ (TC) thì bằng 15 tiết học (Đối với môn học có LT & TH thì tín chỉ tính riêng).</span>
-            <span class="fw-bold text-secondary d-block">3. Tín chỉ</span>
+            <span class="teal-color d-block">3. Tín chỉ</span>
             <span>Mỗi học phần được đăng ký học bởi sinh viên sẽ có số tín chỉ quy định riêng. Hiểu đơn giản là nếu bạn muốn tăng thanh tiến độ học tập (progress bar) thì bạn phải học & thi môn học phần đó để nhận được điểm tín chỉ. Ví dụ: `Nhập môn tin học` có số tín chỉ quy định là 3 TC. 1 tín chỉ (TC) thì bằng 15 tiết học (Đối với môn học có LT & TH thì tín chỉ tính riêng).</span>
-            <span class="fw-bold text-secondary d-block">4. Tiến độ học tập</span>
+            <span class="teal-color d-block">4. Tiến độ học tập</span>
             <span>Progress bar. Là thanh tiến độ ghi nhận số tín chỉ và hiển thị % quãng đường học bạn đã hoàn thành. Sau khi học & thi. Khi một giáo viên của lớp học phần bạn học đánh dấu hoàn tất điểm của từng sinh viên lớp đó thì thanh tiến độ học tập của bạn sẽ được tăng lên (trường hợp bạn pass được chỉ tiêu điểm tổng kết).</span>
-            <span class="fw-bold text-secondary d-block">5. Chương trình khung</span>
+            <span class="teal-color d-block">5. Chương trình khung</span>
             <span>Mỗi sinh viên thuộc 1 ngành thuộc 1 khoa. Mỗi ngành sẽ có một bộ `Chương trình khung` riêng. Chương trình khung chứa nhiều học kỳ, mỗi học kỳ trong chương trình khung chứa nhiều môn học cần học trong học kỳ đó. Các môn học trong học kỳ có thể có nhiều tín chất nữa xem bên dưới. Tóm lại mỗi sinh viên sẽ có bộ chương trình khung gồm các môn học trong từng học kỳ bắt buộc sinh viên phải đăng ký, học, đóng tiền.</span>
-            <span class="fw-bold text-secondary d-block">6. Đăng ký học phần</span>
+            <span class="teal-color d-block">6. Đăng ký học phần</span>
             <span>Là chức năng giúp bạn đăng ký môn học theo lịch, thời gian, lớp học, giảng viên ưa thích theo ý bạn. 1 năm học được chia làm 3 học kỳ. Ví dụ năm 2022, sẽ có 3 học kỳ, HK1 là nữa năm, HK2 là nữa năm, HK3 là học hè. Qua năm 2023 cứ tiếp tục. Mỗi học kỳ sẽ được đội ngũ phòng đào tạo chuyên khoa mở ra trên trang sinh viên đợt đăng ký học phần online thông qua trang này. Thông báo đợt đăng ký mới đến ở trên trang chủ trường học, trang khoa hoặc thông báo đến tin nhắn trang sinh viên. Sinh viên phải lập tức vào tính năng đăng ký học phần và lựa chọn lớp học phần có lịch học ưng ý dựa theo chương trình khung năm học hoặc niên giám quy định các môn dành cho sinh viên khoa đó phải học trong học kỳ đó.</span>
-            <span class="fw-bold text-secondary d-block">7. Đăng ký học phần học nhảy</span>
+            <span class="teal-color d-block">7. Đăng ký học phần học nhảy</span>
             <span>Đăng ký học phần cho phép bạn học vượt (học nhảy) các môn trước học kỳ với điều kiện cho phép đó là môn tự chọn và không có ràng buộc học phần khác. Nên bạn sẽ thường thấy tình trạng lớp học có nhiều anh/chị hoặc các em khác khoá học.</span>
-            <span class="fw-bold text-secondary d-block">8. Học phần ràng buộc</span>
+            <span class="teal-color d-block">8. Học phần ràng buộc</span>
             <span>Các môn học trong đăng ký học phần được chia làm 2 loại theo chương trình khung của từng sinh viên. Học phần bắt buộc và học phần tự chọn. Học phần bắt buộc là học phần cần thiệt để đào tạo một sinh viên theo đúng tiêu chuẩn của ngành sinh viên chọn và học phần đó bắt buộc sinh viên phải đăng ký trong đăng ký học phần dù học đúng hay trễ hay muộn. Học phần tự chọn cũng là học phần bắt buộc nhưng khác ở điểm có nhiều sự lựa chọn. Ví dụ ở HK1 có 4 môn bắt buộc, và 5 môn tự chọn bắt buộc 1. Nghĩa là trong 5 môn tự chọn có thể lựa chọn 1 trong 5 nhưng bắt buộc phải chọn chứ không thể không chọn. Một vài môn học có yêu cầu học môn trước nhằm mục đích giúp bạn đi đúng tiến độ tránh học nhảy để lũng cũng kiến thức gọi là học phần `tiên quyết`. `Song hành` nghĩa là 2 môn này bắt buộc phải đăng ký học song song trong 1 học kỳ.</span>
-            <span class="fw-bold text-secondary d-block">9. Trễ tiến độ học</span>
+            <span class="teal-color d-block">9. Trễ tiến độ học</span>
             <span>Rất nhiều tân sinh viên ngơ ngác chưa hiểu các thuật ngữ học phần & đăng ký học phần. Dẫn đến việc học hết năm 1 và bị trễ một vài môn do chưa hiểu đăng ký học phần. Giả dụ trong HK1 2022 mới nhập học bạn phải đăng ký học phần môn `Nhập môn tin học` đã quy định trong chương trình khung mà sinh viên không chịu đăng ký dẫn đến việc bị trễ môn, mà môn học đó lại khó mở lớp thì sẽ rất tệ khiến việc học sẽ ở lại nhiều năm để đợi mở lớp học dồn về sau bị trùng lịch ở môn học ở học kỳ sau dẫn đến việc tốt nghiệp của bạn bị delay!</span>
-            <span class="fw-bold text-secondary d-block">10. Mở lớp học phần</span>
+            <span class="teal-color d-block">10. Mở lớp học phần</span>
             <span>Lớp học phần không mở tự động mà được tạo bằng tay do nhân viên nhà trường vì vậy LHP có thể được tạo thêm nếu có giấy tờ ghi đủ danh sách sinh viên muốn học học phần này trong học kỳ này. Việc tìm bạn, tạo form, tạo giấy xin mở lớp là việc của sinh viên. Khoa sẽ nhận danh sách và cảm thấy hợp lệ sẽ mở thêm LHP lên trang sinh viên.</span>
         </div>
         <!-- Modal footer -->
         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="teal-button" data-bs-dismiss="modal">Đóng</button>
         </div>
 
         </div>
@@ -197,12 +199,17 @@
                         </ul>
                         <div class="position-absolute fw-bold end-0 small"><%= LIST_NOTIFICATION.length %></div>
                     </div>
-                    <div class="border px-2" onclick="audio.play();">
-                        <i class="fas fa-caret-down dropdown-toggle crs" data-bs-toggle="dropdown" style="font-size: x-large;"></i>
+                    <div class="px-2" onclick="audio.play();">
+                        <div class="d-flex align-items-center crs" data-bs-toggle="dropdown">
+                            <img src="<%= STUDENT_DATA.avatar %>" alt="sv-iuh" width="32px" height="32px" class="rounded-circle">
+                            <span class="mx-1">Phan Tấn Tài </span>
+                            <i class="fas fa-angle-down"></i>
+                        </div>
+                        <!-- <i class="fas fa-caret-down dropdown-toggle crs" data-bs-toggle="dropdown" style="font-size: x-large;"></i> -->
                         <ul class="dropdown-menu">
-                            <li id="BtnChangeTheme" onclick="audio.play();"><a class="dropdown-item" href="javascript:void(0);">Giao diện</a></li>
-                            <li onclick="audio.play();"><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#GioiThieuModal">Giới thiệu</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li id="BtnChangePassword" onclick="audio.play();"><a class="dropdown-item border-bottom" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ChangePasswordModal">Đổi mật khẩu</a></li>
+                            <li id="BtnChangeTheme" onclick="audio.play();"><a class="dropdown-item border-bottom" href="javascript:void(0);">Giao diện</a></li>
+                            <li onclick="audio.play();"><a class="dropdown-item border-bottom" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#GioiThieuModal">Giới thiệu</a></li>
                             <li class="bg-light"><a class="dropdown-item text-danger" href="/student-logout" onclick="delete_cookie('session');">Đăng xuất</a></li>
                         </ul>
                     </div>
@@ -250,62 +257,104 @@
         <div class="col-lg-6 p-3">
             <div class="d-flex flex-wrap justify-content-center align-items-center border h-100 bg-white">
                 <a href="/student/timetable" class="text-decoration-none text-dark">
-                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
+                <div id="OneItem" class="text-center border rounded p-3 px-4 mx-1 crs">
                     <div><i class="fas fa-calendar-alt fa-2x text-primary"></i></div>
                     <div class="fw-light">Lịch học</div>
                     <div class="fw-light">theo tuần</div>
                 </div>
                 </a>
                 <a href="/student/score" class="text-decoration-none text-dark">
-                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
+                <div id="OneItem" class="text-center border rounded p-3 px-4 mx-1 crs">
                     <div><i class="fas fa-chart-bar fa-2x text-primary"></i></div>
                     <div class="fw-light">Kết quả</div>
                     <div class="fw-light">học tập</div>
                 </div>
                 </a>
                 <a href="/student/dkhp" class="text-decoration-none text-dark">
-                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
+                <div id="OneItem" class="text-center border rounded p-3 px-4 mx-1 crs">
                     <div><i class="fab fa-uncharted fa-2x text-primary"></i></div>
                     <div class="fw-light">Đăng ký</div>
                     <div class="fw-light">học phần</div>
                 </div>
                 </a>
                 <a href="/student/pattern" class="text-decoration-none text-dark">
-                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
+                <div id="OneItem" class="text-center border rounded p-3 px-4 mx-1 crs">
                     <div><i class="fab fa-windows fa-2x text-primary"></i></div>
                     <div class="fw-light">Chương trình</div>
                     <div class="fw-light">khung</div>
                 </div>
                 </a>
                 <a href="/student/debt" class="text-decoration-none text-dark">
-                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
+                <div id="OneItem" class="text-center border rounded p-3 px-4 mx-1 crs">
                     <div><i class="fas fa-sack-dollar fa-2x text-primary"></i></div>
                     <div class="fw-light">Tra cứu</div>
                     <div class="fw-light">công nợ</div>
                 </div>
                 </a>
                 <a href="/student/order-detail" class="text-decoration-none text-dark">
-                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
+                <div id="OneItem" class="text-center border rounded p-3 px-4 mx-1 crs">
                     <div><i class="fas fa-file-invoice-dollar fa-2x text-primary"></i></div>
                     <div class="fw-light">Biên lai</div>
                     <div class="fw-light">tổng hợp</div>
                 </div>
                 </a>
                 <a href="/student/payment" class="text-decoration-none text-dark">
-                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs">
+                <div id="OneItem" class="text-center border rounded p-3 px-4 mx-1 crs">
                     <div><i class="fab fa-cc-amazon-pay fa-2x text-primary"></i></div>
                     <div class="fw-light">Thanh toán</div>
                     <div class="fw-light">học phí</div>
                 </div>
                 </a>
                 <a href="/student/wallet" class="text-decoration-none text-dark">
-                <div id="OneItem" class="text-center border rounded p-3 mx-1 crs" onclick="audio.play();">
+                <div id="OneItem" class="text-center border rounded p-3 px-4 mx-1 crs" onclick="audio.play();">
                     <div><i class="fab fa-bitcoin fa-2x text-success"></i></div>
                     <div class="fw-light">Số dư ví</div>
                     <div class="fw-bold" style="color: #FF5A00;"><%= new Intl.NumberFormat().format(STUDENT_DATA.soDu) %>đ</div>
                 </div>
                 </a>
             </div>
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="ChangePasswordModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="text-end">
+                    <!-- <button type="button" class="btn-close bg-primary" data-bs-dismiss="modal"></button> -->
+                    <button type="button" data-bs-dismiss="modal" class="bg-primary text-white px-2 border-0"><i class="fas fa-times"></i></button>
+                </div>
+                <form action="./student-changepassword" method="post" id="changePasswordForm">
+                    <div class="py-1">
+                        <label for="oldPasswrod" class="form-label">Mật khẩu cũ: <span class="text-danger">(*)</span></label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" placeholder="Nhập mật khẩu cũ" id="oldPassword" name="oldPassword" minlength="8" maxlength="255" required />
+                            <span class="input-group-text"><i class="fas fa-eye-slash"></i></span>
+                        </div>
+                    </div>
+                    <div class="py-1">
+                        <label for="newPasswrod" class="form-label">Mật khẩu mới: <span class="text-danger">(*)</span></label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" placeholder="Nhập mật khẩu mới" id="newPassword" name="newPassword" minlength="8" maxlength="255" required />
+                            <span class="input-group-text"><i class="fas fa-eye-slash"></i></span>
+                        </div>
+                    </div>
+                    <div class="py-1">
+                        <label for="reNewPasswrod" class="form-label">Mật khẩu mới: <span class="text-danger">(*)</span></label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" placeholder="Nhập lại mật khẩu mới" id="reNewPasswrod" name="reNewPassword" minlength="8" maxlength="255" required />
+                            <span class="input-group-text"><i class="fas fa-eye-slash"></i></span>
+                        </div>
+                    </div>
+                    <div class="text-end py-2">
+                        <button type="submit" class="bg-primary text-white p-2 px-3 border-0">Lưu</button>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>
@@ -410,6 +459,36 @@ $(document).ready(function(){
                 theme = "light";
             }
         }
+        });
+    });
+    $("#changePasswordForm").submit(function(e){
+        e.preventDefault();
+        const oldPassword = $("input[name='oldPassword']",this).val().replace(/\s/g, "");
+        const newPassword = $("input[name='newPassword']",this).val().replace(/\s/g, "");
+        const reNewPassword = $("input[name='reNewPassword']",this).val().replace(/\s/g, "");
+        if(newPassword !== reNewPassword) {
+            $("input[name='newPassword']").val("");
+            $("input[name='reNewPassword']").val("");
+            toastr.error('Mật khẩu mới không trùng khớp với nhau', 'Sai mật khẩu mới');
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: pathNodejs+"/student-changepassword",
+            data: JSON.stringify({oldPassword, newPassword}),
+            contentType: 'application/json',
+            success: (data) => {
+                $(':input','#changePasswordForm')
+                .not(':button, :submit, :reset, :hidden')
+                .val('')
+                .prop('checked', false)
+                .prop('selected', false);
+                $("#ChangePasswordModal").modal('toggle');
+                toastr.success('Mật khẩu của bạn đã được cập nhật!', 'Đổi thành công');
+            }, error: (error) => {
+                $("input[name='oldPassword']").val("");
+                toastr.error('Mật khẩu cũ không chính xác!', 'Sai mật khẩu cũ');
+            }
         });
     });
 });

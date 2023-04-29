@@ -12,11 +12,9 @@ import publicIP from 'react-native-public-ip';
 import axios from 'axios';
 import { Alert } from 'react-native';
 import { LOCAL_JAVA_API_URL } from '@env';
-import { JAVA_PORT } from '@env';
 
 const DkhpPage = () => {
 
-  const JAVA_API_URL = LOCAL_JAVA_API_URL + ":" + JAVA_PORT;
   const { token, currentUser } = React.useContext(AuthContext);
   const [hocKySelected, setHocKySelected] = React.useState(0); //maKhoaHoc nè
   const [monHocSelected, setMonHocSelected] = React.useState(0);
@@ -43,6 +41,7 @@ const DkhpPage = () => {
     Khi selectBox thay đổi -> Gọi api getSubjects
   */
   const onChangeHocKySelected = async (maKhoaHoc) => {
+    
     try {
       if(latestCourseId.current != maKhoaHoc) {
         Toast.show({
@@ -52,8 +51,8 @@ const DkhpPage = () => {
         });
       }
       const javaIp = await publicIP();
-      const response = await axios.get("http://"+javaIp+":8080/api/subject/getSubjectsByCourseId/" + maKhoaHoc + "/" + currentUser.maSinhVien, {headers: {"Authorization": token}});
-      const response2 = await axios.get("http://"+javaIp+":8080/api/unit_class/getUnitClassesStudentRegisterByStudentIdAndMaKhoaHoc/"+currentUser.maSinhVien+"/"+maKhoaHoc, {headers: {"Authorization": token}});
+      const response = await axios.get(LOCAL_JAVA_API_URL+"/api/subject/getSubjectsByCourseId/" + maKhoaHoc + "/" + currentUser.maSinhVien, {headers: {"Authorization": token}});
+      const response2 = await axios.get(LOCAL_JAVA_API_URL+"/api/unit_class/getUnitClassesStudentRegisterByStudentIdAndMaKhoaHoc/"+currentUser.maSinhVien+"/"+maKhoaHoc, {headers: {"Authorization": token}});
       setSubjects(response.data);
       setUnitClassesRegistered(response2.data);
       setHocKySelected(maKhoaHoc);
@@ -245,7 +244,7 @@ const DkhpPage = () => {
   const seeTimetableClass = async (lhp) => {
     try {
       const javaIp = await publicIP();
-      const response = await axios.get("http://"+javaIp+":8080/api/time_table/getTimeTablesByUnitClassId/" + lhp.maLopHocPhan, {headers: {"Authorization": token}});
+      const response = await axios.get(LOCAL_JAVA_API_URL+"/api/time_table/getTimeTablesByUnitClassId/" + lhp.maLopHocPhan, {headers: {"Authorization": token}});
       setLHPSelected(lhp);
       const tkbs = response.data;
       if(tkbs.length > 0) {
@@ -397,7 +396,7 @@ const DkhpPage = () => {
   const seeClassesBySubject = async (maMonHoc) => {
     try {
       const javaIp = await publicIP();
-      const response = await axios.get("http://"+javaIp+":8080/api/unit_class/getUnitClassesBySubjectIdAndLoaiHocAndMaKhoaHoc/"+maMonHoc+"/"+loaiHoc+"/"+hocKySelected, {headers: {"Authorization": token}});
+      const response = await axios.get(LOCAL_JAVA_API_URL+"/api/unit_class/getUnitClassesBySubjectIdAndLoaiHocAndMaKhoaHoc/"+maMonHoc+"/"+loaiHoc+"/"+hocKySelected, {headers: {"Authorization": token}});
       setMonHocSelected(maMonHoc);
       setUnitClasses(response.data);
       setModalUnitClassesVisible(true);
@@ -434,7 +433,7 @@ const DkhpPage = () => {
   */
   const getDataFilterSame = async (unitClasses) => {
     const javaIp = await publicIP();
-    const response = await axios.get("http://"+javaIp+":8080/api/unit_class/getUnitClassesStudentRegisterByStudentIdAndMaKhoaHoc/" + currentUser.maSinhVien + "/" + hocKySelected, {headers: {"Authorization": token}});
+    const response = await axios.get(LOCAL_JAVA_API_URL+"/api/unit_class/getUnitClassesStudentRegisterByStudentIdAndMaKhoaHoc/" + currentUser.maSinhVien + "/" + hocKySelected, {headers: {"Authorization": token}});
     const svlhp_lhps = response.data;
     let blackListLHPIds = [];
     for(let i=0; i<unitClasses.length;i++) {
@@ -541,7 +540,7 @@ const DkhpPage = () => {
   }
   const getTKBsBiTrung = async () => {
     const javaIp = await publicIP();
-    const response = await axios.get("http://"+javaIp+":8080/api/sv_lhp/getSVLHPStudentRegistered/" + currentUser.maSinhVien + "/" + hocKySelected, {headers: {"Authorization": token}});
+    const response = await axios.get(LOCAL_JAVA_API_URL+"/api/sv_lhp/getSVLHPStudentRegistered/" + currentUser.maSinhVien + "/" + hocKySelected, {headers: {"Authorization": token}});
     const svlhps = response.data;
     let tkbBiTrung = [];
     let multiesSystemTKBSystemToCheck = [];
@@ -617,7 +616,7 @@ const DkhpPage = () => {
                 });
               }
               const javaIp = await publicIP();
-              const response = await axios.get("http://"+javaIp+":8080/api/time_table/getTimeTableById/"+maThoiKhoaBieu, {headers: {"Authorization": token}});
+              const response = await axios.get(LOCAL_JAVA_API_URL+"/api/time_table/getTimeTableById/"+maThoiKhoaBieu, {headers: {"Authorization": token}});
               if(response.data) {
                 const myDateString = response.data.lopHocPhan.ngayBatDau;
                 const myD1 = new Date(myDateString);
@@ -642,7 +641,7 @@ const DkhpPage = () => {
                   text2: 'Lớp học phần đã đủ số lượng.'
                 });
               }
-              const response2 = await axios.get("http://"+javaIp+":8080/api/sv_lhp/isStudentRegisThisUnitClass/"+lhpSelected.maLopHocPhan+"/"+monHocSelected+"/"+hocKySelected+"/"+currentUser.maSinhVien, {headers: {"Authorization": token}});
+              const response2 = await axios.get(LOCAL_JAVA_API_URL+"/api/sv_lhp/isStudentRegisThisUnitClass/"+lhpSelected.maLopHocPhan+"/"+monHocSelected+"/"+hocKySelected+"/"+currentUser.maSinhVien, {headers: {"Authorization": token}});
               if(response2.data == true) {
                 setModalTimetablesVisible(false);
                 setModalUnitClassesVisible(false);
@@ -653,7 +652,7 @@ const DkhpPage = () => {
                 });
               }
                   const data = {maThoiKhoaBieu, maThoiKhoaBieuCon, maSinhVien: currentUser.maSinhVien};
-                  const response3 = await axios.post("http://"+javaIp+":8080/api/sv_lhp/addAndUpdateSoLuong", data, {headers: {"Authorization": token}});
+                  const response3 = await axios.post(LOCAL_JAVA_API_URL+"/api/sv_lhp/addAndUpdateSoLuong", data, {headers: {"Authorization": token}});
                   if(response3.data) {
                     setModalTimetablesVisible(false);
                     setModalUnitClassesVisible(false);
@@ -686,9 +685,9 @@ const DkhpPage = () => {
           onPress: async () => {
             // /api/sv_lhp/deleteById/"+maSVLHP
             const javaIp = await publicIP();
-            const response = await axios.get("http://"+javaIp+":8080/api/sv_lhp/getSVLHPByMaLopHocPhanId/"+selectedLHPRegistered.current.maLopHocPhan, {headers: {"Authorization": token}});
+            const response = await axios.get(LOCAL_JAVA_API_URL+"/api/sv_lhp/getSVLHPByMaLopHocPhanId/"+selectedLHPRegistered.current.maLopHocPhan, {headers: {"Authorization": token}});
             const svlhp = response.data;
-            const response2 = await axios.delete("http://"+javaIp+":8080/api/sv_lhp/deleteById/"+svlhp.id, {headers: {"Authorization": token}});
+            const response2 = await axios.delete(LOCAL_JAVA_API_URL+"/api/sv_lhp/deleteById/"+svlhp.id, {headers: {"Authorization": token}});
             const myStringResult = response2.data;
             if(myStringResult == "OUT_OF_DATE") {
               setModalLHPRegisteredVisible(false);
@@ -724,7 +723,7 @@ const DkhpPage = () => {
     const getCourses = async () => {
       try {
         const javaIp = await publicIP();
-        const response = await axios.get("http://"+javaIp+":8080/api/course/getCourses", {headers: {"Authorization": token}});
+        const response = await axios.get(LOCAL_JAVA_API_URL+"/api/course/getCourses", {headers: {"Authorization": token}});
         latestCourseId.current = response.data[response.data.length-1].maKhoaHoc;
         setCourses(response.data);
       } catch (error) {

@@ -51,6 +51,9 @@ const con = mysql.createConnection({
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
+    connectTimeout: 30000, // tăng thời gian timeout lên 30 giây
+    acquireTimeout: 30000,
+    timeout: 30000,
 });
 con.connect(function(err) {
     if (err) {
@@ -217,6 +220,24 @@ app.get("/student-logout", (req, res) => {
     }
     return res.redirect("/student");
 });
+app.post("/student-changepassword", async (req, res) => {
+    if(!req.session.student || !req.session.jwt_token) {
+        return res.redirect("/student");
+    }
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+    const changePasswordRequestDTO = {
+        oldPassword,
+        newPassword,
+    }
+    try {
+        const response = await axios.post(javaUrl+"/api/change-password", changePasswordRequestDTO, {headers: {"Authorization": req.session.jwt_token}});
+        return res.send(response.data);
+    } catch (error) {
+        const status = error.response.status;   
+        return res.status(status).send(error.message);
+    }
+});
 async function renderStudentHomepage(req,res,signal){
     if(!signal)
         signal = null;
@@ -234,6 +255,7 @@ async function renderStudentHomepage(req,res,signal){
         const response6 = await axios.get(javaUrl+"/api/department_announcement/getNotificationsByStudentId/"+ma_sinh_vien, {headers: {"Authorization": token}});
         return res.render("student", { STUDENT_DATA: response1.data, currentTinChi: response2.data, requireTinChi: response3.data, LIST_COURSE: response4.data, LIST_FIRST_UNIT_SUBJECT: response5.data, LIST_NOTIFICATION: response6.data, signal: signal });
     } catch (error) {
+        console.log('req=', req.session.student);
         console.error(error);
         const LIST_ANNOUNCEMENT = await getListAnnouncement();
         return res.render("student-login", {LIST_ANNOUNCEMENT, error: "internal_server_error"});

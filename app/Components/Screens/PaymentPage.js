@@ -3,8 +3,7 @@ import { Box, Button, NativeBaseProvider, Text } from 'native-base';
 import { WebView } from 'react-native-webview';
 import { Modal } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { EJS_PORT } from '@env';
-import { LOCAL_JAVA_API_URL } from '@env';
+import { LOCAL_EJS_API_URL } from '@env';
 
 
 const PaymentPage = ({ navigation, route }) => {
@@ -15,14 +14,14 @@ const PaymentPage = ({ navigation, route }) => {
 
   let url = "";
   if(debtData.service === "PAYPAL")
-    url = LOCAL_JAVA_API_URL+":"+EJS_PORT+"/paypal/payment/confirm";
+    url = LOCAL_EJS_API_URL+"/paypal/payment/confirm";
   else {
-    if(debtData.service === "MOMO")
-      url = "http://192.168.1.4/sv_dkhp_php/momo/momo-mobile-implements.php";
+    if(debtData.service === "MOMO_QR" || debtData.service === "MOMO_ATM")
+      url = "http://192.168.1.3/sv_dkhp_php/momo/momo-mobile-implements.php";
     if(debtData.service === "VNPAY")
-      url = "http://192.168.1.4/sv_dkhp_php/vnpay/vnpay-mobile.php";
+      url = "http://192.168.1.3/sv_dkhp_php/vnpay/vnpay-mobile.php";
     if(debtData.service === "STUDENT_WALLET")
-      url = LOCAL_JAVA_API_URL+":"+EJS_PORT+"/wallet/payment";
+      url = LOCAL_EJS_API_URL+"/wallet/payment";
   }
   const query = [];
 

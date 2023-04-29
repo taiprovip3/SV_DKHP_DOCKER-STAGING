@@ -1,4 +1,4 @@
-import { Box, Button, Center, Divider, HStack, Image, Modal, NativeBaseProvider, Pressable, ScrollView, Stack, Text } from 'native-base';
+import { Box, Button, Center, Divider, HStack, Icon, Image, Input, Modal, NativeBaseProvider, Pressable, ScrollView, Stack, Text } from 'native-base';
 import React from 'react';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -6,7 +6,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { AuthContext } from '../Providers/AuthProvider';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-import { AppState } from 'react-native';
 import {
   LineChart,
   BarChart,
@@ -17,18 +16,21 @@ import {
 } from "react-native-chart-kit";
 import { useWindowDimensions } from 'react-native';
 import { formatNumber } from '../Utilities/formatNumber';
-import { formatCurrency } from '../Utilities/formatCurrency';
 import { LOCAL_JAVA_API_URL } from '@env';
-import { JAVA_PORT } from '@env';
 import axios from 'axios';
 import publicIP from 'react-native-public-ip';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
 const Homepage = ({ navigation }) => {
-  const JAVA_API_URL = LOCAL_JAVA_API_URL + ":" + JAVA_PORT;
   const { token, setToken, currentUser, setCurrentUser } = React.useContext(AuthContext);
   const { width, height } = useWindowDimensions();
   const [ currentTinChi, setCurrentTinChi ] = React.useState(10);
   const [ requiredTinChi, setRequiredTinChi ] = React.useState(100);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const bacDaoTaoShortCut = { DAI_HOC: 'Đại học', CAO_DANG: 'Cao đẳng' };
+  const loaiHinhDaoTaoShortCut = { CHAT_LUONG_CAO: 'Chất lượng cao', DAI_TRA: 'Đại trà' };
+  const coSoShortCut = { HA_NOI: 'Hà Nội', HO_CHI_MINH: 'Hồ Chí Minh' };
 
   const chartConfig = {
     backgroundGradientFrom: "white",
@@ -40,54 +42,131 @@ const Homepage = ({ navigation }) => {
     barPercentage: 0.5,
     useShadowColorFromDataset: false // optional
   };
-  const data = {
-    labels: ["Số TC", "Tổng"], // optional
-    data: [0.1, 1],
-  };
 
   if(!currentUser && !token) {
     navigation.navigate("AuthenicationPage");
   }
   const [modalVisible, setModalVisible] = React.useState(false);
+  const [optionModalVisible, setOptionModalVisible] = React.useState(false);
   const [studentInfoVisible, setStudentInfoVisible] = React.useState(false);
+  const [currentPassword, setCurrentPassword] = React.useState("");
+  const [newPassword, setNewPassword] = React.useState("");
+  const [reNewPassword, setReNewPassword] = React.useState("");
 
   const handleLogOut = () => {
     setModalVisible(false);
     setToken(null);
     setCurrentUser(null);
+    AsyncStorage.removeItem('studentToken');
+    AsyncStorage.removeItem('maSinhVien');
     navigation.navigate("AuthenticationPage");
+  }
+  const handleCurrentPasswordChange = React.useCallback((newText) => {
+    setCurrentPassword(newText);
+  }, []);
+  const handleNewPasswordChange = React.useCallback((newText) => {
+    setNewPassword(newText);
+  }, []);
+  const handleReNewPasswordChange = React.useCallback((newText) => {
+    setReNewPassword(newText);
+  }, []);
+  const changePassword = async () => {
+    if(currentPassword.length < 8 || currentPassword.length > 255) {
+      Toast.show({
+        type: 'error',
+        text1: 'Mật khẩu hiện tại',
+        text2: 'Trường nhập mật khẩu hiện tại không hợp lệ!'
+      });
+      return;
+    }
+    if(newPassword.length < 8 || reNewPassword.length <8) {
+      Toast.show({
+        type: 'error',
+        text1: 'Mật khẩu mới',
+        text2: 'Trường nhập mật khẩu mới không hợp lệ!'
+      });
+      return;
+    }
+    if(newPassword !== reNewPassword) {
+      Toast.show({
+        type: 'error',
+        text1: 'Nhập lại mật khẩu mới',
+        text2: 'Nhập lại mật khẩu mới không trùng khớp!'
+      });
+      return;
+    }
+    // Handle change password here...
+    const ChangePasswordRequestDTO = {
+      oldPassword: currentPassword,
+      newPassword: reNewPassword,
+    }
+    try {
+      const response = await axios.post(LOCAL_JAVA_API_URL+"/api/change-password", ChangePasswordRequestDTO, {headers: {"Authorization": token}});
+      if(response.data) {
+        Toast.show({
+          type: 'success',
+          text1: 'Thay đổi mật khẩu thành công',
+          text2: 'Hãy sử dụng mật khẩu mới cho lần đăng nhập kế!'
+        });
+        setOptionModalVisible(false);
+      }
+    } catch (error) {
+      console.error(error);
+      Toast.show({
+        type: 'error',
+        text1: 'Thay đổi mật khẩu thất bại',
+        text2: 'Mật khẩu hiện tại không chính xác!'
+      });
+    }
   }
   React.useEffect(() => {
     const getInitials = async () => {
+      // . Fetch init data
       const javaIp = await publicIP();
-      const response2 = await axios.get(JAVA_API_URL+"/api/pattern/getSoTinChiDoneByStudentId/" + currentUser.maSinhVien, {headers: {"Authorization": token}});//Sử lý số tín chỉ đã đạt của sv
-      const response3 = await axios.get(JAVA_API_URL+"/api/semester/getTongSoTinChiByMaNganh/" + currentUser.lopHocDanhNghia.nganh.maNganh, {headers: {"Authorization": token}});//Sử lý tổng tín chỉ của sv
+      const response2 = await axios.get(LOCAL_JAVA_API_URL+"/api/pattern/getSoTinChiDoneByStudentId/" + currentUser.maSinhVien, {headers: {"Authorization": token}});//Sử lý số tín chỉ đã đạt của sv
+      const response3 = await axios.get(LOCAL_JAVA_API_URL+"/api/semester/getTongSoTinChiByMaNganh/" + currentUser.lopHocDanhNghia.nganh.maNganh, {headers: {"Authorization": token}});//Sử lý tổng tín chỉ của sv
       setCurrentTinChi(response2.data);
       setRequiredTinChi(response3.data);
     }
     getInitials();
   },[]);
+
+  function formatDate(date){
+      let mydate = new Date(date);
+      let d = mydate.getDate();
+      let m = mydate.getMonth() + 1;
+      let y = mydate.getFullYear();
+      return (d <= 9 ? '0' + d : d) + "/" + (m<=9 ? '0' + m : m) + "/" + y;
+  }
+  function calEndYearStudent(namBatDau, bacDaoTao) {
+      if(bacDaoTao == 'DAI_HOC')
+          return Number(namBatDau) + 4;
+      if(namBatDau == 'CAO_DANG')
+          return Number(namBatDau) + 3;
+      return namBatDau;
+  }
   
   return (
     <NativeBaseProvider>
+      <Box zIndex="1"><Toast position='top' /></Box>
       <ScrollView>
         <Box flex="1">
             <HStack alignItems="center" justifyContent="space-between">
-                <Box>
-                    <Text>Trang chủ -</Text>
-                    <Text bold>Sinh viên</Text>
-                </Box>
-                <Box>
-                  <Image source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Logo_IUH.png/320px-Logo_IUH.png" }} alt="iuh-logo" width={"32"} height={"16"} />
-                </Box>
-                <Box>
-                    <Pressable onPress={() => setStudentInfoVisible(true)}>
-                        <Center>
-                            <FontAwesome5 name="user-circle" size={24} color="blue" />
-                            <Text underline onPress={() => setModalVisible(!modalVisible)}>Tài khoản</Text>
-                        </Center>
-                    </Pressable>
-                </Box>
+              <Box>
+                <Text>Trang chủ -</Text>
+                <Text bold>Sinh viên</Text>
+              </Box>
+              <Box>
+                <Image source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Logo_IUH.png/320px-Logo_IUH.png" }} alt="iuh-logo" width={"32"} height={"16"} />
+              </Box>
+              <Box>
+                <Pressable onPress={() => setOptionModalVisible(true)}>
+                  <Center>
+                      <FontAwesome5 name="user-circle" size={24} color="blue" />
+                      <Text underline>Tài khoản</Text>
+                  </Center>
+                </Pressable>
+              </Box>
             </HStack>
             <Center>
                 <Divider my="2" _light={{
@@ -105,7 +184,7 @@ const Homepage = ({ navigation }) => {
                   <Image
                     size={150}
                     borderRadius={100}
-                    source={{uri: "https://pgddttramtau.edu.vn/wp-content/uploads/2022/12/1671593637_38_Mau-anh-the-dep-XUAT-SAC-nhat-voi-nen-xanh.jpg"}}
+                    source={{uri: currentUser.avatar}}
                     alt="photoUrl"
                   />
                   <Text color="blue.700" underline onPress={() => setStudentInfoVisible(!studentInfoVisible)} py="2">Xem chi tiết</Text>
@@ -113,21 +192,21 @@ const Homepage = ({ navigation }) => {
                 <Box>
                   <HStack>
                     <Box w='1/2'>
-                      <Text fontSize="xs"><Text bold>MSSV:</Text> <Text color="darkBlue.900">1</Text></Text>
-                      <Text fontSize="xs"><Text bold>Họ tên</Text>: <Text color="darkBlue.900">Phan Tấn Tài</Text></Text>
-                      <Text fontSize="xs"><Text bold>Giới tính</Text>: <Text color="darkBlue.900">Nam</Text></Text>
-                      <Text fontSize="xs"><Text bold>Ngày sinh</Text>: <Text color="darkBlue.900">25/05/2001</Text></Text>
-                      <Text fontSize="xs"><Text bold>Nơi sinh</Text>: <Text color="darkBlue.900">Hóc môn</Text></Text>
+                      <Text fontSize="xs"><Text bold>MSSV:</Text> <Text color="darkBlue.900">{currentUser.maSinhVien}</Text></Text>
+                      <Text fontSize="xs"><Text bold>Họ tên</Text>: <Text color="darkBlue.900">{currentUser.hoTen}</Text></Text>
+                      <Text fontSize="xs"><Text bold>Giới tính</Text>: <Text color="darkBlue.900">{currentUser.gioiTinh}</Text></Text>
+                      <Text fontSize="xs"><Text bold>Ngày sinh</Text>: <Text color="darkBlue.900">{formatDate(currentUser.ngaySinh)}</Text></Text>
+                      <Text fontSize="xs"><Text bold>Nơi sinh</Text>: <Text color="darkBlue.900">{currentUser.noiSinh}</Text></Text>
                     </Box>
                     <Box w='1/2'>
-                      <Text fontSize="xs"><Text bold>Lớp học:</Text> <Text color="darkBlue.900">DHKTPM15CTT</Text></Text>
-                      <Text fontSize="xs"><Text bold>Khoá học</Text>: <Text color="darkBlue.900">2019-2023</Text></Text>
-                      <Text fontSize="xs"><Text bold>Bậc đào tạo</Text>: <Text color="darkBlue.900">Đại học</Text></Text>
+                      <Text fontSize="xs"><Text bold>Lớp học:</Text> <Text color="darkBlue.900">{currentUser.lopHocDanhNghia.tenLop}</Text></Text>
+                      <Text fontSize="xs"><Text bold>Khoá học</Text>: <Text color="darkBlue.900">{currentUser.lopHocDanhNghia.khoaHoc.namBatDau}-{calEndYearStudent(currentUser.lopHocDanhNghia.khoaHoc.namBatDau, currentUser.daoTao.bacDaoTao)}</Text></Text>
+                      <Text fontSize="xs"><Text bold>Bậc đào tạo</Text>: <Text color="darkBlue.900">{bacDaoTaoShortCut[currentUser.daoTao.bacDaoTao]}</Text></Text>
                       <Box flexDirection={"row"}>
-                        <Text fontSize="xs" flex={"1"} flexWrap="wrap"><Text bold>Loại hình đào tạo</Text>: <Text color="darkBlue.900">Tiên tiến</Text></Text>
+                        <Text fontSize="xs" flex={"1"} flexWrap="wrap"><Text bold>Loại hình đào tạo</Text>: <Text color="darkBlue.900">{loaiHinhDaoTaoShortCut[currentUser.daoTao.loaiHinhDaoTao]}</Text></Text>
                       </Box>
                       <Box flexDirection={"row"}>
-                        <Text fontSize="xs" flex={"1"} flexWrap="wrap"><Text bold>Ngành</Text>: <Text color="darkBlue.900">Kỹ thuật phần mềm</Text></Text>
+                        <Text fontSize="xs" flex={"1"} flexWrap="wrap"><Text bold>Ngành</Text>: <Text color="darkBlue.900">{currentUser.lopHocDanhNghia.nganh.tenNganh}</Text></Text>
                       </Box>
                     </Box>
                   </HStack>
@@ -214,27 +293,82 @@ const Homepage = ({ navigation }) => {
             </Box>
         </Box>
       </ScrollView>
-      <Modal isOpen={modalVisible} onClose={setModalVisible} size={"sm"}>
-        <Modal.Content maxH="212">
+      <Modal isOpen={optionModalVisible} onClose={setOptionModalVisible} size={"lg"}>
+        <Modal.Content>
           <Modal.CloseButton />
-          <Modal.Header>Đăng xuất tài khoản</Modal.Header>
+          <Modal.Header>Tài khoản</Modal.Header>
           <Modal.Body>
             <ScrollView>
-              <Text>
-                Bạn sẽ đăng xuất tài khoản và không lưu lại session cho lần vào ứng dụng kế tiếp
-              </Text>
+              <Box py="2">
+                <Text>Mật khẩu hiện tại: <Text color="error.600">*</Text> </Text>
+                <Input
+                  placeholder='Nhập mật khẩu hiện tại của bạn..'
+                  type={showPassword ? "text" : "password"}
+                  InputRightElement={
+                    <Pressable onPress={() => setShowPassword(!showPassword)}>
+                      <Icon
+                        as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />}
+                        size={5}
+                        mr="2"
+                        color="muted.400"
+                      />
+                    </Pressable>
+                  }
+                  value={currentPassword}
+                  onChangeText={handleCurrentPasswordChange}
+                />
+              </Box>
+              <Box py="2">
+                <Text>Mật khẩu mới: <Text color="error.600">*</Text> </Text>
+                <Input
+                  placeholder='Nhập mật khẩu mói muốn thay đổi..'
+                  type={showPassword ? "text" : "password"}
+                  InputRightElement={
+                    <Pressable onPress={() => setShowPassword(!showPassword)}>
+                      <Icon
+                        as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />}
+                        size={5}
+                        mr="2"
+                        color="muted.400"
+                      />
+                    </Pressable>
+                  }
+                  value={newPassword}
+                  onChangeText={handleNewPasswordChange}
+                />
+              </Box>
+              <Box py="2">
+                <Text>Xác nhận Mật khẩu mới: <Text color="error.600">*</Text> </Text>
+                <Input
+                  placeholder='Nhập lại mật khẩu mói muốn thay đổi..'
+                  type={showPassword ? "text" : "password"}
+                  InputRightElement={
+                    <Pressable onPress={() => setShowPassword(!showPassword)}>
+                      <Icon
+                        as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />}
+                        size={5}
+                        mr="2"
+                        color="muted.400"
+                      />
+                    </Pressable>
+                  }
+                  value={reNewPassword}
+                  onChangeText={handleReNewPasswordChange}
+                />
+              </Box>
+              <Button variant="outline" bg="emerald.400" _text={{ color: 'white' }} onPress={changePassword}>Đổi mật khẩu</Button>
             </ScrollView>
           </Modal.Body>
           <Modal.Footer>
             <Button.Group space={2}>
               <Button variant="ghost" colorScheme="blueGray" onPress={() => {
-              setModalVisible(false);
+              setOptionModalVisible(false);
             }}>
                 Cancel
               </Button>
               <Button
                 onPress={() => {handleLogOut()}}
-                bg="orange.400"
+                bg="emerald.600"
               >
                 Logout
               </Button>
@@ -251,22 +385,22 @@ const Homepage = ({ navigation }) => {
               <Box pb="3">
                 <HStack>
                   <Box pr="3">
-                    <Image source={{ uri:"https://pgddttramtau.edu.vn/wp-content/uploads/2022/12/1671593637_38_Mau-anh-the-dep-XUAT-SAC-nhat-voi-nen-xanh.jpg" }} alt="photoUrl" size={8} borderRadius={100} />
+                    <Image source={{ uri:currentUser.avatar }} alt="photoUrl" size={8} borderRadius={100} />
                   </Box>
                   <Box borderLeftColor="gray.500" borderLeftWidth="0.5" pl="3">
                     <Text bold color="emerald.700">THÔNG TIN HỌC VẤN</Text>
                     <Divider></Divider>
-                    <Text><Text bold>MSSV</Text>: 1</Text>
-                    <Text><Text bold>Họ tên</Text>: Phan Tấn Tài</Text>
-                    <Text><Text bold>Lớp học</Text>: DKTPM15CTT</Text>
+                    <Text><Text bold>MSSV</Text>: #{currentUser.maSinhVien}</Text>
+                    <Text><Text bold>Họ tên</Text>: {currentUser.hoTen}</Text>
+                    <Text><Text bold>Lớp học</Text>: {currentUser.lopHocDanhNghia.tenLop}</Text>
                     <Text><Text bold>Trạng thái</Text>: Đang học</Text>
-                    <Text><Text bold>Thuộc khoa</Text>: Khoa Công Nghệ Thông Tin</Text>
-                    <Text><Text bold>Chuyên ngành</Text>: Kỹ Thuật Phần Mềm</Text>
-                    <Text><Text bold>Ngày vào trường</Text>: 01/01/2019</Text>
-                    <Text><Text bold>Cơ sở học</Text>: TP.HCM</Text>
-                    <Text><Text bold>Loại hình đào tạo</Text>: CLC</Text>
-                    <Text><Text bold>Khoá học</Text>: 2019-2023</Text>
-                    <Text><Text bold>Mã hồ sơ</Text>: 1000001</Text>
+                    <Text><Text bold>Thuộc khoa</Text>: {currentUser.lopHocDanhNghia.nganh.khoa.tenKhoa}</Text>
+                    <Text><Text bold>Chuyên ngành</Text>: {currentUser.lopHocDanhNghia.nganh.tenNganh}</Text>
+                    <Text><Text bold>Ngày vào trường</Text>: {formatDate(currentUser.ngayVaoTruong)}</Text>
+                    <Text><Text bold>Cơ sở học</Text>: {coSoShortCut[currentUser.daoTao.coSo]}</Text>
+                    <Text><Text bold>Loại hình đào tạo</Text>: {loaiHinhDaoTaoShortCut[currentUser.daoTao.loaiHinhDaoTao]}</Text>
+                    <Text><Text bold>Khoá học</Text>: {currentUser.lopHocDanhNghia.khoaHoc.namBatDau}-{calEndYearStudent(currentUser.lopHocDanhNghia.khoaHoc.namBatDau, currentUser.daoTao.bacDaoTao)}</Text>
+                    <Text><Text bold>Mã hồ sơ</Text>: #{currentUser.taiKhoan.id}</Text>
                   </Box>
                 </HStack>
               </Box>

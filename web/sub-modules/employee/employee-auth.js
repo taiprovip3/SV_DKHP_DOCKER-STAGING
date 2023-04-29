@@ -103,5 +103,23 @@ employeeAuthRouter.get("/employee-logout", (req, res) => {
     }
     return res.redirect("/employee");
 });
+employeeAuthRouter.post("/employee-changepassword", async (req, res) => {
+    if(!req.session.employee || !req.session.employee_token) {
+        return res.redirect("/employee");
+    }
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+    const changePasswordRequestDTO = {
+        oldPassword,
+        newPassword,
+    }
+    try {
+        const response = await axios.post(javaUrl+"/api/change-password", changePasswordRequestDTO, {headers: {"Authorization": req.session.employee_token}});
+        return res.send(response.data);
+    } catch (error) {
+        const status = error.response.status;   
+        return res.status(status).send(error.message);
+    }
+});
 
 module.exports = employeeAuthRouter;

@@ -7,7 +7,6 @@ import publicIP from 'react-native-public-ip';
 import axios from 'axios';
 import { AppState } from 'react-native';
 import { LOCAL_JAVA_API_URL } from '@env';
-import { JAVA_PORT } from '@env';
 import { SO_TIEN_1_TIN_CHI } from '@env';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
@@ -17,7 +16,6 @@ import { Foundation } from '@expo/vector-icons';
 
 const DebtPage = ({navigation}) => {
 
-  const JAVA_API_URL = LOCAL_JAVA_API_URL + ":" + JAVA_PORT;
   const appStateSubscriptionRef = React.useRef(null);
   const appStateRef = React.useRef(AppState.currentState);
   const { token, setToken, currentUser, setCurrentUser } = React.useContext(AuthContext);
@@ -61,7 +59,7 @@ const DebtPage = ({navigation}) => {
     const getDebts = async () => {
       try {
         const javaIp = await publicIP();
-        const debtsReponsee = await axios.get(JAVA_API_URL+"/api/debt/getUnDebtsByStudentId/"+currentUser.maSinhVien, {headers: {"Authorization": token}});
+        const debtsReponsee = await axios.get(LOCAL_JAVA_API_URL+"/api/debt/getUnDebtsByStudentId/"+currentUser.maSinhVien, {headers: {"Authorization": token}});
         if(debtsReponsee.data.length > 0) {// Nếu số công nợ > 0
           const congNos = [];
           for(let i=0;i<debtsReponsee.data.length; i++) {
@@ -86,12 +84,12 @@ const DebtPage = ({navigation}) => {
       }
     }
     const getPayedDebts = async () => {
-      const payedDebtsReponse = await axios.get(JAVA_API_URL+"/api/debt/getPayedDebts/"+currentUser.maSinhVien, {headers: {"Authorization": token}});
+      const payedDebtsReponse = await axios.get(LOCAL_JAVA_API_URL+"/api/debt/getPayedDebts/"+currentUser.maSinhVien, {headers: {"Authorization": token}});
       if(payedDebtsReponse.data)
         setPayedDebts(payedDebtsReponse.data);
     }
     const getCourses = async () => {
-      const coursesResponse = await axios.get(JAVA_API_URL+"/api/course/getCoursesByStudentId/"+currentUser.maSinhVien, {headers: {"Authorization": token}});
+      const coursesResponse = await axios.get(LOCAL_JAVA_API_URL+"/api/course/getCoursesByStudentId/"+currentUser.maSinhVien, {headers: {"Authorization": token}});
       if(coursesResponse.data)
         setCourses(coursesResponse.data);
     }
@@ -117,25 +115,25 @@ const DebtPage = ({navigation}) => {
         // item đã đc format phù hợp vs render
         if(service === "PAYPAL") {
           // Implement paypal here...
-          const maThanhToanGiaoDichReponse = await axios.get(JAVA_API_URL+"/api/payment/createTransaction/"+currentUser.maSinhVien+"/"+0+"/"+item.maCongNo, {headers: {"Authorization": token}});
+          const maThanhToanGiaoDichReponse = await axios.get(LOCAL_JAVA_API_URL+"/api/payment/createTransaction/"+currentUser.maSinhVien+"/"+0+"/"+item.maCongNo, {headers: {"Authorization": token}});
           const debtData = {service, maCongNo:item.maCongNo, tenMonHoc:item.tenMonHoc, maSinhVien:currentUser.maSinhVien, maLopHocPhan:item.maLopHocPhan, soTien: item.soTien, loaiThanhToan:service, maThanhToanGiaoDich: maThanhToanGiaoDichReponse.data}
           navigation.navigate("PaymentPage", {debtData: debtData});
         } else {
-          if(service === "MOMO") {
+          if(service === "MOMO_QR" || service === "MOMO_ATM") {
             // Implement momo here...
-            const maThanhToanGiaoDichReponse = await axios.get(JAVA_API_URL+"/api/payment/createTransaction/"+currentUser.maSinhVien+"/"+0+"/"+item.maCongNo, {headers: {"Authorization": token}});
-            const debtData = {service, maCongNo: item.maCongNo, maThanhToanGiaoDich: maThanhToanGiaoDichReponse.data, maSinhVien:currentUser.maSinhVien};
+            const maThanhToanGiaoDichReponse = await axios.get(LOCAL_JAVA_API_URL+"/api/payment/createTransaction/"+currentUser.maSinhVien+"/"+0+"/"+item.maCongNo, {headers: {"Authorization": token}});
+            const debtData = {service, maCongNo: item.maCongNo, maThanhToanGiaoDich: maThanhToanGiaoDichReponse.data, maSinhVien:currentUser.maSinhVien, loaiMomo: service};
             navigation.navigate("PaymentPage", {debtData: debtData});
           } else {
             if(service === "VNPAY") {
               // implement vnpay here..
-              const maThanhToanGiaoDichReponse = await axios.get(JAVA_API_URL+"/api/payment/createTransaction/"+currentUser.maSinhVien+"/"+0+"/"+item.maCongNo, {headers: {"Authorization": token}});
+              const maThanhToanGiaoDichReponse = await axios.get(LOCAL_JAVA_API_URL+"/api/payment/createTransaction/"+currentUser.maSinhVien+"/"+0+"/"+item.maCongNo, {headers: {"Authorization": token}});
               const debtData = {service, maCongNo: item.maCongNo, maThanhToanGiaoDich: maThanhToanGiaoDichReponse.data, maSinhVien:currentUser.maSinhVien, soTien: item.soTien};
               navigation.navigate("PaymentPage", {debtData: debtData});
             }
             if(service === "STUDENT_WALLET") {
               // implement student_wallet here...
-              const maThanhToanGiaoDichReponse = await axios.get(JAVA_API_URL+"/api/payment/createTransaction/"+currentUser.maSinhVien+"/"+0+"/"+item.maCongNo, {headers: {"Authorization": token}});
+              const maThanhToanGiaoDichReponse = await axios.get(LOCAL_JAVA_API_URL+"/api/payment/createTransaction/"+currentUser.maSinhVien+"/"+0+"/"+item.maCongNo, {headers: {"Authorization": token}});
               const debtData = {service, maCongNo: item.maCongNo, maThanhToanGiaoDich: maThanhToanGiaoDichReponse.data, maSinhVien:currentUser.maSinhVien};
               navigation.navigate("PaymentPage", {debtData: debtData});
             }
@@ -150,7 +148,7 @@ const DebtPage = ({navigation}) => {
 
   const onClickPayedDebt = async (payedDebt) => {
     // Tiến hành lấy ttgd từ debtId
-    const thanhToanGiaoDichReponse = await axios.get(JAVA_API_URL+"/api/payment/getStudentPayedDebtByDebtId/"+payedDebt.id+"/"+currentUser.maSinhVien, {headers: {"Authorization": token}});
+    const thanhToanGiaoDichReponse = await axios.get(LOCAL_JAVA_API_URL+"/api/payment/getStudentPayedDebtByDebtId/"+payedDebt.id+"/"+currentUser.maSinhVien, {headers: {"Authorization": token}});
     if(thanhToanGiaoDichReponse.data) {
       const newPayedDebt = {...payedDebt, thanhToanGiaoDich: thanhToanGiaoDichReponse.data}
       setSelectedPayedDebt(newPayedDebt);
@@ -218,7 +216,8 @@ const DebtPage = ({navigation}) => {
                 }} mt={1} onValueChange={itemValue => setService(itemValue)}
             >
           <Select.Item label="PAYPAL" value="PAYPAL" />
-          <Select.Item label="MOMO" value="MOMO" />
+          <Select.Item label="MOMO QR" value="MOMO_QR" />
+          <Select.Item label="MOMO ATM" value="MOMO_ATM" />
           <Select.Item label="VNPAY" value="VNPAY" />
           <Select.Item label="STUDENT_WALLET" value="STUDENT_WALLET" />
         </Select>

@@ -1,3 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Import thư viện jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Import thư viện toastr -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+</head>
+<body>
 <?php
     ob_start();
     function execPostRequest($url, $data) {
@@ -24,8 +38,8 @@
         return $interval->invert == 0; // return true nếu thời gian chưa hết hạn, false nếu đã hết hạn
     }
     function validateBalanceGiaoDich() {
-        if (isset($_POST['balanceGiaoDich'])) {
-            $balanceGiaoDich = $_POST['balanceGiaoDich'];
+        if (isset($_GET['balanceGiaoDich'])) {
+            $balanceGiaoDich = $_GET['balanceGiaoDich'];
             if (!is_numeric($balanceGiaoDich) || $balanceGiaoDich < 0) {
                 // Bắt lỗi nếu giá trị không phải là số hoặc số âm
                 return "Giá trị balanceGiaoDich không hợp lệ";
@@ -46,7 +60,7 @@
     $balanceGiaoDich = $_GET["balanceGiaoDich"];
     $momo_method = $_GET["momoMethod"];
 
-    $url = "http://java:8080/api/payment/getTokenByPaymentAndStudentId/".$maThanhToanGiaoDich."/".$maSinhVien;
+    $url = "http://localhost:8080/api/payment/getTokenByPaymentAndStudentId/".$maThanhToanGiaoDich."/".$maSinhVien;
     $response = file_get_contents($url);
     if ($response === false) {
         // xảy ra lỗi kết nối đến API
@@ -62,7 +76,7 @@
                 'header' => "Authorization: $token\r\n"
             )
         );
-        $url = "http://java:8080/api/payment/getPaymentById/".$maThanhToanGiaoDich;
+        $url = "http://localhost:8080/api/payment/getPaymentById/".$maThanhToanGiaoDich;
         $context = stream_context_create($options);
         $response = file_get_contents($url, false, $context);
         $response_parse = json_decode($response);
@@ -102,11 +116,20 @@
                     'signature' => $signature);
                 $result = execPostRequest($endpoint, json_encode($data));
                 $jsonResult = json_decode($result, true);  // decode json
-                header('Location: ' . $jsonResult['payUrl']);
-                ob_end_flush();
+                if($jsonResult['resultCode'] == 22) {
+                    echo '<script>
+                        toastr.error("Đã xảy ra lỗi khi xử lý.", "Giao dịch thất bại!");
+                    </script>';
+                    echo "Giao dịch thất bại. \\\<br>".$jsonResult['message'];
+                } else {
+                    header('Location: ' . $jsonResult['payUrl']);
+                    ob_end_flush();
+                }
             }
         } else {// Mã giao dịch đã được sử dụng
             echo "Giao dịch thanh toán đã hoàn tất trước đó";
         }
     }
 ?>
+</body>
+</html>

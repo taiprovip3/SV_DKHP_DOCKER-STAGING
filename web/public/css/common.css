@@ -11,3 +11,6 @@
 .teal-color2 {
     color: #0A8A8A;
 }
+body {
+    font-family: emoji;
+}

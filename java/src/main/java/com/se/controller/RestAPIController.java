@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.se.dto.security.ChangePasswordRequestDTO;
 import com.se.dto.security.UserDTO;
 import com.se.entity.security.Token;
+import com.se.entity.security.User;
 import com.se.entity.security.UserPrincipal;
 import com.se.jwt.JwtUltility;
 import com.se.service.security.TokenService;
@@ -74,5 +79,25 @@ public class RestAPIController {
 		SecurityContextHolder.getContext();
 		return "\n\n(!) Sign out account success\n\n";
 	}
+
+	@PostMapping("/change-password")
+    public ResponseEntity<?> changePassword (
+		@RequestBody ChangePasswordRequestDTO changePasswordRequestDTO,
+		@AuthenticationPrincipal UserDetails userDetails
+	) {
+		String username = userDetails.getUsername();
+		String oldPassword = changePasswordRequestDTO.getOldPassword();
+		String newPassword = changePasswordRequestDTO.getNewPassword();
+		User user = userService.getUserByUserName(username);
+		if (user == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with username: " + username);
+		}
+		if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Old password is incorrect");
+		}
+		user.setPassword(passwordEncoder.encode(newPassword));
+		userService.saveUser(user);
+        return ResponseEntity.ok("Password changed successfully");
+    }
 	
 }

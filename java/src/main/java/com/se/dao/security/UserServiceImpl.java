@@ -23,9 +23,6 @@ public class UserServiceImpl implements UserService{
 		this.userRepository = userRepository;
 	}
 	
-//	@Autowired
-//	private UserRepository userRepository;
-	
 	@Override
 	public UserPrincipal getUserPrincipalByUsername(String username) {
 		User user = userRepository.findByUsername(username);
@@ -55,5 +52,4 @@ public class UserServiceImpl implements UserService{
 	public User getUserByUserName(String username) {
 		return userRepository.findByUsername(username);
 	}
-
 }

@@ -20,37 +20,37 @@
         <div class="row">
             <div class="col-lg-2">
                 <a href="/employee" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-fire"></i>&ensp;Trang chủ</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-fire"></i>&ensp;Trang chủ</div>
                 </a>
                 <a href="/employee-crud-student" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-user-graduate"></i>&ensp;Sinh viên</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-user-graduate"></i>&ensp;Sinh viên</div>
                 </a>
                 <a href="/employee-crud-class" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-users"></i>&ensp;Lớp danh Nghĩa</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-users"></i>&ensp;Lớp danh Nghĩa</div>
                 </a>
                 <a href="/employee-crud-teacher" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-chalkboard-teacher"></i>&ensp;Giáo viên</div>
                 </a>
                 <a href="/employee-crud-course" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fab fa-discourse"></i>&ensp;Khoá học</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fab fa-discourse"></i>&ensp;Khoá học</div>
                 </a>
                 <a href="/employee-crud-department" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fab fa-shopware"></i>&ensp;Khoa</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fab fa-shopware"></i>&ensp;Khoa</div>
                 </a>
                 <!-- <a href="/employee-crud-majors" class="text-decoration-none"> -->
-                <div class="py-3 navigation-item-active text-wrap"><i class="fas fa-wrench"></i>&ensp;Ngành</div>
+                <div class="py-3 px-1 navigation-item-active text-wrap"><i class="fas fa-wrench"></i>&ensp;Ngành</div>
                 <!-- </a> -->
                 <a href="/employee-crud-department_announcement" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-bell"></i>&ensp;Thông báo Khoa</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-bell"></i>&ensp;Thông báo Khoa</div>
                 </a>
                 <a href="/employee-crud-unit_class" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-window-restore"></i>&ensp;Lớp học phần</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-window-restore"></i>&ensp;Lớp học phần</div>
                 </a>
                 <a href="/employee-crud-time_table" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-calendar-day"></i>&ensp;Thời khoá biểu</div>
                 </a>
                 <a href="/employee-crud-debt" class="text-decoration-none">
-                <div class="py-3 navigation-item text-wrap"><i class="fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
+                <div class="py-3 px-1 navigation-item text-wrap"><i class="fas fa-hand-holding-usd"></i>&ensp;Công nợ</div>
                 </a>
             </div>
             <div class="col-lg-10 position-relative overflow-auto" style="max-height: 100vh;">
@@ -120,7 +120,7 @@
 <script>
 const pathNodejs = '<%= process.env.EJS_API_URL %>';
 $(document).ready(function() {
-    const tab_length = $(".col-lg-9").width();
+    const tab_length = $(".col-lg-10").width();
     const right_action_length = $("#right_action").width();
     const minus = tab_length - right_action_length;
     $("#right_action").css("left", minus);

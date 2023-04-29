@@ -36,4 +36,6 @@ button{
 .navigation-item-active{
     border-bottom: 1px solid lightgray;
     text-decoration: none;
+    background-color: seagreen;
+    color: white;
 }

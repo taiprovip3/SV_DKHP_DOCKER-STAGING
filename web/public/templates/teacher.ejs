@@ -88,18 +88,18 @@
                         <div></div>
                     </div>
                     <br>
-                    <div class="d-flex justify-content-around">
-                        <a href="/teacher/timetable" class="text-decoration-none">
-                            <div class="border p-3 text-center crs feature-item">
+                    <div class="d-flex justify-content-evenly">
+                        <a href="/teacher/timetable" class="text-decoration-none col-lg-1 col-xs-5">
+                            <div class="border p-3 text-center crs feature-item mx-1">
                                 <span><i class="fas fa-calendar-check fa-2x"></i></span>
                                 <br>
-                                <span>Xem lịch dạy</span>
+                                <span>Xem lịch</span>
                                 <br>
-                                <span>(Hôm nay có lịch)</span>
+                                <span>dạy học</span>
                             </div>
                         </a>
-                        <a href="/teacher/score" class="text-decoration-none">
-                            <div class="border p-3 text-center crs feature-item">
+                        <a href="/teacher/score" class="text-decoration-none col-lg-1 col-xs-5">
+                            <div class="border p-3 text-center crs feature-item mx-1">
                                 <span><i class="fas fa-pen-square fa-2x"></i></span>
                                 <br>
                                 <span>Nhập điểm</span>
@@ -108,10 +108,13 @@
                             </div>
                         </a>
                     </div>
-                    <div class="position-absolute top-0 end-0 m-1 text-center crs" data-bs-toggle="tooltip" title="Log out">
-                        <a href="/teacher-logout"><i class="fas fa-sign-out-alt fa-2x text-secondary"></i></a>
-                        <br>
-                        <span class="small text-decoration-underline" style="color: blue;">Log out</span>
+                    <div class="position-absolute top-0 end-0 m-2 text-center crs" data-bs-toggle="tooltip" title="Log out">
+                        <i class="fas fa-sort-down fa-2x text-secondary" style="margin-top: -22px;" data-bs-toggle="dropdown"></i>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Đổi mật khẩu</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="./teacher-logout">Đăng xuất</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -162,12 +165,85 @@
         </div>
     </div>
 </div>
+<!-- The Modal -->
+<div class="modal" id="changePasswordModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="text-end">
+                    <!-- <button type="button" class="btn-close bg-primary" data-bs-dismiss="modal"></button> -->
+                    <button type="button" data-bs-dismiss="modal" class="bg-primary text-white px-2 border-0"><i class="fas fa-times"></i></button>
+                </div>
+                <form action="./student-changepassword" method="post" id="changePasswordForm">
+                    <div class="py-1">
+                        <label for="oldPasswrod" class="form-label">Mật khẩu cũ: <span class="text-danger">(*)</span></label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" placeholder="Nhập mật khẩu cũ" id="oldPassword" name="oldPassword" minlength="8" maxlength="255" required />
+                            <span class="input-group-text"><i class="fas fa-eye-slash"></i></span>
+                        </div>
+                    </div>
+                    <div class="py-1">
+                        <label for="newPasswrod" class="form-label">Mật khẩu mới: <span class="text-danger">(*)</span></label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" placeholder="Nhập mật khẩu mới" id="newPassword" name="newPassword" minlength="8" maxlength="255" required />
+                            <span class="input-group-text"><i class="fas fa-eye-slash"></i></span>
+                        </div>
+                    </div>
+                    <div class="py-1">
+                        <label for="reNewPasswrod" class="form-label">Mật khẩu mới: <span class="text-danger">(*)</span></label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" placeholder="Nhập lại mật khẩu mới" id="reNewPasswrod" name="reNewPassword" minlength="8" maxlength="255" required />
+                            <span class="input-group-text"><i class="fas fa-eye-slash"></i></span>
+                        </div>
+                    </div>
+                    <div class="text-end py-2">
+                        <button type="submit" class="bg-primary text-white p-2 px-3 border-0">Lưu</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
 </body>
 <script>
+    const pathNodejs = '<%= process.env.EJS_API_URL %>';
     $(document).ready(function() {
         const profileInfoJQuery = $("#profileInfo");
         const heightBox = profileInfoJQuery.height();
         profileInfoJQuery.width(parseInt(heightBox+20));
+        $("#changePasswordForm").submit(function(e){
+            e.preventDefault();
+            const oldPassword = $("input[name='oldPassword']",this).val().replace(/\s/g, "");
+            const newPassword = $("input[name='newPassword']",this).val().replace(/\s/g, "");
+            const reNewPassword = $("input[name='reNewPassword']",this).val().replace(/\s/g, "");
+            if(newPassword !== reNewPassword) {
+                $("input[name='newPassword']").val("");
+                $("input[name='reNewPassword']").val("");
+                toastr.error('Mật khẩu mới không trùng khớp với nhau', 'Sai mật khẩu mới');
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: pathNodejs+"/teacher-changepassword",
+                data: JSON.stringify({oldPassword, newPassword}),
+                contentType: 'application/json',
+                success: (data) => {
+                    $(':input','#changePasswordForm')
+                    .not(':button, :submit, :reset, :hidden')
+                    .val('')
+                    .prop('checked', false)
+                    .prop('selected', false);
+                    $("#changePasswordModal").modal('toggle');
+                    toastr.success('Mật khẩu của bạn đã được cập nhật!', 'Đổi thành công');
+                }, error: (error) => {
+                    $("input[name='oldPassword']").val("");
+                    toastr.error('Mật khẩu cũ không chính xác!', 'Sai mật khẩu cũ');
+                }
+            });
+        });
     });
 </script>
 </html>

@@ -417,13 +417,7 @@ async function getTimeTablesBy7Days() {//Hàm trả về list tkb Đơn gọi t�
         data: JSON.stringify({currentDate: cDate, datePrev1: d1, datePrev2: d2, datePrev3: d3, datePrev4: d4, datePrev5: d5, datePrev6: d6, filterLoaiLich: selected_loai_lich}),
         contentType: 'application/json',
     }).then(TKBs =>TKBs);
-    const tkbConIds = await $.ajax({
-        type: "POST",
-        url: pathNodejs+"/student/timetable/getIdsThoiKhoaBieuCon",
-        data: JSON.stringify({currentDate: cDate, datePrev1: d1, datePrev2: d2, datePrev3: d3, datePrev4: d4, datePrev5: d5, datePrev6: d6, filterLoaiLich: selected_loai_lich}),
-        contentType: 'application/json',
-    }).then(tkbConIds =>tkbConIds);
-    return {TKBs: TKBs, tkbConIds: tkbConIds};
+    return TKBs;
 }
 function resetOldTd() {
     for(let i=0;i<thuAbb.length;i++) {
@@ -443,27 +437,12 @@ async function renderTrsBody() {
     4. Cần lấy ra 1 list id tkbCon (mã tkbCon mà sv đăng ký) tương tự trong phạm vi ngày này (Gọi api Do java chỉ trả về đối tượng nên buộc phải tách ra 2 thứ riêng, ko thể lấy chung 1 lần dc)
     5. Filter ra những tkbCon mà sv đã đăng ký
     */
-    const dataObject = await getTimeTablesBy7Days();
-    const TKBs = dataObject.TKBs;
-    const tkbConIds = dataObject.tkbConIds;
+    const TKBs = await getTimeTablesBy7Days();
     const belongOfMorning = ["T1", "T2", "T3", "T4", "T5", "T6"];
     const belongOfAfternoon = ["T7", "T8", "T9", "T10", "T11", "T12"];
     const belongOfTonight = ["T13", "T14", "T15", "T16"];
-    let multiesTKBs = [];
-    for(let i=0;i<TKBs.length;i++) {
+    for(let i=0; i<TKBs.length;i++) {
         const tkb = TKBs[i];
-        multiesTKBs.push(tkb);
-        if(tkb.thoiKhoaBieuCons.length > 0) {
-            for(let j=0;j<tkb.thoiKhoaBieuCons.length;j++) {
-                
-                const tkbCon = tkb.thoiKhoaBieuCons[j];
-                if(tkbConIds.includes(tkbCon.maThoiKhoaBieuCon))
-                    multiesTKBs.push({...tkbCon, lopHocPhan:tkb.lopHocPhan});
-            }
-        }
-    }
-    for(let i=0; i<multiesTKBs.length;i++) {
-        const tkb = multiesTKBs[i];
         const element = 
             '<div class="rounded-3 border m-2 p-2" style="background: #e1e4e6;">'+
                 '<div class="text-center">'+
@@ -492,6 +471,8 @@ async function renderTrsBody() {
                 $("#tdC"+thuHoc + " > div").css({"background-color": "#fad905", "border": "1px double orange"});
         }
         if(belongOfTonight.includes(tkb.tuTietHoc)) {
+            const tdTComponentHtml = $("#tdT"+thuHoc).html();
+            console.log('tdTComponentHtml=',tdTComponentHtml);
             $("#tdT"+thuHoc).append(element);
             if(tkb.thi)
                 $("#tdT"+thuHoc + " > div").css({"background-color": "#fad905", "border": "1px double orange"});

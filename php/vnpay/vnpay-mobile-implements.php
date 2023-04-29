@@ -17,7 +17,7 @@
     $maThanhToanGiaoDich = $_POST['maThanhToanGiaoDich'];
     $maSinhVien = $_POST['maSinhVien'];
     $maCongNo = $_POST['maCongNo'];
-    $url = "http://java:8080/api/payment/getTokenByPaymentAndStudentId/".$maThanhToanGiaoDich."/".$maSinhVien;
+    $url = "http://localhost:8080/api/payment/getTokenByPaymentAndStudentId/".$maThanhToanGiaoDich."/".$maSinhVien;
     $response = file_get_contents($url);
     if ($response === false) {
         // xảy ra lỗi kết nối đến API
@@ -33,7 +33,7 @@
                 'header' => "Authorization: $token\r\n"
             )
         );
-        $url = "http://java:8080/api/payment/getPaymentById/".$maThanhToanGiaoDich;
+        $url = "http://localhost:8080/api/payment/getPaymentById/".$maThanhToanGiaoDich;
         $context = stream_context_create($options);
         $response = file_get_contents($url, false, $context);
         $response_parse = json_decode($response);
@@ -42,7 +42,7 @@
             if (isExpired($expiredTime)) {
                 echo "Giao dịch đã quá hạn. Vui lòng thử lại!";
             } else {
-                $url = "http://java:8080/api/debt/getUnDebtById/".$maCongNo;
+                $url = "http://localhost:8080/api/debt/getUnDebtById/".$maCongNo;
                 $response = file_get_contents($url, false, $context);
                 $response_parse = json_decode($response);
                 $soTienCongNo = $response_parse->monHoc->soTinChi * 850000;

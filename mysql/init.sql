@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2023 at 05:53 PM
+-- Generation Time: Apr 29, 2023 at 12:03 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -67,7 +67,8 @@ CREATE TABLE `cong_no` (
 
 INSERT INTO `cong_no` (`id`, `cong_no`, `da_nop`, `khau_tru`, `mien_giam`, `so_tien`, `trang_thai`, `ma_lop_hoc_phan`, `ma_mon_hoc`, `ma_sinh_vien`) VALUES
 (1, 0, 4250000, 0, 0, 0, 'DA_NOP', 1, 1000081, 19524791),
-(2, 0, 4250000, 0, 0, 0, 'DA_NOP', 2, 1000082, 19524791);
+(2, 0, 4250000, 0, 0, 0, 'DA_NOP', 2, 1000082, 19524791),
+(53, 0, 1700000, 0, 0, 0, 'DA_NOP', 7, 1000001, 19524791);
 
 -- --------------------------------------------------------
 
@@ -126,7 +127,7 @@ CREATE TABLE `giao_vien` (
 --
 
 INSERT INTO `giao_vien` (`ma_giao_vien`, `dia_chi`, `gioi_tinh`, `loai_giao_vien`, `ngay_sinh`, `sdt`, `ten_giao_vien`, `ma_tai_khoan`, `avatar`) VALUES
-(1, '163 Bùi Quan Là', 'NU', 'GIAO_VIEN_BO_MON', '2018-01-01', '0338188506', 'Giáo Viên A', 1, 'https://smilemedia.vn/wp-content/uploads/2022/09/cach-chup-hinh-the-dep.jpeg');
+(315067680, '163 Bùi Quan Là', 'NU', 'GIAO_VIEN_BO_MON', '1992-04-22', '0338188506', 'Lê Thị Thanh Tuyết', 1, 'https://smilemedia.vn/wp-content/uploads/2022/09/cach-chup-hinh-the-dep.jpeg');
 
 -- --------------------------------------------------------
 
@@ -243,31 +244,31 @@ CREATE TABLE `lop_hoc_danh_nghia` (
 --
 
 INSERT INTO `lop_hoc_danh_nghia` (`ma_lop`, `so_luong`, `ten_lop`, `ma_giao_vien`, `ma_khoa_hoc`, `ma_nganh`) VALUES
-(1, 50, 'DHKTPM11ATT', 1, 1, 2),
-(2, 31, 'DHKTPM1ATT', 1, 1, 1),
-(3, 32, 'DHKTPM2ATT', 1, 1, 1),
-(4, 31, 'DHKTPM1ATT', 1, 1, 1),
-(5, 32, 'DHKTPM2ATT', 1, 1, 1),
-(6, 31, 'DHKTPM1ATT', 1, 1, 1),
-(7, 32, 'DHKTPM2ATT', 1, 1, 1),
-(8, 31, 'DHKTPM1ATT', 1, 1, 1),
-(9, 32, 'DHKTPM2ATT', 1, 1, 1),
-(10, 31, 'DHKTPM1ATT', 1, 1, 1),
-(11, 32, 'DHKTPM2ATT', 1, 1, 1),
-(12, 31, 'DHKTPM1ATT', 1, 1, 1),
-(13, 32, 'DHKTPM2ATT', 1, 1, 1),
-(14, 31, 'DHKTPM1ATT', 1, 1, 1),
-(15, 32, 'DHKTPM2ATT', 1, 1, 1),
-(16, 31, 'DHKTPM1ATT', 1, 1, 1),
-(17, 32, 'DHKTPM2ATT', 1, 1, 1),
-(18, 31, 'DHKTPM1ATT', 1, 1, 1),
-(19, 32, 'DHKTPM2ATT', 1, 1, 1),
-(20, 31, 'DHKTPM1ATT', 1, 1, 1),
-(21, 32, 'DHKTPM2ATT', 1, 1, 1),
-(22, 31, 'DHKTPM1ATT', 1, 1, 1),
-(23, 32, 'DHKTPM2ATT', 1, 1, 1),
-(24, 31, 'DHKTPM1ATT', 1, 1, 1),
-(25, 32, 'DHKTPM2ATT', 1, 1, 1);
+(1, 50, 'DHKTPM11ATT', 315067680, 1, 2),
+(2, 31, 'DHKTPM1ATT', 315067680, 1, 1),
+(3, 32, 'DHKTPM2ATT', 315067680, 1, 1),
+(4, 31, 'DHKTPM1ATT', 315067680, 1, 1),
+(5, 32, 'DHKTPM2ATT', 315067680, 1, 1),
+(6, 31, 'DHKTPM1ATT', 315067680, 1, 1),
+(7, 32, 'DHKTPM2ATT', 315067680, 1, 1),
+(8, 31, 'DHKTPM1ATT', 315067680, 1, 1),
+(9, 32, 'DHKTPM2ATT', 315067680, 1, 1),
+(10, 31, 'DHKTPM1ATT', 315067680, 1, 1),
+(11, 32, 'DHKTPM2ATT', 315067680, 1, 1),
+(12, 31, 'DHKTPM1ATT', 315067680, 1, 1),
+(13, 32, 'DHKTPM2ATT', 315067680, 1, 1),
+(14, 31, 'DHKTPM1ATT', 315067680, 1, 1),
+(15, 32, 'DHKTPM2ATT', 315067680, 1, 1),
+(16, 31, 'DHKTPM1ATT', 315067680, 1, 1),
+(17, 32, 'DHKTPM2ATT', 315067680, 1, 1),
+(18, 31, 'DHKTPM1ATT', 315067680, 1, 1),
+(19, 32, 'DHKTPM2ATT', 315067680, 1, 1),
+(20, 31, 'DHKTPM1ATT', 315067680, 1, 1),
+(21, 32, 'DHKTPM2ATT', 315067680, 1, 1),
+(22, 31, 'DHKTPM1ATT', 315067680, 1, 1),
+(23, 32, 'DHKTPM2ATT', 315067680, 1, 1),
+(24, 31, 'DHKTPM1ATT', 315067680, 1, 1),
+(25, 32, 'DHKTPM2ATT', 315067680, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -295,13 +296,13 @@ CREATE TABLE `lop_hoc_phan` (
 --
 
 INSERT INTO `lop_hoc_phan` (`ma_lop_hoc_phan`, `han_nop_hoc_phi`, `loai_hoc`, `ngay_bat_dau`, `ngay_ket_thuc`, `so_luong`, `so_luong_max`, `ten_lop_hoc_phan`, `trang_thai`, `ma_giao_vien`, `ma_khoa_hoc`, `ma_mon_hoc`) VALUES
-(1, '2023-02-12', 'HOC_MOI', '2023-02-12', '2023-03-31', 0, 23, 'DHKTPM15CTT', 'DA_KHOA', 1, 11, 1000081),
-(2, '2023-03-12', 'HOC_MOI', '2023-03-12', '2023-03-31', 1, 55, 'DHKTPM15ATT', 'CHAP_NHAN_MO_LOP', 1, 11, 1000082),
-(3, '2023-03-01', 'HOC_MOI', '1899-11-01', '2023-03-30', 3, 44, 'DHKTPM15ATT', 'DANG_CHO_SINH_VIEN_DANG_KY', 1, 11, 1000080),
-(4, '2023-04-01', 'HOC_MOI', '2023-04-01', '2023-04-30', 0, 32, 'DHKTPM16', 'DANG_CHO_SINH_VIEN_DANG_KY', 1, 1, 1000001),
-(5, '2023-04-01', 'HOC_MOI', '2023-04-01', '2023-04-30', 0, 33, 'DHKTPM16S', 'DANG_CHO_SINH_VIEN_DANG_KY', 1, 1, 1000001),
-(6, '2023-04-05', 'HOC_MOI', '2023-04-05', '2023-04-30', 30, 44, 'DHKTPM12B', 'DANG_CHO_SINH_VIEN_DANG_KY', 1, 11, 1000080),
-(7, '2023-04-25', 'HOC_MOI', '2023-04-25', '2023-04-30', 0, 22, 'DHKTPM1ATT', 'DANG_CHO_SINH_VIEN_DANG_KY', 1, 13, 1000001);
+(1, '2023-02-12', 'HOC_MOI', '2023-02-12', '2023-03-31', 0, 23, 'DHKTPM15CTT', 'DA_KHOA', 315067680, 11, 1000081),
+(2, '2023-03-12', 'HOC_MOI', '2023-03-12', '2023-03-31', 1, 55, 'DHKTPM15ATT', 'CHAP_NHAN_MO_LOP', 315067680, 11, 1000082),
+(3, '2023-03-01', 'HOC_MOI', '1899-11-01', '2023-03-30', 3, 44, 'DHKTPM15ATT', 'DANG_CHO_SINH_VIEN_DANG_KY', 315067680, 11, 1000080),
+(4, '2023-04-01', 'HOC_MOI', '2023-04-01', '2023-04-30', 0, 32, 'DHKTPM16', 'DANG_CHO_SINH_VIEN_DANG_KY', 315067680, 1, 1000001),
+(5, '2023-04-01', 'HOC_MOI', '2023-04-01', '2023-04-30', 0, 33, 'DHKTPM16S', 'DANG_CHO_SINH_VIEN_DANG_KY', 315067680, 1, 1000001),
+(6, '2023-04-05', 'HOC_MOI', '2023-04-05', '2023-04-30', 30, 44, 'DHKTPM12B', 'DANG_CHO_SINH_VIEN_DANG_KY', 315067680, 11, 1000080),
+(7, '2023-04-25', 'HOC_MOI', '2023-04-25', '2023-04-30', 1, 22, 'DHKTPM1ATT', 'DA_KHOA', 315067680, 13, 1000001);
 
 -- --------------------------------------------------------
 
@@ -492,7 +493,7 @@ CREATE TABLE `nhan_vien` (
 --
 
 INSERT INTO `nhan_vien` (`ma_nhan_vien`, `chuc_vu`, `dia_chi`, `sdt`, `ten_nhan_vien`, `ma_tai_khoan`, `avatar`, `gioi_tinh`, `last_backup`, `nam_sinh`, `ngay_vao_lam`) VALUES
-(2, 'THO_DIEN', '60/122 To 10 KP8 Phuong TCH Q12 TP.HCM, Đường Huỳnh Thị Hai', '0338188506', 'Nhân Viên A', 2, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv-iuh-avatar-pattern_oyubmc.jpg', 'NAM', NULL, 2001, '2023-04-01');
+(21052002, 'THU_THU', '60/122 To 10 KP8 Phuong TCH Q12 TP.HCM, Đường Huỳnh Thị Hai', '0338188506', 'Lê Văn Tùng', 2, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv-iuh-avatar-pattern_oyubmc.jpg', 'NAM', NULL, 2001, '2005-04-28');
 
 -- --------------------------------------------------------
 
@@ -560,7 +561,8 @@ INSERT INTO `phieu_thu` (`ma_phieu_thu`, `don_vi_thu`, `ghi_chu`, `ngay_thu`, `s
 (29, 'STUDENT - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 28.760.550 ₫', '2023-04-09', 4250000, 'DA_XU_LY', 19524791, 'Gr48LnkU', 'OUT'),
 (30, 'STUDENT - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 24.510.550 ₫', '2023-04-09', 4250000, 'DA_XU_LY', 19524791, 'LJNLEdnM', 'OUT'),
 (31, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 49.949 ₫. Số tiến đã thanh toán thành công: 49.949 ₫. Số tiền dư thanh toán còn lại: 24.560.499 ₫', '2023-04-15', 49948.5, 'DA_XU_LY', 19524791, 'E8ohiFLJ', 'IN'),
-(32, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 49.949 ₫. Số tiến đã thanh toán thành công: 49.949 ₫. Số tiền dư thanh toán còn lại: 24.610.447 ₫', '2023-04-15', 49948.5, 'DA_XU_LY', 19524791, 'G4Ib1daZ', 'IN');
+(32, 'PAYPAL - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 49.949 ₫. Số tiến đã thanh toán thành công: 49.949 ₫. Số tiền dư thanh toán còn lại: 24.610.447 ₫', '2023-04-15', 49948.5, 'DA_XU_LY', 19524791, 'G4Ib1daZ', 'IN'),
+(33, 'STUDENT - WALLET', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 1.700.000 ₫. Số tiến đã thanh toán thành công: 1.700.000 ₫. Số tiền dư thanh toán còn lại: 22.910.447 ₫', '2023-04-28', 1700000, 'DA_XU_LY', 19524791, 'ibMgqyB7', 'OUT');
 
 -- --------------------------------------------------------
 
@@ -638,17 +640,17 @@ CREATE TABLE `sinh_vien` (
 --
 
 INSERT INTO `sinh_vien` (`ma_sinh_vien`, `avatar`, `cccd`, `bac_dao_tao`, `co_so`, `loai_hinh_dao_tao`, `dia_chi`, `gioi_tinh`, `ho_ten`, `ngay_sinh`, `ngay_vao_truong`, `noi_sinh`, `sdt`, `so_du`, `tot_nghiep`, `ma_lop_danh_nghia`, `ma_tai_khoan`) VALUES
-(19524791, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Phan Tấn Tài', '2001-05-25', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 4),
-(2, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh B', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 5),
+(2, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh B', '2020-01-01', '2013-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 5),
 (3, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh C', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 6),
 (4, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh D', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 7),
 (5, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh E', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 8),
 (6, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh F', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 9),
 (7, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh G', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 10),
 (8, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh H', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 11),
-(9, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh I', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 12),
-(10, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh J', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 13),
-(11, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh K', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 14);
+(9, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1649587847/sample.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh I', '2020-01-01', '2000-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 12),
+(10, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv-iuh-avatar-pattern_oyubmc.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh J', '2020-01-01', '1999-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 13),
+(11, 'https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv-iuh-avatar-pattern_oyubmc.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Học Sinh K', '2020-01-01', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 24610447, b'0', 1, 14),
+(19524791, 'https://pgddttramtau.edu.vn/wp-content/uploads/2022/12/1671593637_38_Mau-anh-the-dep-XUAT-SAC-nhat-voi-nen-xanh.jpg', '079201030774', 'DAI_HOC', 'HA_NOI', 'CHAT_LUONG_CAO', '60/122 KP8 Phường TCH Quận 12 HCM', 'NAM', 'Phan Tấn Tài', '2001-05-25', '2019-01-01', 'HỒ CHÍ MINH', '0338188506', 22910447, b'0', 1, 4);
 
 -- --------------------------------------------------------
 
@@ -672,7 +674,8 @@ CREATE TABLE `sinh_vien_lop_hoc_phan` (
 
 INSERT INTO `sinh_vien_lop_hoc_phan` (`id`, `da_thu_hoc_phi`, `ngay_dang_ky`, `ma_lop_hoc_phan`, `ma_sinh_vien`, `ma_thoi_khoa_bieu`, `ma_thoi_khoa_bieu_con`) VALUES
 (3, b'1', '2023-03-12', 2, 19524791, 6, 4),
-(7, b'1', '2023-03-12', 1, 19524791, 1, NULL);
+(7, b'1', '2023-03-12', 1, 19524791, 1, NULL),
+(52, b'1', '2023-04-28', 7, 19524791, 10, 8);
 
 -- --------------------------------------------------------
 
@@ -736,14 +739,19 @@ INSERT INTO `thanh_toan_giao_dich` (`ma_giao_dich`, `balance`, `expired_time`, `
 ('0tYr3oi3', 23450, '2023-04-09 09:50:51', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.226.550 ₫', b'0', 'Array', 19524791),
 ('15CyF2xg', 500000, '2023-03-26 14:35:34', '', b'0', 'Array', 19524791),
 ('1b8M39Ap', 50000, '2023-03-26 15:33:07', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 50.000 ₫. Số tiến đã thanh toán thành công: 50.000 ₫. Số tiền dư thanh toán còn lại: 11.750.000 ₫', b'1', 'Array', 19524791),
+('1erq63jz', 0, '2023-04-28 23:15:52', '', b'0', '53', 19524791),
 ('1OhJJLU4', 4250000, '2023-03-05 10:26:16', '', b'0', '1', 19524791),
+('39xzJxkM', 0, '2023-04-28 23:01:21', '', b'0', '53', 19524791),
 ('3CGkOmkK', 850000, '2023-03-26 11:29:29', '', b'0', '27', 19524791),
 ('3KPwstnm', 0, '2023-04-01 22:39:19', '', b'0', 'Array', 19524791),
+('3TGX9lQd', 0, '2023-04-28 23:10:43', '', b'0', '53', 19524791),
 ('5vjRPFPX', 500000, '2023-03-26 10:39:53', '', b'0', 'Array', 19524791),
 ('6mnpFmW4', 0, '2023-04-15 11:54:13', '', b'0', 'Array', 19524791),
 ('8vN6Bbut', 50000, '2023-03-26 10:35:19', '', b'0', 'Array', 19524791),
 ('9AfwpN22', 0, '2023-04-01 23:13:05', '', b'0', 'Array', 19524791),
+('9Bl0HWuR', 0, '2023-04-28 23:12:03', '', b'0', '53', 19524791),
 ('9D4HGJd4', 0, '2023-04-09 00:27:45', '', b'0', '1', 19524791),
+('aaMCKbNW', 0, '2023-04-28 23:20:51', '', b'0', 'Array', 19524791),
 ('AoAK8Stw', 0, '2023-04-09 10:14:21', '', b'0', 'Array', 19524791),
 ('av1GhOOD', 0, '2023-04-09 00:24:53', '', b'0', '1', 19524791),
 ('awHwoGtw', 0, '2023-04-09 00:28:19', '', b'0', '1', 19524791),
@@ -751,8 +759,10 @@ INSERT INTO `thanh_toan_giao_dich` (`ma_giao_dich`, `balance`, `expired_time`, `
 ('C15BLpfB', 0, '2023-04-02 09:01:09', '', b'0', 'Array', 19524791),
 ('CJLBPhmE', 0, '2023-04-01 22:40:29', '', b'0', 'Array', 19524791),
 ('cLaqkt63', 850000, '2023-03-26 11:29:00', '', b'0', '27', 19524791),
+('crHDfT3c', 0, '2023-04-28 23:25:03', '', b'0', 'Array', 19524791),
 ('CxY5zLco', 0, '2023-04-01 23:12:11', '', b'0', 'Array', 19524791),
 ('D82nKueS', 0, '2023-04-01 23:14:12', '', b'0', 'Array', 19524791),
+('DbcS4rvO', 0, '2023-04-28 23:18:02', '', b'0', '53', 19524791),
 ('dE16BWRh', 0, '2023-04-01 23:17:55', '', b'0', 'Array', 19524791),
 ('drp4t0F1', 200000, '2023-03-26 14:55:33', '', b'0', 'Array', 19524791),
 ('e1Lbdd47', 0, '2023-04-02 08:22:26', '', b'0', 'Array', 19524791),
@@ -762,20 +772,30 @@ INSERT INTO `thanh_toan_giao_dich` (`ma_giao_dich`, `balance`, `expired_time`, `
 ('ERQIzVaL', 0, '2023-04-01 22:45:59', '', b'0', 'Array', 19524791),
 ('EUBEPyVa', 0, '2023-04-09 00:26:26', '', b'0', '1', 19524791),
 ('EyvoHogQ', 0, '2023-04-01 22:53:20', '', b'0', 'Array', 19524791),
+('Ez6ZLc9a', 0, '2023-04-28 23:25:48', '', b'0', 'Array', 19524791),
+('f7TP63Qu', 0, '2023-04-28 23:24:49', '', b'0', 'Array', 19524791),
+('fGir1bzJ', 0, '2023-04-28 23:18:18', '', b'0', '53', 19524791),
+('FjM7LkHU', 0, '2023-04-28 23:15:29', '', b'0', '53', 19524791),
 ('fOVX7FvY', 200000, '2023-03-26 14:46:54', '', b'0', 'Array', 19524791),
 ('FTwnc5P6', 200000, '2023-03-26 15:01:46', '', b'0', 'Array', 19524791),
 ('G4Ib1daZ', 49948.5, '2023-04-15 12:11:19', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 49.949 ₫. Số tiến đã thanh toán thành công: 49.949 ₫. Số tiền dư thanh toán còn lại: 24.610.447 ₫', b'1', 'Array', 19524791),
+('GBzDHSmW', 0, '2023-04-28 23:13:13', '', b'0', '53', 19524791),
 ('GH8ZhWvp', 200000, '2023-03-26 14:51:30', '', b'0', 'Array', 19524791),
 ('gIv6uBEf', 200000, '2023-03-26 14:59:55', '', b'0', 'Array', 19524791),
 ('gPeE4gW9', 500000, '2023-04-02 19:25:34', '', b'0', 'Array', 19524791),
 ('Gr48LnkU', 4250000, '2023-04-09 00:30:03', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 28.760.550 ₫', b'1', '1', 19524791),
+('Gs6MBSAa', 0, '2023-04-28 23:10:17', '', b'0', '53', 19524791),
 ('gvfNJcFe', 0, '2023-04-01 22:37:15', '', b'0', 'Array', 19524791),
 ('gvmbq2io', 200000, '2023-03-26 14:55:41', '', b'0', 'Array', 19524791),
 ('Hh5M8VN2', 0, '2023-04-01 22:44:24', '', b'0', 'Array', 19524791),
 ('HN01CROR', 200000, '2023-03-26 15:05:04', '', b'0', 'Array', 19524791),
+('Hp2wSkBg', 0, '2023-04-28 23:08:47', '', b'0', '53', 19524791),
 ('Hx51pu1P', 0, '2023-04-01 23:00:48', '', b'0', 'Array', 19524791),
+('I3NqzCL2', 0, '2023-04-28 23:16:56', '', b'0', '53', 19524791),
 ('i76NDGgL', 25600000, '2023-03-25 22:36:58', '', b'0', 'Array', 19524791),
+('ibMgqyB7', 1700000, '2023-04-28 23:18:54', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 1.700.000 ₫. Số tiến đã thanh toán thành công: 1.700.000 ₫. Số tiền dư thanh toán còn lại: 22.910.447 ₫', b'1', '53', 19524791),
 ('iBy5Bftn', 23450, '2023-04-01 23:56:38', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.203.100 ₫', b'1', '1', 19524791),
+('IgAJRA2m', 0, '2023-04-28 23:13:28', '', b'0', '53', 19524791),
 ('isI22gPX', 0, '2023-04-09 10:15:08', '', b'0', '1', 19524791),
 ('JnqTQg3F', 0, '2023-04-01 23:52:30', '', b'0', 'Array', 19524791),
 ('KFCQV4KF', 0, '2023-04-01 23:49:44', '', b'0', 'Array', 19524791),
@@ -792,16 +812,21 @@ INSERT INTO `thanh_toan_giao_dich` (`ma_giao_dich`, `balance`, `expired_time`, `
 ('lmClucMq', 0, '2023-04-01 23:44:34', '', b'0', 'Array', 19524791),
 ('lMFP434j', 23450, '2023-04-02 09:07:36', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.156.200 ₫', b'1', '1', 19524791),
 ('lmQV9rYv', 256000000, '2023-03-25 22:39:23', '', b'0', 'Array', 19524791),
+('lP3uf79O', 0, '2023-04-28 23:18:18', '', b'0', '53', 19524791),
 ('LxguS2V5', 500000, '2023-04-09 17:29:06', '', b'0', 'Array', 19524791),
+('lyYxIiKq', 0, '2023-04-28 23:08:16', '', b'0', '53', 19524791),
 ('NE2ZMJX6', 23450, '2023-04-02 09:08:57', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.132.750 ₫', b'1', '1', 19524791),
 ('NSvb1geq', 4250000, '2023-03-05 10:37:37', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 4.250.000 ₫. Số tiến đã thanh toán thành công: 4.250.000 ₫. Số tiền dư thanh toán còn lại: 0 ₫', b'1', '1', 19524791),
 ('nZE4mzti', 0, '2023-04-01 22:42:00', '', b'0', 'Array', 19524791),
 ('o1YXk30b', 500000, '2023-03-25 21:29:45', '', b'0', 'Array', 19524791),
 ('OR34ZN8T', 200000, '2023-03-26 14:58:14', '', b'0', 'Array', 19524791),
+('OU6zVSSb', 0, '2023-04-28 23:07:49', '', b'0', '53', 19524791),
 ('Oz03fdmB', 200000, '2023-03-26 14:58:53', '', b'0', 'Array', 19524791),
+('oZHDSIFg', 0, '2023-04-28 22:58:34', '', b'0', '53', 19524791),
 ('PQNZicK1', 0, '2023-04-15 11:55:55', '', b'0', 'Array', 19524791),
 ('pS1yg8O1', 2566000000, '2023-03-25 22:40:27', '', b'0', 'Array', 19524791),
 ('QdCJYh5z', 50000, '2023-03-26 10:39:36', '', b'0', 'Array', 19524791),
+('QkO7V907', 0, '2023-04-28 23:22:08', '', b'0', 'Array', 19524791),
 ('qlwqELku', 850000, '2023-03-26 10:53:56', '', b'0', '27', 19524791),
 ('qSaAkSQR', 0, '2023-04-15 11:46:11', '', b'0', 'Array', 19524791),
 ('QxwszJyV', 850000, '2023-03-26 14:23:13', '', b'0', '27', 19524791),
@@ -809,9 +834,11 @@ INSERT INTO `thanh_toan_giao_dich` (`ma_giao_dich`, `balance`, `expired_time`, `
 ('S2uEPytI', 256000000, '2023-03-25 22:39:39', '', b'0', 'Array', 19524791),
 ('SAFFSisu', 200000, '2023-03-26 14:48:55', '', b'0', '1,2', 19524791),
 ('siPt4mjt', 0, '2023-04-09 00:23:27', '', b'0', '1', 19524791),
+('sSJoGq9b', 0, '2023-04-28 23:25:27', '', b'0', 'Array', 19524791),
 ('SydUIMie', 0, '2023-04-01 22:47:30', '', b'0', 'Array', 19524791),
 ('sYps8YDf', 0, '2023-04-01 22:42:39', '', b'0', 'Array', 19524791),
 ('tAPsTH0j', 50000, '2023-03-26 15:30:17', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 50.000 ₫. Số tiến đã thanh toán thành công: 50.000 ₫. Số tiền dư thanh toán còn lại: 11.700.000 ₫', b'1', 'Array', 19524791),
+('Tmy16fjM', 0, '2023-04-28 23:23:40', '', b'0', 'Array', 19524791),
 ('Vd3jiQPP', 23450, '2023-04-02 08:22:44', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.179.650 ₫', b'1', '1', 19524791),
 ('vlFD3JjK', 0, '2023-04-01 23:17:52', '', b'0', 'Array', 19524791),
 ('vMYpOi63', 200000, '2023-03-26 14:54:22', '', b'0', 'Array', 19524791),
@@ -819,10 +846,13 @@ INSERT INTO `thanh_toan_giao_dich` (`ma_giao_dich`, `balance`, `expired_time`, `
 ('vxx5lT26', 500000, '2023-03-28 20:48:08', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 500.000 ₫. Số tiến đã thanh toán thành công: 500.000 ₫. Số tiền dư thanh toán còn lại: 12.250.000 ₫', b'1', 'Array', 19524791),
 ('wEBTEe3d', 0, '2023-04-01 23:51:04', '', b'0', 'Array', 19524791),
 ('wKSn5ghV', 0, '2023-04-02 09:11:50', '', b'0', 'Array', 19524791),
+('wXg1Wd74', 0, '2023-04-28 23:13:21', '', b'0', '53', 19524791),
 ('XDbv6DOj', 0, '2023-04-02 09:06:52', '', b'0', 'Array', 19524791),
+('xedJq7Us', 0, '2023-04-28 23:09:55', '', b'0', '53', 19524791),
 ('XjujA9Qt', 0, '2023-04-15 11:52:01', '', b'0', 'Array', 19524791),
 ('xXCUNm0a', 0, '2023-04-01 23:04:16', '', b'0', 'Array', 19524791),
 ('Y3Kmwt5X', 0, '2023-04-09 10:04:53', '', b'0', 'Array', 19524791),
+('y5MPwo5O', 0, '2023-04-28 23:00:07', '', b'0', '53', 19524791),
 ('YeIUhK1I', 200000, '2023-03-26 14:54:11', '', b'0', 'Array', 19524791),
 ('zjDp1W3A', 256000000, '2023-03-25 22:40:13', '', b'0', 'Array', 19524791),
 ('ZlUaDWXP', 23450, '2023-04-01 23:55:39', 'Thanh toán thành công: 1/1 mục. Tổng tiền đã thanh toán: 23.450 ₫. Số tiến đã thanh toán thành công: 23.450 ₫. Số tiền dư thanh toán còn lại: 12.226.550 ₫', b'1', '1', 19524791),
@@ -858,13 +888,13 @@ CREATE TABLE `thoi_khoa_bieu` (
 --
 
 INSERT INTO `thoi_khoa_bieu` (`ma_thoi_khoa_bieu`, `den_tiet_hoc`, `ghi_chu`, `loai_buoi_hoc`, `ngay_bat_dau`, `ngay_ket_thuc`, `nhom_hoc`, `phong_hoc`, `thi`, `thu_hoc`, `tu_tiet_hoc`, `ma_lop_hoc_phan`, `so_luong_da_dang_ky`, `ma_giao_vien`) VALUES
-(1, 'T3', 'LÝ THUYẾT NHÓM 1', 'LT', '2023-02-12', '2023-03-31', 1, 'B1.01', b'0', 'T2', 'T1', 1, 1, 1),
-(2, 'T6', 'LÝ THUYẾT NHÓM 2', 'LT', '2023-02-12', '2023-02-28', 2, 'B1.02', b'0', 'T2', 'T4', 1, 0, 1),
-(6, 'T15', 'HỌc lý thuyet buooi dau nho di hoc day du nha cac em', 'LT', '2023-03-20', '2023-03-31', 0, 'A1.01', b'0', 'T2', 'T13', 2, 2, 1),
-(7, 'T9', 'DI HOC LY THUYET NHO PHOTO DE CUONG NHA', 'LT', '2023-03-21', '2023-03-31', 0, 'V5.01', b'0', 'T2', 'T7', 3, 5, 1),
-(8, 'T15', 'Thứ 2- T1-> T5. Dự đoán là lịch này sẽ trùng với nhiều lịch khác vì', 'LT', '2023-04-01', '2023-04-30', 0, 'V2.01', b'0', 'T3', 'T13', 4, 0, 1),
-(9, 'T12', 'Lớp này dành cho DH12 T10-12 T5', 'LT', '2023-04-05', '2023-04-30', 0, 'V5.03', b'0', 'T5', 'T10', 6, 0, 1),
-(10, 'T5', '', 'LT', '2023-04-25', '2023-04-30', 0, 'H6.02', b'0', 'T2', 'T1', 7, 0, 1);
+(1, 'T3', 'LÝ THUYẾT NHÓM 1', 'LT', '2023-02-12', '2023-03-31', 1, 'B1.01', b'0', 'T2', 'T1', 1, 1, 315067680),
+(2, 'T6', 'LÝ THUYẾT NHÓM 2', 'LT', '2023-02-12', '2023-02-28', 2, 'B1.02', b'0', 'T2', 'T4', 1, 0, 315067680),
+(6, 'T15', 'HỌc lý thuyet buooi dau nho di hoc day du nha cac em', 'LT', '2023-03-20', '2023-03-31', 0, 'A1.01', b'0', 'T2', 'T13', 2, 2, 315067680),
+(7, 'T9', 'DI HOC LY THUYET NHO PHOTO DE CUONG NHA', 'LT', '2023-03-21', '2023-03-31', 0, 'V5.01', b'0', 'T2', 'T7', 3, 5, 315067680),
+(8, 'T15', 'Thứ 2- T1-> T5. Dự đoán là lịch này sẽ trùng với nhiều lịch khác vì', 'LT', '2023-04-01', '2023-04-30', 0, 'V2.01', b'0', 'T3', 'T13', 4, 0, 315067680),
+(9, 'T12', 'Lớp này dành cho DH12 T10-12 T5', 'LT', '2023-04-05', '2023-04-30', 0, 'V5.03', b'0', 'T5', 'T10', 6, 0, 315067680),
+(10, 'T5', '', 'LT', '2023-04-25', '2023-04-30', 0, 'H6.02', b'0', 'T2', 'T1', 7, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -894,15 +924,15 @@ CREATE TABLE `thoi_khoa_bieu_con` (
 --
 
 INSERT INTO `thoi_khoa_bieu_con` (`ma_thoi_khoa_bieu_con`, `so_luong_da_dang_ky`, `ma_thoi_khoa_bieu`, `ma_giao_vien`, `den_tiet_hoc`, `ghi_chu`, `loai_buoi_hoc`, `ngay_bat_dau`, `ngay_ket_thuc`, `nhom_hoc`, `phong_hoc`, `thi`, `thu_hoc`, `tu_tiet_hoc`) VALUES
-(1, 7, 1, 1, 'T3', 'HOC THUC HANH NHA CAC BAN NHO DEM LAPTOP', 'TH', '2023-02-12', '2023-02-28', 1, 'H6.01', b'0', 'T5', 'T1'),
-(2, 0, 1, 1, 'T3', 'HOC THUC HANH CAC BAN NHOM 2 NHO DEM LAPTOP NHA', 'TH', '2023-02-12', '2023-02-28', 2, 'H6.02', b'0', 'T5', 'T1'),
-(3, 0, 6, 1, 'T6', 'HOC THUC HANH NHA NHOM 1', 'TH', '2023-03-20', '2023-03-31', 1, 'H8.01', b'0', 'T3', 'T4'),
-(4, 2, 6, 1, 'T15', 'NHO MANG LAPTOP NHA NHÓM 2', 'TH', '2023-02-20', '2023-03-31', 2, 'H8.02', b'0', 'T3', 'T13'),
-(5, 0, 8, 1, 'T5', 'T1-5 CN HỌC THỰC HÀNH NHA CÁC EM NHỚ MANG THEO LAPTOP CÁ NHÂN!', 'TH', '2023-04-01', '2023-04-30', 0, 'H3.01 (Phòng H3 TH 1)', b'0', 'CN', 'T1'),
-(6, 2, 9, 1, 'T5', 'T1-5 T7 HỌC THỰC HÀNH NHA CÁC EM NHỚ MANG THEO LAPTOP CÁ NHÂN!', 'TH', '2023-04-05', '2023-04-30', 1, 'H4.01 (Phòng H4 TH 1)', b'0', 'T7', 'T1'),
-(7, 19, 9, 1, 'T5', 'T1-5 T6 N2 HỌC THỰC HÀNH NHA CÁC EM NHỚ MANG THEO LAPTOP CÁ NHÂN!', 'TH', '2023-04-05', '2023-04-30', 2, 'H4.01 (Phòng H4 TH 1)', b'0', 'T6', 'T1'),
-(8, 0, 10, 1, 'T5', 'Nhóm 1 nha', 'TH', '2023-04-25', '2023-04-30', 1, 'H6.01 (Phòng TH 1)', b'0', 'T3', 'T1'),
-(9, 0, 10, 1, 'T12', 'Nhóm 2 nha', 'TH', '2023-04-25', '2023-04-30', 2, 'H6.01 (Phòng TH 2)', b'0', 'T3', 'T7');
+(1, 7, 1, 315067680, 'T3', 'HOC THUC HANH NHA CAC BAN NHO DEM LAPTOP', 'TH', '2023-02-12', '2023-02-28', 1, 'H6.01', b'0', 'T5', 'T1'),
+(2, 0, 1, 315067680, 'T3', 'HOC THUC HANH CAC BAN NHOM 2 NHO DEM LAPTOP NHA', 'TH', '2023-02-12', '2023-02-28', 2, 'H6.02', b'0', 'T5', 'T1'),
+(3, 0, 6, 315067680, 'T6', 'HOC THUC HANH NHA NHOM 1', 'TH', '2023-03-20', '2023-03-31', 1, 'H8.01', b'0', 'T3', 'T4'),
+(4, 2, 6, 315067680, 'T15', 'NHO MANG LAPTOP NHA NHÓM 2', 'TH', '2023-02-20', '2023-03-31', 2, 'H8.02', b'0', 'T3', 'T13'),
+(5, 0, 8, 315067680, 'T5', 'T1-5 CN HỌC THỰC HÀNH NHA CÁC EM NHỚ MANG THEO LAPTOP CÁ NHÂN!', 'TH', '2023-04-01', '2023-04-30', 0, 'H3.01 (Phòng H3 TH 1)', b'0', 'CN', 'T1'),
+(6, 2, 9, 315067680, 'T5', 'T1-5 T7 HỌC THỰC HÀNH NHA CÁC EM NHỚ MANG THEO LAPTOP CÁ NHÂN!', 'TH', '2023-04-05', '2023-04-30', 1, 'H4.01 (Phòng H4 TH 1)', b'0', 'T7', 'T1'),
+(7, 19, 9, 315067680, 'T5', 'T1-5 T6 N2 HỌC THỰC HÀNH NHA CÁC EM NHỚ MANG THEO LAPTOP CÁ NHÂN!', 'TH', '2023-04-05', '2023-04-30', 2, 'H4.01 (Phòng H4 TH 1)', b'0', 'T6', 'T1'),
+(8, 1, 10, 315067680, 'T5', 'Nhóm 1 nha', 'TH', '2023-04-25', '2023-04-30', 1, 'H6.01 (Phòng TH 1)', b'0', 'T3', 'T1'),
+(9, 0, 10, 315067680, 'T12', 'Nhóm 2 nha', 'TH', '2023-04-25', '2023-04-30', 2, 'H6.01 (Phòng TH 2)', b'0', 'T3', 'T7');
 
 -- --------------------------------------------------------
 
@@ -966,9 +996,9 @@ CREATE TABLE `token` (
 --
 
 INSERT INTO `token` (`id`, `token`, `token_exp_date`, `created_by`) VALUES
-(1, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdjEiLCJleHAiOjE2ODIzMjUyMDQsImlhdCI6MTY4MjMwNzIwNH0.xmSJHPSuB8UyrOpxbvZr8NrxbEmBoEtmcBcPeW4OqGOCdQmfWjq7d9I0coVd2XmlvS5ChaefcaFABnr62IBAUQ', '2023-02-04 14:46:52', 4),
-(2, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJndjEiLCJleHAiOjE2ODIyNzcwMzAsImlhdCI6MTY4MjI1OTAzMH0.dwqcEZG5ui-oNTdAiGkOR_ESkNMPDbDQ6AjuKS2DqwJOhR4OB22RfpeCg0ZmMJF8zr4qjqZLUHqzax5LkTcPzg', '2023-02-04 20:15:46', 1),
-(3, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJudjIiLCJleHAiOjE2ODIzMzA1MzYsImlhdCI6MTY4MjMxMjUzNn0.1qNpBaU36lnAXWrMt5lUPwnu9R8Fp52aXy1sm2Yy0aIRJQXsZ8tNcqh7mnNEOaFNAe7AtrkJclLANa8Xa0fBPA', '2023-02-05 01:08:03', 2),
+(1, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdjE5NTI0NzkxIiwiZXhwIjoxNjgyNzc3NTU3LCJpYXQiOjE2ODI3NTk1NTd9.Az7lxAtkytnerMLBs-ZvjzO7ZV0UG7uRDxyE5Av2z0T50fUNv2Wxmv8uT9-0JNF14qP0hdsIReel5iroiEDVZA', '2023-03-05 14:46:52', 4),
+(2, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJndjEiLCJleHAiOjE2ODI3NjAxMzAsImlhdCI6MTY4Mjc0MjEzMH0.4wg99tGoqtrWfpJIC2neDhDyn-ZBVtM62elVf1h94gwu2Oo1sCKHMcHIW7tl8c4XIr9gXIbWFvt96klCM1tlsw', '2023-02-04 20:15:46', 1),
+(3, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJudjIxMDUyMDAyIiwiZXhwIjoxNjgyNzc3NTgyLCJpYXQiOjE2ODI3NTk1ODJ9.2-87bXvNbEj6WpGPw2o58Gv_FoczqgG-Z7UzV2-lwXr-nTcn_XrFtQaVGSfjN04FALfDhljDr4VxZbVARrVjiw', '2023-02-05 01:08:03', 2),
 (4, 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYSIsImV4cCI6MTY4MTUwNTU5MCwiaWF0IjoxNjgxNDg3NTkwfQ.jalt9_rCs1v0vKueIzSjDviMNHbze3HvtL15AOJJxPNF0nFJ3gILyLS4JwoRN4BhTknWRNjAIaSaqfd8nSqvpg', '2023-04-15 03:53:10', 3);
 
 -- --------------------------------------------------------
@@ -988,10 +1018,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `password`, `username`) VALUES
-(1, '$2a$10$b4fPmnLkxcV4Y4MBDp05WeBhR8cIVizWbsjdpgvcztLPhSQBXNiF6', 'gv1'),
-(2, '$2a$10$b4fPmnLkxcV4Y4MBDp05WeBhR8cIVizWbsjdpgvcztLPhSQBXNiF6', 'nv2'),
+(1, '$2a$10$zmL6jOhvYOP3u7I8qkgduuiSYeQgOFMvB9VuW74.fJJ4QqqTBUfTq', 'gv315067680'),
+(2, '$2a$10$Tv4cTSQMW2pYXBlwE6sOjeM2YhBrIv13E2gnjPgpFI1gOiHzL/cc.', 'nv21052002'),
 (3, '$2a$10$b4fPmnLkxcV4Y4MBDp05WeBhR8cIVizWbsjdpgvcztLPhSQBXNiF6', 'sa'),
-(4, '$2a$10$b4fPmnLkxcV4Y4MBDp05WeBhR8cIVizWbsjdpgvcztLPhSQBXNiF6', 'sv1'),
+(4, '$2a$10$sk.MSfS9I8jICHFJnQ9lROHDqUsStCkZiyXyKZV3V29uqAmKvH3fO', 'sv19524791'),
 (5, '$2a$10$b4fPmnLkxcV4Y4MBDp05WeBhR8cIVizWbsjdpgvcztLPhSQBXNiF6', 'sv2'),
 (6, '$2a$10$b4fPmnLkxcV4Y4MBDp05WeBhR8cIVizWbsjdpgvcztLPhSQBXNiF6', 'sv3'),
 (7, '$2a$10$b4fPmnLkxcV4Y4MBDp05WeBhR8cIVizWbsjdpgvcztLPhSQBXNiF6', 'sv4'),
@@ -1243,7 +1273,7 @@ ALTER TABLE `chuong_trinh_khung`
 -- AUTO_INCREMENT for table `cong_no`
 --
 ALTER TABLE `cong_no`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `diem`
@@ -1297,7 +1327,7 @@ ALTER TABLE `nganh`
 -- AUTO_INCREMENT for table `nhan_vien`
 --
 ALTER TABLE `nhan_vien`
-  MODIFY `ma_nhan_vien` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ma_nhan_vien` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21052004;
 
 --
 -- AUTO_INCREMENT for table `permission`
@@ -1309,7 +1339,7 @@ ALTER TABLE `permission`
 -- AUTO_INCREMENT for table `phieu_thu`
 --
 ALTER TABLE `phieu_thu`
-  MODIFY `ma_phieu_thu` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `ma_phieu_thu` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -1321,13 +1351,13 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `sinh_vien`
 --
 ALTER TABLE `sinh_vien`
-  MODIFY `ma_sinh_vien` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ma_sinh_vien` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19524792;
 
 --
 -- AUTO_INCREMENT for table `sinh_vien_lop_hoc_phan`
 --
 ALTER TABLE `sinh_vien_lop_hoc_phan`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `tai_khoan`
