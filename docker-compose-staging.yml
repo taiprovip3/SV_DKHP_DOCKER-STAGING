@@ -1,9 +1,7 @@
 version: '3.9'
 services:
   php:
-    build:
-      context: ./php
-      dockerfile: Dockerfile
+    image: taiproduaxe/sv_dkhp_php:latest
     ports:
       - "80:80"
     depends_on:
@@ -11,22 +9,15 @@ services:
     networks:
       - sv-dkhp-network
   web:
-    build: 
-      context: ./web
-      dockerfile: Dockerfile
+    image: taiproduaxe/sv_dkhp_web:latest
     ports:
       - "4000:4000"
     depends_on:
       - mysql
     networks:
       - sv-dkhp-network
-    volumes:
-      - .:/app
-      - /app/node_modules
   java:
-    build: 
-      context: ./java
-      dockerfile: Dockerfile
+    image: taiproduaxe/sv_dkhp_java:latest
     ports:
       - "8080:8080"
     depends_on:
@@ -38,9 +29,7 @@ services:
     networks:
       - sv-dkhp-network
   mysql:
-    build: 
-      context: ./mysql
-      dockerfile: Dockerfile
+    image: taiproduaxe/sv_dkhp_mysql:latest
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
@@ -56,7 +45,6 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       - sv-dkhp-network
-      
 networks:
   sv-dkhp-network:
     driver: bridge

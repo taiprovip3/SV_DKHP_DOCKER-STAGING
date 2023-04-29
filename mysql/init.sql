@@ -894,7 +894,7 @@ INSERT INTO `thoi_khoa_bieu` (`ma_thoi_khoa_bieu`, `den_tiet_hoc`, `ghi_chu`, `l
 (7, 'T9', 'DI HOC LY THUYET NHO PHOTO DE CUONG NHA', 'LT', '2023-03-21', '2023-03-31', 0, 'V5.01', b'0', 'T2', 'T7', 3, 5, 315067680),
 (8, 'T15', 'Thứ 2- T1-> T5. Dự đoán là lịch này sẽ trùng với nhiều lịch khác vì', 'LT', '2023-04-01', '2023-04-30', 0, 'V2.01', b'0', 'T3', 'T13', 4, 0, 315067680),
 (9, 'T12', 'Lớp này dành cho DH12 T10-12 T5', 'LT', '2023-04-05', '2023-04-30', 0, 'V5.03', b'0', 'T5', 'T10', 6, 0, 315067680),
-(10, 'T5', '', 'LT', '2023-04-25', '2023-04-30', 0, 'H6.02', b'0', 'T2', 'T1', 7, 1, 1);
+(10, 'T5', '', 'LT', '2023-04-25', '2023-04-30', 0, 'H6.02', b'0', 'T2', 'T1', 7, 1, 315067680);
 
 -- --------------------------------------------------------
 
@@ -1018,7 +1018,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `password`, `username`) VALUES
-(1, '$2a$10$zmL6jOhvYOP3u7I8qkgduuiSYeQgOFMvB9VuW74.fJJ4QqqTBUfTq', 'gv315067680'),
+(1, '$2a$10$sk.MSfS9I8jICHFJnQ9lROHDqUsStCkZiyXyKZV3V29uqAmKvH3fO', 'gv315067680'),
 (2, '$2a$10$Tv4cTSQMW2pYXBlwE6sOjeM2YhBrIv13E2gnjPgpFI1gOiHzL/cc.', 'nv21052002'),
 (3, '$2a$10$b4fPmnLkxcV4Y4MBDp05WeBhR8cIVizWbsjdpgvcztLPhSQBXNiF6', 'sa'),
 (4, '$2a$10$sk.MSfS9I8jICHFJnQ9lROHDqUsStCkZiyXyKZV3V29uqAmKvH3fO', 'sv19524791'),
