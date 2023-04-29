@@ -41,7 +41,7 @@ if(!isset($_POST['maSinhVien'])) {
     }
 }
 function execGetDebtBalanceById($debtId) {
-    $content = file_get_contents("http://localhost:8080/api/debt/getSoTienByDebtId/".$debtId);
+    $content = file_get_contents("http://java:8080/api/debt/getSoTienByDebtId/".$debtId);
     $result  = json_decode($content);
     return (int) $result;
 }
@@ -116,7 +116,7 @@ paypal.Buttons({
             }
             $unDebtIdsString = implode(",", $total_debt);//tạo ra string mảng
             $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, "http://localhost:8080/api/payment/createTransaction/".$maSinhVien."/".$totalBalance."/".$unDebtIdsString."");
+            curl_setopt($curl, CURLOPT_URL, "http://java:8080/api/payment/createTransaction/".$maSinhVien."/".$totalBalance."/".$unDebtIdsString."");
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             $maGiaoDich = curl_exec($curl);
             curl_close($curl);    
@@ -139,12 +139,12 @@ paypal.Buttons({
             // const element = document.getElementById('paypal-button-container');
             // element.innerHTML = '<h3>Thank you for your payment!</h3>';
             // Or go to another URL:  actions.redirect('thank_you.html');
-            const callBackUrl = "http://localhost:4000/student/payment/callback?extraData=<?php echo $maGiaoDich; ?>&resultCode=0&amount=<?php echo $totalBalance; ?>&orderType=<?php echo "PAYPAL - WALLET"; ?>";
+            const callBackUrl = "https://erukalearn.ddns.net/student/payment/callback?extraData=<?php echo $maGiaoDich; ?>&resultCode=0&amount=<?php echo $totalBalance; ?>&orderType=<?php echo "PAYPAL - WALLET"; ?>";
             window.location.href = callBackUrl;
         });
     },
     onCancel: function(data) {
-        window.location.href = "http://localhost:4000/student/payment/callback?resultCode=1006";
+        window.location.href = "https://erukalearn.ddns.net/student/payment/callback?resultCode=1006";
     }
 }).render('#paypal-button-container');
 </script>

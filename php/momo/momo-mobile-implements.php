@@ -27,7 +27,7 @@
     $maSinhVien = $_GET['maSinhVien'];
     $maCongNo = $_GET['maCongNo'];
     $loaiMomo = $_GET['loaiMomo'];
-    $url = "http://localhost:8080/api/payment/getTokenByPaymentAndStudentId/".$maThanhToanGiaoDich."/".$maSinhVien;
+    $url = "http://java:8080/api/payment/getTokenByPaymentAndStudentId/".$maThanhToanGiaoDich."/".$maSinhVien;
     $response = file_get_contents($url);
     if ($response === false) {
         // xảy ra lỗi kết nối đến API
@@ -43,7 +43,7 @@
                 'header' => "Authorization: $token\r\n"
             )
         );
-        $url = "http://localhost:8080/api/payment/getPaymentById/".$maThanhToanGiaoDich;
+        $url = "http://java:8080/api/payment/getPaymentById/".$maThanhToanGiaoDich;
         $context = stream_context_create($options);
         $response = file_get_contents($url, false, $context);
         $response_parse = json_decode($response);
@@ -52,7 +52,7 @@
             if (isExpired($expiredTime)) {
                 echo "Giao dịch đã quá hạn. Vui lòng thử lại!";
             } else {
-                $url = "http://localhost:8080/api/debt/getUnDebtById/".$maCongNo;
+                $url = "http://java:8080/api/debt/getUnDebtById/".$maCongNo;
                 $response = file_get_contents($url, false, $context);
                 $response_parse = json_decode($response);
                 $soTienCongNo = $response_parse->monHoc->soTinChi * 850000;
@@ -65,8 +65,8 @@
                 $orderInfo = "Thanh toán qua ứng dụng MoMo ($loaiMomo)";
                 $amount = $soTienCongNo;
                 $orderId = time() ."";
-                $redirectUrl = "http://192.168.1.3:4000/student/payment/callback";
-                $ipnUrl = "http://localhost:80/momo/momo-ipn.php";
+                $redirectUrl = "https://erukalearn.ddns.net/student/payment/callback";
+                $ipnUrl = "http://php:80/momo/momo-ipn.php";
                 $extraData = $maThanhToanGiaoDich;
 
                 $requestId = time() . "";

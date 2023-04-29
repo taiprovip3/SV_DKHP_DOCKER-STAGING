@@ -60,7 +60,7 @@
     $balanceGiaoDich = $_GET["balanceGiaoDich"];
     $momo_method = $_GET["momoMethod"];
 
-    $url = "http://localhost:8080/api/payment/getTokenByPaymentAndStudentId/".$maThanhToanGiaoDich."/".$maSinhVien;
+    $url = "http://java:8080/api/payment/getTokenByPaymentAndStudentId/".$maThanhToanGiaoDich."/".$maSinhVien;
     $response = file_get_contents($url);
     if ($response === false) {
         // xảy ra lỗi kết nối đến API
@@ -76,7 +76,7 @@
                 'header' => "Authorization: $token\r\n"
             )
         );
-        $url = "http://localhost:8080/api/payment/getPaymentById/".$maThanhToanGiaoDich;
+        $url = "http://java:8080/api/payment/getPaymentById/".$maThanhToanGiaoDich;
         $context = stream_context_create($options);
         $response = file_get_contents($url, false, $context);
         $response_parse = json_decode($response);
@@ -93,8 +93,8 @@
                 $orderInfo = "Thanh toán qua MoMo QR (Quét mã app momo)";
                 $amount = $balanceGiaoDich;
                 $orderId = time() ."";
-                $redirectUrl = "http://192.168.1.3:4000/student/payment/callback";
-                $ipnUrl = "http://localhost:80/momo/momo-ipn.php";
+                $redirectUrl = "https://erukalearn.ddns.net/student/payment/callback";
+                $ipnUrl = "http://php:80/momo/momo-ipn.php";
                 $extraData = $maThanhToanGiaoDich;
 
                 $requestId = time() . "";

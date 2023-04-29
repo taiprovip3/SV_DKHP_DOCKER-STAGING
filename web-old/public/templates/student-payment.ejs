@@ -257,7 +257,7 @@ async function pay() {
         mapForm.className = "d-none";
         mapForm.target = "Map";
         mapForm.method = "POST"; // or "post" if appropriate
-        mapForm.action = "http://localhost:80/momo/momo.php";
+        mapForm.action = "http://php:80/momo/momo.php";
         var mapInput = document.createElement("input"); //input momo_method
         mapInput.type = "text";
         mapInput.name = "momo_method";
@@ -300,7 +300,7 @@ async function pay() {
             mapForm.className = "d-none";
             mapForm.target = "Map";
             mapForm.method = "POST"; // or "post" if appropriate
-            mapForm.action = "http://localhost:80/vnpay/vnpay.php";
+            mapForm.action = "http://php:80/vnpay/vnpay.php";
             var mapInput = document.createElement("input"); //input momo_method
             mapInput.type = "text";
             mapInput.name = "method_payment";
@@ -353,7 +353,7 @@ async function pay() {
                     mapForm.className = "d-none";
                     mapForm.target = "Map";
                     mapForm.method = "POST"; // or "post" if appropriate
-                    mapForm.action = "http://localhost:80/paypal/paypal.php";
+                    mapForm.action = "http://php:80/paypal/paypal.php";
                     var mapInput = document.createElement("input"); //input momo_method
                     mapInput.type = "text";
                     mapInput.name = "method_payment";

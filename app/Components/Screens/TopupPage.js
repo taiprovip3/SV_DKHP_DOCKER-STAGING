@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, NativeBaseProvider } from 'native-base';
 import { WebView } from 'react-native-webview';
 import Toast from 'react-native-toast-message';
+import { LOCAL_EJS_API_URL } from '@env';
 
 
 const TopupPage = ({ navigation, route }) => {
@@ -10,13 +11,13 @@ const TopupPage = ({ navigation, route }) => {
   let url = "";
   switch (rechargeData.service) {
     case "PAYPAL - WALLET":
-      url = "https://erukalearn.ddns.net:4000/paypal/topup";   
+      url = LOCAL_EJS_API_URL+"/paypal/topup";   
       break;
     case "MOMO - WALLET":
-      url = "http://192.168.1.3:80/sv_dkhp_php/momo-recharge/momo-mobile-implements.php"; 
+      url = "http://erukalearn.ddns.net:80/sv_dkhp_php/momo-recharge/momo-mobile-implements.php"; 
       break;
     case "VNPAY - WALLET":
-      url = "http://192.168.1.3:80/sv_dkhp_php/vnpay-recharge/vnpay-mobile.php"; 
+      url = "http://erukalearn.ddns.net:80/sv_dkhp_php/vnpay-recharge/vnpay-mobile.php"; 
       break;
     default:
       break;

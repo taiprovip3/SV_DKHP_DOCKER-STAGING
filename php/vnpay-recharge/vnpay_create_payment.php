@@ -45,7 +45,7 @@ $totalBalance = $total_payment * 100;
 $unDebtIds = [];
 
 $curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, "http://localhost:8080/api/payment/createTransaction/".$maSinhVien."/".$totalBalance."/".$unDebtIds."");
+curl_setopt($curl, CURLOPT_URL, "http://java:8080/api/payment/createTransaction/".$maSinhVien."/".$totalBalance."/".$unDebtIds."");
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 $maGiaoDich = curl_exec($curl);
 curl_close($curl);

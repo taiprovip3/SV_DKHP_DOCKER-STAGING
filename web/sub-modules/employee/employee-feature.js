@@ -138,7 +138,7 @@ employeeFeatureRouter.post("/employee-crud-add-student", upload.fields([]), asyn
 employeeFeatureRouter.post("/employee-crud-delete-student", upload.fields([]), async (req, res) => {
     if(req.session.employee) {
         const listCheckboxChecked = Object.keys(req.body);
-        const response = await axios.post('http://localhost:8080/api/student/remove', listCheckboxChecked, {headers: {"Authorization": req.session.employee_token}});
+        const response = await axios.post('http://java:8080/api/student/remove', listCheckboxChecked, {headers: {"Authorization": req.session.employee_token}});
         const LIST_STUDENT = await getListStudent();
         if(response.data)
             return res.render("employee-crud-student", {LIST_STUDENT, signal: "INSERT_SUCCESS"});

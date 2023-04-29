@@ -216,9 +216,9 @@
         </div>
     </div>
 </body>
-<script src="http://localhost:4000/socket.io/socket.io.js"></script>
+<script src="https://erukalearn.ddns.net/socket.io/socket.io.js"></script>
 <script>
-    var socket = io.connect('ws://localhost:4000');
+    var socket = io.connect('wss://erukalearn.ddns.net');
     socket.on('connect', function() {
       console.log('Connected to server');
     });

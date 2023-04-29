@@ -87,7 +87,7 @@
                                 $resultCode = 0;
                                 $amount = $_GET['vnp_Amount'];
                                 $orderType = "VNPAY - " . $_GET['vnp_BankCode'] . " - " . $_GET['vnp_CardType'];
-                                $callBackUrl = "http://localhost:4000/student/payment/callback?extraData=".$extraData."&resultCode=".$resultCode."&amount=".$amount."&orderType=".$orderType;
+                                $callBackUrl = "https://erukalearn.ddns.net/student/payment/callback?extraData=".$extraData."&resultCode=".$resultCode."&amount=".$amount."&orderType=".$orderType;
                                 echo '<script>
                                     var myInterval = null;
                                     var myCounter = 4;
@@ -108,7 +108,7 @@
                                 $resultCode = 1006;
                                 $amount = $_GET['vnp_Amount'];
                                 $orderType = "VNPAY - " . $_GET['vnp_BankCode'] . " - " . $_GET['vnp_CardType'];
-                                $callBackUrl = "http://localhost:4000/student/payment/callback?extraData=".$extraData."&resultCode=".$resultCode."&amount=".$amount."&orderType=".$orderType;
+                                $callBackUrl = "https://erukalearn.ddns.net/student/payment/callback?extraData=".$extraData."&resultCode=".$resultCode."&amount=".$amount."&orderType=".$orderType;
                                 echo '<script>
                                     var myInterval = null;
                                     var myCounter = 20;

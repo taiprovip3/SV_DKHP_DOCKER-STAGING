@@ -87,7 +87,7 @@ adminRouter.post("/admin-crud-add-employee", upload.fields([]), async (req, res)
     if(req.session.admin_token) {
         const data = req.body;
         const nhanVien = {tenNhanVien: data.ten_nhan_vien, sdt: data.sdt, diaChi: data.dia_chi, chucVu: data.chuc_vu, matKhau: data.mat_khau};
-        const response = await axios.post('http://localhost:8080/api/nhanvien/add', nhanVien, {headers: {"Authorization": req.session.admin_token}});
+        const response = await axios.post('http://java:8080/api/nhanvien/add', nhanVien, {headers: {"Authorization": req.session.admin_token}});
         const LIST_EMPLOYEE = await getListEmployee();
         if(response.data)
             return res.render("admin", {LIST_EMPLOYEE, signal: "INSERT_SUCCESS"});
@@ -98,7 +98,7 @@ adminRouter.post("/admin-crud-add-employee", upload.fields([]), async (req, res)
 adminRouter.post("/admin-crud-delete-employee", upload.fields([]), async (req, res) => {
     if(req.session.admin_token) {
         const listCheckboxChecked = Object.keys(req.body);
-        const response = await axios.post('http://localhost:8080/api/nhanvien/remove', listCheckboxChecked, {headers: {"Authorization": req.session.admin_token}});
+        const response = await axios.post('http://java:8080/api/nhanvien/remove', listCheckboxChecked, {headers: {"Authorization": req.session.admin_token}});
         const LIST_EMPLOYEE = await getListEmployee();
         if(response.data)
             return res.render("admin", {LIST_EMPLOYEE, signal: "INSERT_SUCCESS"});
@@ -110,7 +110,7 @@ adminRouter.post("/admin-crud-update-employee", upload.fields([]), async (req, r
     if(req.session.admin_token) {
         const data = req.body;
         const nhanVien = {maNhanVien: data.ma_nhan_vien2, tenNhanVien: data.ten_nhan_vien2, sdt: data.sdt2, diaChi: data.dia_chi2, chucVu: data.chuc_vu2};
-        const response = await axios.post('http://localhost:8080/api/nhanvien/update', nhanVien, {headers: {"Authorization": req.session.admin_token}});
+        const response = await axios.post('http://java:8080/api/nhanvien/update', nhanVien, {headers: {"Authorization": req.session.admin_token}});
         const LIST_EMPLOYEE = await getListEmployee();
         if(response.data)
             return res.render("admin", {LIST_EMPLOYEE, signal: "INSERT_SUCCESS"});

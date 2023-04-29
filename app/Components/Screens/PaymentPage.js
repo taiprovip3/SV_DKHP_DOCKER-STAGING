@@ -17,9 +17,9 @@ const PaymentPage = ({ navigation, route }) => {
     url = LOCAL_EJS_API_URL+"/paypal/payment/confirm";
   else {
     if(debtData.service === "MOMO_QR" || debtData.service === "MOMO_ATM")
-      url = "http://192.168.1.3/sv_dkhp_php/momo/momo-mobile-implements.php";
+      url = "http://erukalearn.ddns.net:80/sv_dkhp_php/momo/momo-mobile-implements.php";
     if(debtData.service === "VNPAY")
-      url = "http://192.168.1.3/sv_dkhp_php/vnpay/vnpay-mobile.php";
+      url = "http://erukalearn.ddns.net:80/sv_dkhp_php/vnpay/vnpay-mobile.php";
     if(debtData.service === "STUDENT_WALLET")
       url = LOCAL_EJS_API_URL+"/wallet/payment";
   }
